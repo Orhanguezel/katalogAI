@@ -1,0 +1,85 @@
+{
+  "title": "Bildirimler",
+  "description": "Tüm sistem bildirimlerini yönetin ({count} bildirim, {unread} okunmamış)",
+  "actions": {
+    "markAllRead": "Tümünü Okundu İşaretle",
+    "refresh": "Yenile",
+    "create": "Yeni Bildirim",
+    "back": "Geri",
+    "delete": "Sil",
+    "save": "Kaydet",
+    "saving": "Kaydediliyor...",
+    "cancel": "İptal",
+    "edit": "Düzenle",
+    "markRead": "Okundu Yap",
+    "markUnread": "Okunmadı Yap"
+  },
+  "filters": {
+    "title": "Filtreler",
+    "search": "Ara",
+    "searchPlaceholder": "Başlık, mesaj veya tip...",
+    "status": "Durum",
+    "type": "Tip",
+    "all": "Tümü",
+    "read": "Okundu",
+    "unread": "Okunmadı",
+    "typePlaceholder": "Tümü"
+  },
+  "table": {
+    "status": "Durum",
+    "title": "Başlık",
+    "message": "Mesaj",
+    "type": "Tip",
+    "date": "Tarih",
+    "actions": "İşlemler",
+    "loading": "Yükleniyor...",
+    "noRecords": "Bildirim bulunamadı",
+    "read": "Okundu",
+    "unread": "Okunmadı"
+  },
+  "form": {
+    "createTitle": "Yeni Bildirim",
+    "editTitle": "Bildirim Detayı",
+    "createDescription": "Yeni bir bildirim oluşturun",
+    "editDescription": "Bildirim detaylarını görüntüleyin",
+    "infoTitle": "Bildirim Bilgileri",
+    "userId": "Kullanıcı ID",
+    "userIdPlaceholder": "Boş bırakılırsa mevcut kullanıcı",
+    "userIdHelp": "Belirli bir kullanıcıya göndermek için UUID girin",
+    "title": "Başlık",
+    "titlePlaceholder": "Bildirim başlığı",
+    "message": "Mesaj",
+    "messagePlaceholder": "Bildirim mesajı",
+    "type": "Tip",
+    "optional": "(opsiyonel)",
+    "editWarning": "ℹ️ Bildirimler oluşturulduktan sonra düzenlenemez. Sadece okundu/okunmadı durumu değiştirilebilir."
+  },
+  "details": {
+    "title": "Bildirim Detayları",
+    "id": "ID",
+    "userId": "Kullanıcı ID",
+    "status": "Durum",
+    "createdAt": "Oluşturulma Tarihi",
+    "read": "Okundu",
+    "unread": "Okunmadı"
+  },
+  "messages": {
+    "markAllSuccess": "Tüm bildirimler okundu olarak işaretlendi",
+    "markedRead": "Okundu olarak işaretlendi",
+    "markedUnread": "Okunmadı olarak işaretlendi",
+    "deleteConfirm": "\"{title}\" bildirimini silmek istediğinize emin misiniz?",
+    "deleteSuccess": "Bildirim silindi",
+    "operationFailed": "İşlem başarısız",
+    "titleRequired": "Başlık gerekli",
+    "messageRequired": "Mesaj gerekli",
+    "createSuccess": "Bildirim oluşturuldu",
+    "editNotSupported": "Bildirimleri düzenleme şu anda desteklenmiyor"
+  },
+  "types": {
+    "order_created": "İlan Oluşturuldu",
+    "order_paid": "İlan Yayınlandı",
+    "order_failed": "İlan İşlemi Başarısız",
+    "system": "Sistem",
+    "custom": "Özel"
+  }
+}

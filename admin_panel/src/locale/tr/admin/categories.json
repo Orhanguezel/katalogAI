@@ -1,0 +1,108 @@
+{
+  "header": {
+    "title": "Kategoriler",
+    "description": "Çok dilli kategori kayıtlarını listele, düzenle ve yönet."
+  },
+  "tabs": {
+    "list": "Liste",
+    "content": "İçerik",
+    "seo": "SEO",
+    "image": "Görsel"
+  },
+  "filters": {
+    "searchPlaceholder": "İsim veya slug ile ara...",
+    "locale": "Dil",
+    "allLocales": "Tüm Diller",
+    "allModules": "Tüm Modüller",
+    "onlyActive": "Sadece aktif",
+    "onlyFeatured": "Sadece öne çıkan"
+  },
+  "modules": {
+    "product": "İlanlar",
+    "services": "Hizmetler",
+    "news": "Duyurular",
+    "library": "İçerikler",
+    "about": "Hakkımızda",
+    "sparepart": "Ek İlanlar",
+    "references": "Referanslar"
+  },
+  "actions": {
+    "create": "Yeni Kategori",
+    "edit": "Düzenle",
+    "delete": "Sil",
+    "save": "Kaydet",
+    "cancel": "İptal"
+  },
+  "detail": {
+    "createDesc": "Yeni kategori oluştur",
+    "editDesc": "Kategori kaydını düzenle",
+    "editDescWithName": "{name} düzenle",
+    "formTab": "Form",
+    "jsonTab": "JSON",
+    "jsonTitle": "Kategori Verisi (JSON)",
+    "jsonDescription": "Tüm kategori alanlarını JSON olarak düzenleyebilirsiniz.",
+    "namePlaceholder": "Örn: Sehir Ici Teslimat",
+    "slugPlaceholder": "Örn: meyve-fideleri",
+    "iconPlaceholder": "fa-cube",
+    "metaTitle": "Meta Title",
+    "metaTitlePlaceholder": "Sayfa başlığı (arama sonuçlarında görünür)",
+    "metaDescription": "Meta Description",
+    "metaDescriptionPlaceholder": "Sayfa açıklaması (arama sonuçlarında görünür)",
+    "seoPreview": "Google Arama Önizlemesi",
+    "seoPreviewTitleFallback": "Sayfa Başlığı",
+    "seoPreviewDescriptionFallback": "Sayfa açıklaması burada görünecek...",
+    "seoPreviewSlugFallback": "kategori-slug",
+    "seoPreviewBaseUrl": "katalogai.com/kategori"
+  },
+  "form": {
+    "name": "Ad",
+    "slug": "Slug",
+    "description": "Açıklama",
+    "descriptionPlaceholder": "Kategori açıklaması",
+    "icon": "İkon",
+    "alt": "Alt Text",
+    "displayOrder": "Sıralama",
+    "isActive": "Aktif",
+    "isFeatured": "Öne Çıkan",
+    "hasCart": "Sepet Modülü",
+    "image": "Kategori Görseli",
+    "requiredMark": "*"
+  },
+  "list": {
+    "title": "Kategori Listesi",
+    "total": "Toplam",
+    "loading": "Kategoriler yükleniyor...",
+    "noData": "Kayıt bulunamadı.",
+    "refreshing": "Liste yenileniyor...",
+    "createNew": "Yeni kategori oluşturuluyor...",
+    "editing": "Düzenleniyor",
+    "deleting": "Siliniyor",
+    "activated": "Aktif edildi",
+    "deactivated": "Pasif edildi",
+    "featured": "Öne çıkarıldı",
+    "unfeatured": "Öne çıkarmaktan kaldırıldı"
+  },
+  "messages": {
+    "requiredError": "Ad ve slug alanları zorunludur.",
+    "created": "Kategori oluşturuldu.",
+    "updated": "Kategori güncellendi.",
+    "deleted": "Kategori silindi.",
+    "saveError": "Kaydetme işlemi başarısız oldu.",
+    "deleteError": "Silme işlemi başarısız oldu.",
+    "updateError": "Güncelleme işlemi başarısız oldu.",
+    "confirmDelete": "\"{title}\" kaydı silinsin mi?",
+    "errorPrefix": "Hata",
+    "unknownError": "Hata oluştu"
+  },
+  "table": {
+    "image": "Görsel",
+    "order": "#",
+    "name": "Ad",
+    "slug": "Slug",
+    "locale": "Dil",
+    "module": "Modül",
+    "active": "Aktif",
+    "featured": "Öne Çıkan",
+    "actions": "İşlemler"
+  }
+}

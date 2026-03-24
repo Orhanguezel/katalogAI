@@ -1,0 +1,105 @@
+{
+  "title": "Tema Yönetimi",
+  "description": "Tema renklerini, section sıralarını ve sayfa görünüm ayarlarını buradan düzenleyin.",
+  "saved": "Tema ayarları kaydedildi.",
+  "saveError": "Tema ayarları kaydedilemedi.",
+  "reset": "Tema varsayılan ayarlara döndürüldü.",
+  "resetError": "Tema sıfırlama işlemi başarısız oldu.",
+  "resetButton": "Varsayılana Dön",
+  "saving": "Kaydediliyor…",
+  "saveButton": "Kaydet",
+  "colorsTab": "Renkler",
+  "typographyTab": "Tipografi",
+  "generalTab": "Genel",
+  "fonts": "Yazı Tipleri",
+  "fontHeading": "Başlık Fontu",
+  "fontHeadingPreview": "Başlık Önizleme",
+  "fontBody": "Gövde Fontu",
+  "fontBodyPreview": "Gövde Önizleme",
+  "borderRadius": "Köşe Yuvarlaklığı",
+  "darkModeLabel": "Tema Modu",
+  "preview": "Önizleme",
+  "actions": {
+    "refresh": "Yenile",
+    "reset": "Varsayılana Dön",
+    "save": "Kaydet"
+  },
+  "tabs": {
+    "general": "Genel",
+    "colors": "Renkler",
+    "sections": "Section",
+    "pages": "Sayfalar"
+  },
+  "general": {
+    "title": "Genel Tema Ayarları",
+    "description": "Köşe yuvarlaklığı, font ailesi ve tema modu ayarları.",
+    "darkMode": "Tema Modu",
+    "radius": "Radius",
+    "fontFamily": "Font Ailesi",
+    "fontFamilyPlaceholder": "Örn: Nunito, sans-serif"
+  },
+  "darkMode": {
+    "light": "Açık",
+    "dark": "Koyu",
+    "system": "Sistem"
+  },
+  "colors": {
+    "title": "Renk Tokenları",
+    "description": "Seeder ile gelen renkleri güncelleyebilirsiniz.",
+    "keys": {
+      "primary": "Primary",
+      "secondary": "Secondary",
+      "accent": "Accent",
+      "background": "Background",
+      "foreground": "Foreground",
+      "muted": "Muted",
+      "mutedFg": "Muted Foreground",
+      "border": "Border",
+      "destructive": "Destructive",
+      "success": "Success",
+      "navBg": "Navbar Background",
+      "navFg": "Navbar Foreground",
+      "footerBg": "Footer Background",
+      "footerFg": "Footer Foreground"
+    }
+  },
+  "sections": {
+    "title": "Section Ayarları",
+    "description": "Anasayfa bloklarını aç/kapat, sırala ve grid yapısını düzenle.",
+    "add": "Section Ekle",
+    "item": "Section",
+    "empty": "Henüz section yok.",
+    "fields": {
+      "key": "Key",
+      "label": "Başlık",
+      "order": "Sıra",
+      "enabled": "Aktif",
+      "colsLg": "Cols LG",
+      "colsMd": "Cols MD",
+      "colsSm": "Cols SM",
+      "limit": "Limit",
+      "limitPlaceholder": "Boş bırak = sınırsız",
+      "variant": "Variant"
+    }
+  },
+  "pages": {
+    "title": "Sayfa Ayarları",
+    "description": "Home, listings gibi sayfaların görünüm varyantlarını yönetin.",
+    "add": "Sayfa Ekle",
+    "newKeyPrompt": "Yeni sayfa anahtarı (key) girin",
+    "empty": "Henüz sayfa ayarı yok.",
+    "fields": {
+      "variant": "Variant",
+      "heroStyle": "Hero Style",
+      "defaultView": "Default View",
+      "filtersStyle": "Filters Style"
+    }
+  },
+  "messages": {
+    "saved": "Tema ayarları kaydedildi.",
+    "saveError": "Tema ayarları kaydedilemedi.",
+    "resetConfirm": "Tema ayarları seed varsayılanına dönecek. Devam edilsin mi?",
+    "resetDone": "Tema varsayılan ayarlara döndürüldü.",
+    "resetError": "Tema sıfırlama işlemi başarısız oldu."
+  }
+}

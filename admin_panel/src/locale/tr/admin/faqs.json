@@ -1,0 +1,161 @@
+{
+  "header": {
+    "title": "FAQ",
+    "description": "FAQ kayıtlarını dil, durum ve arama filtrelerine göre yönetebilirsin.",
+    "filters": {
+      "searchLabel": "Arama (q)",
+      "searchPlaceholder": "Soru/cevap içinde ara",
+      "slugLabel": "Slug",
+      "slugPlaceholder": "örn: fiyatlar",
+      "localeLabel": "Dil",
+      "allLocalesOption": "Tüm diller",
+      "localesLoading": "Diller yükleniyor...",
+      "noLocalesError": "Aktif dil listesi yok. Site ayarlarından app_locales kontrol et.",
+      "statusLabel": "Durum",
+      "statusOptions": {
+        "all": "Hepsi",
+        "active": "Aktif",
+        "inactive": "Pasif"
+      },
+      "sortLabel": "Sıralama",
+      "sortOptions": {
+        "updatedAt": "Güncellenme",
+        "createdAt": "Oluşturulma",
+        "displayOrder": "Sıra"
+      },
+      "dirLabel": "Yön",
+      "dirOptions": {
+        "desc": "Azalan",
+        "asc": "Artan"
+      }
+    },
+    "summary": {
+      "totalLabel": "Toplam Kayıt"
+    },
+    "actions": {
+      "refresh": "Yenile",
+      "create": "Yeni FAQ"
+    }
+  },
+  "list": {
+    "title": "Liste",
+    "loadingInline": "Yükleniyor…",
+    "recordCount": "{count} kayıt",
+    "saveOrder": "Sıralamayı Kaydet",
+    "savingOrder": "Kaydediliyor…",
+    "loading": "FAQ yükleniyor...",
+    "empty": "Henüz kayıtlı FAQ yok.",
+    "reorderHint": "Sıralama: Yukarı/Aşağı ile taşı, sonra kaydet.",
+    "viewNote": "Varsayılan görünüm karttır. Çok büyük ekranlarda (≥ {bp}px) tablo görünümü açılır.",
+    "deleteConfirm": "Bu FAQ kaydını silmek üzeresin.\n\nSoru: {question}\nID: {id}\nSlug: {slug}\n\nDevam etmek istiyor musun?",
+    "status": {
+      "active": "Aktif",
+      "inactive": "Pasif"
+    },
+    "actions": {
+      "edit": "Düzenle",
+      "delete": "Sil",
+      "moveUp": "Yukarı",
+      "moveDown": "Aşağı"
+    },
+    "meta": {
+      "locale": "Dil",
+      "order": "Sıra",
+      "slug": "Slug",
+      "createdAt": "Oluşturulma",
+      "updatedAt": "Güncelleme"
+    },
+    "columns": {
+      "question": "Soru",
+      "slug": "Slug",
+      "order": "Sıra",
+      "status": "Durum",
+      "date": "Tarih",
+      "actions": "İşlemler"
+    },
+    "placeholders": {
+      "noQuestion": "(soru yok)",
+      "noSlug": "(slug yok)"
+    }
+  },
+  "form": {
+    "editorModes": {
+      "form": "Form",
+      "json": "JSON"
+    },
+    "editorStatus": {
+      "jsonInvalid": "JSON hatalı",
+      "jsonReady": "JSON hazır"
+    },
+    "titles": {
+      "create": "Yeni FAQ Oluştur",
+      "edit": "FAQ Düzenle"
+    },
+    "descriptions": {
+      "formMode": "Dil, aktiflik, sıralama, soru/cevap ve slug alanlarını doldur.",
+      "jsonMode": "İstek payload’ını JSON olarak düzenle ve kaydet."
+    },
+    "switchingLocale": "Dil değiştiriliyor...",
+    "loading": "Yükleniyor...",
+    "fields": {
+      "locale": "Dil",
+      "active": "Aktif",
+      "displayOrder": "Sıralama (display_order)",
+      "question": "Soru",
+      "slug": "Slug",
+      "answer": "Cevap"
+    },
+    "validation": {
+      "requiredFields": "Soru, Cevap ve Slug alanları zorunludur.",
+      "invalidJson": "JSON geçersiz. Lütfen hatayı düzelt.",
+      "requiredFieldsInJson": "JSON içinde Soru, Cevap ve Slug alanları zorunludur."
+    },
+    "notes": {
+      "title": "Notlar",
+      "body": "FAQ modülünde görsel/SEO alanı yok. Bu form sadece backend’deki FAQ alanlarını yönetir.",
+      "jsonTip": "İstersen JSON moduna geçip payload’ı direkt düzenleyebilirsin.",
+      "createdAt": "Oluşturulma",
+      "updatedAt": "Güncelleme"
+    }
+  },
+  "jsonEditor": {
+    "label": "FAQ JSON (create/update payload)",
+    "help": {
+      "intro": "Bu JSON, /admin/faqs create/update isteklerine gönderilen payload ile uyumludur.",
+      "mainFields": "Başlıca alanlar:",
+      "localeNote": "Not: JSON modunda locale göndermezsen, form üzerindeki seçili dil kullanılır."
+    }
+  },
+  "messages": {
+    "orderSaved": "Sıralama kaydedildi.",
+    "orderSaveError": "Sıralama kaydedilemedi.",
+    "created": "FAQ oluşturuldu.",
+    "updated": "FAQ güncellendi.",
+    "deleted": "FAQ silindi.",
+    "deleteError": "FAQ silinirken bir hata oluştu.",
+    "noRecordForLocale": "Seçilen dil için kayıt bulunamadı; bu dilde yeni içerik oluşturabilirsin.",
+    "loadForLocaleError": "Seçilen dil için kayıt yüklenirken bir hata oluştu."
+  },
+  "errors": {
+    "invalidLocale": "Geçerli bir locale seçilmedi. app_locales ve default_locale kontrol edin.",
+    "createdButInvalidId": "Oluşturuldu ama id dönmedi/UUID değil. Backend response'u kontrol et.",
+    "missingId": "FAQ verisi yüklenemedi (id yok).",
+    "generic": "İşlem başarısız. Lütfen tekrar deneyin."
+  },
+  "noLocales": {
+    "title": "Dil listesi bulunamadı",
+    "description": "<code>site_settings.app_locales</code> boş veya geçersiz. Önce Site Settings’ten dilleri ayarlayın."
+  },
+  "invalidId": {
+    "title": "Geçersiz ID",
+    "description": "UUID değil:"
+  },
+  "actions": {
+    "backToList": "Listeye dön",
+    "back": "Geri",
+    "create": "Oluştur",
+    "creating": "Oluşturuluyor...",
+    "save": "Kaydet",
+    "saving": "Kaydediliyor..."
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "header": {
+    "title": "Yorumlar & Testimonial",
+    "description": "Müşteri yorumlarını ve değerlendirmelerini yönet."
+  },
+  "actions": {
+    "create": "Yeni ekle",
+    "backToList": "Listeye dön",
+    "deleting": "Siliniyor..."
+  },
+  "filters": {
+    "searchLabel": "Ara",
+    "searchPlaceholder": "İsim, e-posta, yorum...",
+    "approvedLabel": "Onay",
+    "activeLabel": "Durum",
+    "minRatingLabel": "Min. puan",
+    "minRatingPlaceholder": "0",
+    "maxRatingLabel": "Max. puan",
+    "maxRatingPlaceholder": "5",
+    "localeLabel": "Dil",
+    "options": {
+      "all": "Tümü",
+      "approved": "Onaylı",
+      "unapproved": "Onaysız",
+      "active": "Aktif",
+      "inactive": "Pasif"
+    }
+  },
+  "summary": {
+    "total": "Toplam {total} kayıt"
+  },
+  "table": {
+    "columns": {
+      "nameEmail": "İsim & E-posta",
+      "rating": "Puan",
+      "comment": "Yorum",
+      "approved": "Onaylı",
+      "active": "Aktif",
+      "locale": "Locale",
+      "date": "Tarih"
+    },
+    "empty": "Kayıt bulunamadı.",
+    "updatedAt": "Güncelleme"
+  },
+  "labels": {
+    "approved": "Onaylı",
+    "unapproved": "Onaysız",
+    "active": "Aktif",
+    "inactive": "Pasif",
+    "comment": "Yorum",
+    "createdAt": "Oluşturma",
+    "updatedAt": "Güncelleme"
+  },
+  "deleteDialog": {
+    "title": "Silmek istediğine emin misin?",
+    "description": "{name} tarafından yapılan yorum silinecek. Bu işlem geri alınamaz.",
+    "fallbackName": "Bu kayıt"
+  },
+  "messages": {
+    "activated": "Aktif yapıldı.",
+    "deactivated": "Pasif yapıldı.",
+    "approved": "Onaylandı.",
+    "approvalRemoved": "Onay kaldırıldı.",
+    "created": "Kayıt oluşturuldu.",
+    "updated": "Kayıt güncellendi.",
+    "deleted": "Kayıt silindi.",
+    "loadError": "Kayıt yüklenemedi.",
+    "genericError": "İşlem başarısız. Lütfen tekrar deneyin."
+  },
+  "form": {
+    "titles": {
+      "create": "Yeni yorum",
+      "edit": "Yorumu düzenle"
+    },
+    "descriptions": {
+      "create": "Yeni bir müşteri yorumu ekleyin.",
+      "edit": "Mevcut müşteri yorumunu düzenleyin."
+    },
+    "sections": {
+      "meta": "Genel bilgiler",
+      "customer": "Müşteri bilgileri",
+      "content": "Yorum içeriği",
+      "extras": "Testimonial ek alanları",
+      "extrasDescription": "Testimonial görünümü için opsiyonel alanlar.",
+      "adminReply": "Admin yanıtı",
+      "adminReplyDescription": "Bu yoruma admin olarak yanıt verebilirsiniz."
+    },
+    "fields": {
+      "locale": "Dil",
+      "displayOrder": "Sıralama",
+      "approved": "Onay",
+      "active": "Durum",
+      "targetType": "Target type",
+      "targetId": "Target ID",
+      "name": "İsim",
+      "email": "E-posta",
+      "rating": "Puan",
+      "title": "Başlık",
+      "comment": "Yorum",
+      "role": "Rol / Pozisyon",
+      "company": "Şirket",
+      "avatarUrl": "Avatar URL",
+      "logoUrl": "Logo URL",
+      "profileHref": "Profil linki",
+      "adminReply": "Yanıt"
+    },
+    "placeholders": {
+      "targetType": "örn: testimonial, product, service",
+      "targetId": "UUID veya identifier",
+      "name": "örn: Ahmet Yılmaz",
+      "email": "ornek@email.com",
+      "title": "Yorum başlığı (opsiyonel)",
+      "comment": "Müşteri yorumu...",
+      "role": "örn: CEO, Müdür",
+      "company": "Şirket adı",
+      "adminReply": "Admin yanıtı (opsiyonel)"
+    },
+    "validation": {
+      "targetTypeRequired": "Target type zorunlu.",
+      "targetIdRequired": "Target ID zorunlu.",
+      "nameRequired": "İsim zorunlu.",
+      "emailRequired": "E-posta zorunlu.",
+      "commentRequired": "Yorum zorunlu.",
+      "ratingRange": "Puan 0-5 arasında olmalı."
+    }
+  }
+}

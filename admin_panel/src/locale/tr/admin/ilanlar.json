@@ -1,0 +1,43 @@
+{
+  "header": {
+    "title": "İlanlar",
+    "description": "Tüm taşıma ilanlarını görüntüleyin ve yönetin."
+  },
+  "filters": {
+    "searchPlaceholder": "Taşıyıcı, şehir veya ID ara...",
+    "allStatuses": "Tüm Durumlar"
+  },
+  "status": {
+    "active": "Aktif",
+    "inactive": "Pasif",
+    "pending": "Bekliyor",
+    "cancelled": "İptal"
+  },
+  "table": {
+    "carrier": "Taşıyıcı",
+    "route": "Güzergah",
+    "date": "Tarih",
+    "capacity": "Kapasite",
+    "pricePerKg": "Fiyat/kg",
+    "status": "Durum",
+    "action": "İşlem",
+    "empty": "İlan bulunamadı."
+  },
+  "pagination": {
+    "summary": "{total} ilan — Sayfa {page} / {totalPages}",
+    "previous": "Önceki",
+    "next": "Sonraki"
+  },
+  "dialog": {
+    "deleteTitle": "İlanı Sil",
+    "deleteDescription": "{from} → {to} ilanı kalıcı olarak silinecek. Bu işlem geri alınamaz.",
+    "cancel": "İptal",
+    "confirmDelete": "Sil"
+  },
+  "messages": {
+    "statusUpdated": "Durum \"{status}\" olarak güncellendi.",
+    "statusUpdateError": "Durum güncellenemedi.",
+    "deleted": "İlan silindi.",
+    "deleteError": "İlan silinemedi."
+  }
+}

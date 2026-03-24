@@ -1,0 +1,55 @@
+{
+  "title": "KatalogAI",
+  "slug": "katalog-ai",
+  "summary": "Multi-database product catalog creator — pull products from different project databases, design catalogs with templates, export as PDF or send via email.",
+  "category": "SAAS TOOL",
+  "services": [
+    "Full-Stack Development",
+    "Admin Panel",
+    "PDF Generation",
+    "AI Content Enhancement"
+  ],
+  "techs": [
+    "TypeScript",
+    "Next.js 15",
+    "React 19",
+    "Fastify v5",
+    "MySQL 8",
+    "Drizzle ORM",
+    "Bun",
+    "Zod",
+    "Redux Toolkit",
+    "Tailwind CSS v4",
+    "Shadcn UI"
+  ],
+  "features": [
+    "Multi-database product sourcing",
+    "Catalog template & layout system",
+    "Drag & drop catalog builder",
+    "PDF export & email delivery",
+    "AI-powered descriptions & translations",
+    "Color theme & font customization",
+    "Admin panel with catalog management"
+  ],
+  "designHighlights": [
+    "Token-based Tailwind v4 design system",
+    "Dark mode with data-theme attribute",
+    "A4 print-ready catalog preview",
+    "Mobile-first responsive panel UI"
+  ],
+  "featured": false,
+  "displayOrder": 70,
+  "clientName": "Own Project",
+  "status": "development",
+  "startDate": "2026-03-24",
+  "completeDate": null,
+  "completionTimeLabel": null,
+  "repoUrl": null,
+  "websiteUrl": null,
+  "demoUrl": null,
+  "featuredImage": "/assets/imgs/work/img-2.png",
+  "featuredImageAlt": "KatalogAI Catalog Creator",
+  "resumeTitle": "KatalogAI",
+  "resumeSubtitle": "AI-Powered Catalog Creator",
+  "excludeFromPortfolio": false
+}

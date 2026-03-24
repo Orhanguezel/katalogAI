@@ -1,0 +1,91 @@
+{
+  "header": {
+    "title": "Müsaitlik Yönetimi",
+    "description": "Kaynakları (terapist, oda, vb.) ve çalışma saatlerini yönetin.",
+    "totalLabel": "Toplam:",
+    "actions": {
+      "refresh": "Yenile",
+      "create": "Yeni Kaynak"
+    }
+  },
+  "filters": {
+    "searchLabel": "Ara",
+    "searchPlaceholder": "Ad veya referans...",
+    "typeLabel": "Tür",
+    "typeAll": "Tümü",
+    "statusLabel": "Durum",
+    "statusAll": "Tümü",
+    "statusActive": "Aktif",
+    "statusInactive": "Pasif",
+    "clear": "Temizle",
+    "statusOptions": {
+      "all": "Hepsi",
+      "active": "Aktif",
+      "inactive": "Pasif"
+    }
+  },
+  "list": {
+    "title": "Kaynak Listesi",
+    "empty": "Kayıt bulunamadı",
+    "loading": "Yükleniyor...",
+    "total": "Toplam: {count}",
+    "columns": {
+      "name": "Ad",
+      "type": "Tür",
+      "status": "Durum",
+      "updated": "Güncellendi",
+      "created": "Oluşturuldu",
+      "actions": "İşlemler",
+      "ref": "Referans"
+    },
+    "actions": {
+      "manage": "Yönet",
+      "delete": "Sil"
+    },
+    "deleteConfirm": {
+      "title": "Kaynağı Sil",
+      "description": "\"{name}\" kaynağını silmek istediğinize emin misiniz?\nTür: {type}\nReferans: {ref}\nBu işlem geri alınamaz."
+    }
+  },
+  "form": {
+    "createTitle": "Yeni Kaynak",
+    "editTitle": "Kaynak Yönetimi",
+    "description": "Kaynak detaylarını, haftalık ve günlük planları yönetin.",
+    "tabs": {
+      "resource": "Genel Bilgiler",
+      "weekly": "Haftalık Plan",
+      "daily": "Günlük Plan"
+    },
+    "buttons": {
+      "back": "Geri",
+      "create": "Oluştur",
+      "save": "Kaydet",
+      "creating": "Oluşturuluyor...",
+      "saving": "Kaydediliyor..."
+    },
+    "messages": {
+      "createSuccess": "Kaynak başarıyla oluşturuldu.",
+      "updateSuccess": "Kaynak başarıyla güncellendi.",
+      "deleteSuccess": "Kaynak başarıyla silindi.",
+      "invalidId": "Geçersiz ID.",
+      "notFound": "Kaynak bulunamadı.",
+      "notFoundDesc": "Bu kaynağa erişilemedi veya silinmiş olabilir.",
+      "returnToList": "Listeye Dön"
+    },
+    "resource": {
+      "titleLabel": "Kaynak Adı",
+      "titlePlaceholder": "Örn: Terapist Ayşe",
+      "typeLabel": "Tür",
+      "refLabel": "Harici Referans",
+      "refPlaceholder": "Örn: room-101 (opsiyonel)",
+      "statusLabel": "Durum",
+      "active": "Aktif",
+      "inactive": "Pasif"
+    }
+  },
+  "common": {
+    "loading": "Yükleniyor...",
+    "noName": "(ad yok)",
+    "noRef": "(referans yok)"
+  }
+}

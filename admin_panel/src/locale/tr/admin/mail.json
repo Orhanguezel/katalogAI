@@ -1,0 +1,27 @@
+{
+  "title": "Mail Ayarları",
+  "description": "Email sistemini test edin ve SMTP ayarlarını doğrulayın",
+  "test": {
+    "title": "Test Email Gönder",
+    "description": "Test emaili göndermek için bir adres girin",
+    "label": "Email Adresi",
+    "placeholder": "ornek@domain.com",
+    "send": "Test Gönder",
+    "sending": "Gönderiliyor...",
+    "success": "Test emaili başarıyla gönderildi",
+    "error": "Test emaili gönderilirken hata oluştu",
+    "required": "Email adresi gerekli"
+  },
+  "smtp": {
+    "title": "SMTP Yapılandırması",
+    "description": "Test emailleri, ortam değişkenlerindeki mevcut SMTP ayarlarını kullanır",
+    "info": ".env dosyasındaki SMTP yapılandırmanızı kontrol edin:",
+    "variables": {
+      "host": "SMTP Sunucusu",
+      "port": "SMTP Portu",
+      "user": "SMTP Kullanıcısı",
+      "pass": "SMTP Şifresi",
+      "from": "Gönderen Adresi"
+    }
+  }
+}

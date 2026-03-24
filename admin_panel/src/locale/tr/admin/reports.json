@@ -1,0 +1,62 @@
+{
+  "title": "Raporlar (Admin)",
+  "description": "KPI, kaynak performansı ve lokasyon kırılımı.",
+  "refresh": "Yenile",
+  "tabs": {
+    "title": "Sekmeler",
+    "description": "KPI • Kaynak Performansı • Lokasyonlar",
+    "kpi": "KPI",
+    "users": "Kaynaklar",
+    "locations": "Lokasyonlar"
+  },
+  "filter": {
+    "title": "Filtre",
+    "description": "Tarih aralığı (başlangıç/bitiş) ve kaynak seçimi.",
+    "apply": "Uygula",
+    "reset": "Sıfırla",
+    "from": "Başlangıç",
+    "to": "Bitiş",
+    "role": "Rol",
+    "roleHint": "Sadece “Kaynaklar” sekmesinde kullanılır.",
+    "invalidFrom": "Başlangıç geçersiz tarih.",
+    "invalidTo": "Bitiş geçersiz tarih."
+  },
+  "kpi": {
+    "daily": "Günlük",
+    "weekly": "Haftalık",
+    "monthly": "Aylık",
+    "loadingError": "KPI yüklenemedi.",
+    "noData": "Kayıt yok.",
+    "bucket": "Dönem",
+    "total": "Toplam",
+    "completed": "Tamamlanan",
+    "success": "Başarı"
+  },
+  "users": {
+    "title": "Kaynak Performansı",
+    "description": "rol={role} • kayıt: {count}",
+    "loadingError": "Performans raporu yüklenemedi.",
+    "noData": "Kayıt bulunamadı.",
+    "table": {
+      "user": "Kaynak",
+      "total": "Rezervasyon",
+      "completed": "Tamamlanan",
+      "cancelled": "İptal",
+      "success": "Başarı"
+    }
+  },
+  "locations": {
+    "title": "Lokasyon (Dil) Kırılımı",
+    "description": "kayıt: {count}",
+    "loadingError": "Lokasyon raporu yüklenemedi.",
+    "noData": "Kayıt bulunamadı.",
+    "table": {
+      "city": "Dil / Bölge",
+      "district": "Alt Bölge",
+      "total": "Rezervasyon",
+      "completed": "Tamamlanan",
+      "cancelled": "İptal",
+      "success": "Başarı"
+    }
+  }
+}

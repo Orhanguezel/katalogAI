@@ -1,0 +1,49 @@
+{
+  "header": {
+    "title": "Rezervasyonlar",
+    "description": "Tüm kargo rezervasyonlarını görüntüleyin ve yönetin."
+  },
+  "filters": {
+    "searchPlaceholder": "Müşteri, şehir veya ID ara...",
+    "allStatuses": "Tüm Durumlar"
+  },
+  "status": {
+    "pending": "Bekliyor",
+    "confirmed": "Onaylandı",
+    "inTransit": "Yolda",
+    "delivered": "Teslim",
+    "cancelled": "İptal",
+    "refunded": "İade"
+  },
+  "statusActions": {
+    "pending": "Bekliyor",
+    "confirmed": "Onayla",
+    "inTransit": "Yola Çıktı",
+    "delivered": "Teslim Edildi",
+    "cancelled": "İptal Et"
+  },
+  "payment": {
+    "unpaid": "Ödenmedi",
+    "paid": "Ödendi",
+    "refunded": "İade"
+  },
+  "table": {
+    "customer": "Müşteri",
+    "route": "Güzergah",
+    "kgPrice": "Kg / Fiyat",
+    "status": "Durum",
+    "payment": "Ödeme",
+    "date": "Tarih",
+    "action": "İşlem",
+    "empty": "Rezervasyon bulunamadı."
+  },
+  "pagination": {
+    "summary": "{total} rezervasyon — Sayfa {page} / {totalPages}",
+    "previous": "Önceki",
+    "next": "Sonraki"
+  },
+  "messages": {
+    "statusUpdated": "Durum \"{status}\" olarak güncellendi.",
+    "statusUpdateError": "Durum güncellenemedi."
+  }
+}

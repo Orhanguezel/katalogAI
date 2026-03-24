@@ -1,0 +1,228 @@
+{
+  "title": "Veritabanı Yönetimi",
+  "description": "Snapshot noktaları oluştur, tam yedek indir, SQL import uygula veya modül bazlı export/import yap.",
+  "auth": {
+    "loading": "Admin paneli yükleniyor..."
+  },
+  "help": {
+    "pageTitle": "Bu sayfa ne yapar?",
+    "dbAdmin": "DB Admin ekranı",
+    "fullDbDesc": "tüm veritabanını export/import edersin.",
+    "snapshotDesc": "riskli işlem öncesi geri dönüş noktası alır, restore edersin.",
+    "moduleDesc": "yalnızca seçilen modül tablolarını taşır (örn. products).",
+    "uiDesc": "locale bazlı UI metinlerini toplu export/bootstrap eder.",
+    "closeHint": "İpucu: Dışarı tıkla veya ESC ile kapat.",
+    "closeButton": "Kapat"
+  },
+  "fullDb": {
+    "title": "Veritabanı Yedekleme & Snapshot Yönetimi",
+    "description": "Snapshot oluşturabilir ve tam veritabanı yedeği indirebilirsin.",
+    "snapshotLabel": "Snapshot etiketi",
+    "snapshotPlaceholder": "Örn: Güncel canlı sistem",
+    "notePlaceholder": "Bu snapshot neden alındı?",
+    "noteLabel": "Not (opsiyonel)",
+    "createButton": "Snapshot Oluştur",
+    "creating": "Oluşturuluyor...",
+    "downloadTitle": "Tam Veritabanı Yedeği İndir",
+    "downloadDesc": "Şu anki DB durumunu tam dump olarak indir.",
+    "sqlButton": "SQL İndir (.sql)",
+    "sqlPreparing": "SQL hazırlanıyor...",
+    "jsonButton": "JSON İndir (.json)",
+    "snapshotCreated": "Snapshot oluşturuldu: {label}",
+    "snapshotError": "Snapshot oluşturulurken hata oluştu.",
+    "exportSuccess": "SQL yedeği indirildi.",
+    "exportError": "DB export (SQL) sırasında hata oluştu.",
+    "jsonNotImplemented": "JSON export özelliği henüz implement edilmedi. SQL export kullanabilirsiniz."
+  },
+  "import": {
+    "title": "SQL İçe Aktar (IMPORT)",
+    "titleWithMode": "SQL İçe Aktar (IMPORT) — {mode}",
+    "warning": "Bu işlemler veritabanı içeriğini kalıcı olarak değiştirebilir. Özellikle truncate işaretliyken devam etmeden önce mutlaka bir snapshot al.",
+    "dangerLabel": "DİKKAT:",
+    "helpTitle": "Import açıklaması",
+    "helpHeadline": "SQL Import (Full DB)",
+    "helpDesc1": "Bu panel tam veritabanına SQL dump uygular (metin / URL / dosya).",
+    "helpDesc2": "import öncesi tabloları boşaltır. Prod ortamında çok risklidir.",
+    "helpDesc3": "desteklenen akışlarda prova çalıştırmasıdır (rollback).",
+    "processing": "İşlem devam ediyor...",
+    "tabs": {
+      "text": "SQL Metni",
+      "url": "URL'den",
+      "file": "Dosyadan"
+    },
+    "text": {
+      "label": "SQL Script (utf8)",
+      "placeholder": "Buraya tam SQL script'ini yapıştır.",
+      "required": "SQL metni boş olamaz.",
+      "helpTitle": "SQL metni ipuçları",
+      "helpHeadline": "SQL Metni",
+      "helpDesc1": "Buraya tam SQL script'i yapıştırılır.",
+      "helpDesc2": "Çok büyük dump'larda tarayıcı yavaşlayabilir; dosya import daha uygundur.",
+      "helpDesc3": "İçerik doğru encoding (utf8) olmalıdır."
+    },
+    "url": {
+      "label": "SQL Dump URL (.sql veya .sql.gz)",
+      "placeholder": "https://.../dump.sql veya dump.sql.gz",
+      "required": "Önce geçerli bir .sql veya .sql.gz URL'i gir.",
+      "helpTitle": "URL import ipuçları",
+      "helpHeadline": "URL Import",
+      "helpDesc1": "HTTPS kullanılması önerilir.",
+      "helpDesc2": ".sql.gz dump'lar büyük veride daha hızlı taşınır.",
+      "helpDesc3": "Yetki/koruma isteyen URL'ler backend tarafından indirilemeyebilir."
+    },
+    "file": {
+      "label": "SQL Dump Dosyası (.sql veya .gz)",
+      "placeholder": "Dosya seç",
+      "required": "Önce .sql veya .gz dosyası seç.",
+      "selected": "Seçili dosya:",
+      "note": "Dosyadan import akışında dry run yoktur (sadece truncate uygulanır).",
+      "helpTitle": "Dosya import ipuçları",
+      "helpHeadline": "Dosyadan Import",
+      "helpDesc1": "En stabil yöntemdir (büyük dump'lar için önerilir).",
+      "helpDesc2": "Dosya import akışında dry run yoktur.",
+      "helpDesc3": "Nginx/Fastify body limit ayarları dosya boyutunu etkileyebilir."
+    },
+    "truncate": {
+      "label": "İşlemden önce TÜM tabloları TRUNCATE et",
+      "helpTitle": "Truncate nedir?",
+      "helpHeadline": "TruncateBefore",
+      "helpDesc": "Import öncesi tablolar boşaltılır. Yanlış kullanım veri kaybına yol açar. Prod'da işlem öncesi snapshot almak zorunlu kabul edilmelidir.",
+      "helpDescFile": "Dosya import'ta en kritik seçenek budur. Açıkken import öncesi tablolar tamamen boşaltılır. Snapshot almayı zorunlu kabul et."
+    },
+    "dryRun": {
+      "label": "Dry run (prova, değişiklikleri geriye al)",
+      "helpTitle": "Dry run nasıl çalışır?",
+      "helpHeadline": "Dry Run",
+      "helpDesc": "Backend destekliyorsa SQL transaction içinde çalışır ve rollback yapar. Bazı DDL işlemleri MySQL'de implicit commit yapabilir; %100 garanti değildir.",
+      "helpDescUrl": "Backend destekliyorsa transaction + rollback yapar. Büyük dump'larda süre ve kaynak tüketimi artar."
+    },
+    "buttons": {
+      "apply": "SQL'i Uygula",
+      "importing": "İçe aktarılıyor...",
+      "importFromUrl": "URL'den İçe Aktar",
+      "importFromFile": "Dosyadan İçe Aktar"
+    },
+    "confirm": {
+      "text": "Bu SQL script'i doğrudan veritabanına uygulamak üzeresin.\n\nTruncate: {truncate}\nDevam etmek istiyor musun?",
+      "url": "Bu URL'den indirilen SQL dump veritabanına uygulanacak.\n\nURL: {url}\nTruncate: {truncate}\n\nDevam etmek istiyor musun?",
+      "file": "Seçtiğin SQL dosyası veritabanına uygulanacak.\n\nDosya: {file}\nTruncate: {truncate}\n\nBu işlem geri alınamaz. Devam etmek istiyor musun?",
+      "truncateYes": "EVET (tüm tabloları boşalt)",
+      "truncateNo": "Hayır"
+    },
+    "success": {
+      "text": "SQL metni başarıyla içe aktarıldı.",
+      "url": "URL'den SQL dump başarıyla içe aktarıldı.",
+      "file": "Dosyadan SQL dump başarıyla içe aktarıldı.",
+      "dryRun": "Dry run başarılı. Değişiklikler geriye alındı."
+    },
+    "error": {
+      "text": "SQL import (metin) hatası.",
+      "textGeneric": "SQL import (metin) sırasında hata oluştu.",
+      "url": "SQL import (URL) hatası.",
+      "urlGeneric": "SQL import (URL) sırasında hata oluştu.",
+      "file": "SQL import (dosya) hatası.",
+      "fileGeneric": "SQL import (dosya) sırasında hata oluştu."
+    }
+  },
+  "snapshots": {
+    "title": "Snapshot Noktaları",
+    "total": "Toplam:",
+    "processing": "İşlem yapılıyor...",
+    "columns": {
+      "index": "#",
+      "labelNote": "Etiket / Not",
+      "file": "Dosya",
+      "created": "Oluşturulma",
+      "size": "Boyut",
+      "actions": "İşlemler"
+    },
+    "noLabel": "Etiket yok",
+    "noNote": "-",
+    "loading": "Yükleniyor...",
+    "noData": "Henüz kayıtlı snapshot bulunmuyor.",
+    "scrollNote": "Not: Ekran dar ise tablo yatay kaydırılabilir.",
+    "restore": "Geri Yükle",
+    "delete": "Sil",
+    "restoreConfirm": "Bu snapshot'tan geri yükleme yapacaksın.\n\nSnapshot: {label}\n\nBu işlem mevcut veritabanı içeriğini EZER (truncate).\nDevam etmek istiyor musun?",
+    "deleteConfirm": "Bu snapshot dosyasını silmek üzeresin.\n\nSnapshot: {label}\n\nDevam etmek istiyor musun?",
+    "restoreSuccess": "Snapshot başarıyla geri yüklendi.",
+    "restoreError": "Snapshot geri yükleme sırasında bir hata oluştu.",
+    "restoreFailed": "Snapshot restore failed",
+    "deleteSuccess": "Snapshot silindi.",
+    "deleteFailed": "Snapshot silinemedi.",
+    "deleteError": "Snapshot delete failed"
+  },
+  "modules": {
+    "title": "Modül Bazlı DB Yönetimi",
+    "selected": "Seçili modül: {module}",
+    "tabs": {
+      "export": "Export",
+      "import": "Import",
+      "validate": "Manifest Validate",
+      "ui": "UI Export/Bootstrap"
+    },
+    "export": {
+      "title": "Modül Export",
+      "description": "{module} modülüne ait tablolar manifest sırasıyla dışa aktarılır.",
+      "format": {
+        "sql": "SQL",
+        "json": "JSON"
+      },
+      "downloadButton": "İndir",
+      "preparing": "Hazırlanıyor...",
+      "notImplemented": "Module export özelliği henüz implement edilmedi.",
+      "success": "{module} export indirildi ({format}).",
+      "error": "Module export sırasında hata oluştu."
+    },
+    "import": {
+      "title": "Modül Import",
+      "description": "{module} modül tablolarını manifest sırasına göre içeri alır.",
+      "truncate": "Önce modül tablolarını TRUNCATE et",
+      "tabs": {
+        "text": "SQL Metni",
+        "file": "Dosya"
+      },
+      "text": {
+        "label": "SQL Script",
+        "placeholder": "Module SQL içeriğini buraya yapıştır."
+      },
+      "file": {
+        "label": "Dosya (.sql / .gz)"
+      },
+      "applyButton": "SQL'i Uygula",
+      "importButton": "Dosyadan İçe Aktar",
+      "importing": "İçe aktarılıyor...",
+      "notImplemented": "Module import özelliği henüz implement edilmedi."
+    },
+    "validate": {
+      "title": "Manifest Doğrulama",
+      "description": "Manifest'teki tablolar DB'de var mı? duplicate var mı? sıralama güvenli mi?",
+      "checkButton": "Kontrol Et",
+      "checking": "Kontrol ediliyor...",
+      "noResult": "Henüz sonuç yok.",
+      "statusOk": "OK",
+      "statusError": "HATALI",
+      "module": "Modül:",
+      "errors": "Errors",
+      "warnings": "Warnings",
+      "declaredTables": "Declared tables:",
+      "duplicates": "Duplicates:"
+    },
+    "ui": {
+      "title": "Site Settings UI Export / Bootstrap",
+      "description": "ui_* key'lerini toplu export et ve locale bootstrap yap.",
+      "downloadButton": "JSON İndir",
+      "targetLocale": "Hedef locale",
+      "sourceLocale": "Kaynak locale",
+      "overwrite": "Overwrite",
+      "onlyUiKeys": "Sadece ui_* key'ler",
+      "bootstrapButton": "Bootstrap Uygula",
+      "applying": "Uygulanıyor...",
+      "downloadSuccess": "UI JSON indirildi.",
+      "downloadError": "UI export verisi hazır değil.",
+      "bootstrapSuccess": "UI bootstrap tamamlandı.",
+      "bootstrapError": "UI bootstrap başarısız.",
+      "bootstrapErrorGeneric": "UI bootstrap sırasında hata oluştu."
+    }
+  }
+}

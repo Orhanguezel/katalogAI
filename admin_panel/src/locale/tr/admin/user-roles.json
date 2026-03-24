@@ -1,0 +1,56 @@
+{
+  "title": "Rol Yönetimi",
+  "description": "Kullanıcı rollerini listeleyin, rol ekleyin ve rol silin.",
+  "create": {
+    "title": "Yeni Rol Ekle",
+    "description": "Admin-only. Aynı kullanıcıya aynı rol eklenemez.",
+    "userLabel": "Kullanıcı",
+    "userPlaceholder": "Kullanıcı seçin",
+    "roleLabel": "Rol",
+    "rolePlaceholder": "Rol seçin",
+    "addButton": "Ekle",
+    "selectUser": "Lütfen kullanıcı seçin.",
+    "added": "Rol eklendi.",
+    "alreadyExists": "Bu rol zaten mevcut.",
+    "usersLoading": "Yükleniyor…",
+    "usersLoadError": "Kullanıcılar yüklenemedi.",
+    "retryButton": "Yeniden dene"
+  },
+  "list": {
+    "title": "Rol Listesi",
+    "description": "Filtreleyin ve yönetim işlemlerini yapın.",
+    "userFilterLabel": "Kullanıcı filtresi",
+    "roleFilterLabel": "Rol filtresi",
+    "limitLabel": "Limit",
+    "all": "Tümü",
+    "refreshButton": "Yenile",
+    "loadError": "Roller yüklenemedi.",
+    "retryButton": "Yeniden dene",
+    "noRecords": "Kayıt bulunamadı.",
+    "note": "Not: Bu sayfa admin-only olduğu için, kullanıcı enumerasyon riskini azaltmak adına yetkiler dikkatli yönetilmelidir."
+  },
+  "table": {
+    "userColumn": "Kullanıcı",
+    "roleColumn": "Rol",
+    "createdColumn": "Oluşturma",
+    "actionColumn": "İşlem",
+    "deleteButton": "Sil",
+    "deleteConfirm": "Rol silinsin mi?\n{user} → {role}",
+    "deleted": "Rol silindi.",
+    "loading": "Yükleniyor",
+    "notFound": "Bulunamadı"
+  },
+  "roles": {
+    "admin": "Admin",
+    "moderator": "Moderatör",
+    "seller": "Satıcı",
+    "user": "Kullanıcı",
+    "driver": "Şoför"
+  },
+  "user": {
+    "unknown": "İsimsiz Kullanıcı",
+    "loading": "Yükleniyor…",
+    "notFound": "Kullanıcı bulunamadı"
+  },
+  "errorFallback": "İşlem başarısız. Lütfen tekrar deneyin."
+}
