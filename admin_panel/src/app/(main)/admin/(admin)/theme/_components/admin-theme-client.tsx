@@ -36,6 +36,23 @@ import { ThemePreview } from './theme-preview';
 
 /* ── Main Component ── */
 
+const THEME_GROUP_LABEL_KEYS: Record<string, string> = {
+  Brand: 'groups.brand',
+  Surface: 'groups.surface',
+  Text: 'groups.text',
+  Shell: 'groups.shell',
+};
+
+const RADIUS_LABEL_KEYS: Record<string, string> = {
+  None: 'radius.none',
+  Small: 'radius.small',
+  Default: 'radius.default',
+  Medium: 'radius.medium',
+  Large: 'radius.large',
+  XL: 'radius.xl',
+  '2XL': 'radius.2xl',
+};
+
 export default function AdminThemeClient() {
   const t = useAdminT('admin.theme');
   const { data: theme, isLoading } = useGetThemeAdminQuery();
@@ -104,10 +121,10 @@ export default function AdminThemeClient() {
       <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">
           <h1 className="font-serif text-3xl font-bold tracking-tight text-white italic">
-            {t('title') || 'Görünüm ve Markalama'}
+            {t('title')}
           </h1>
           <p className="text-sm text-katalog-text-dim max-w-lg">
-            {t('description') || 'Müşterilerinizin göreceği panel ve katalogların renk, font ve tasarım dillerini özelleştirin.'}
+            {t('description')}
           </p>
         </div>
         <div className="flex gap-2">
@@ -119,7 +136,7 @@ export default function AdminThemeClient() {
             className="h-11 rounded-xl border-white/10 bg-white/5 text-white hover:bg-white/10 font-bold transition-all"
           >
             <RotateCcw className="mr-2 h-4 w-4" />
-            {t('resetButton') || 'SIFIRLA'}
+            {t('resetButton')}
           </Button>
           <Button
             size="lg"
@@ -129,11 +146,11 @@ export default function AdminThemeClient() {
           >
             {saving ? (
               <span className="flex items-center gap-2">
-                 <Spinner className="h-4 w-4" /> {t('saving') || 'KAYDEDİLİYOR...'}
+                 <Spinner className="h-4 w-4" /> {t('saving')}
               </span>
             ) : (
               <span className="flex items-center gap-2">
-                 <Save className="h-4 w-4" /> {t('saveButton') || 'KAYDET'}
+                 <Save className="h-4 w-4" /> {t('saveButton')}
               </span>
             )}
           </Button>
@@ -148,15 +165,15 @@ export default function AdminThemeClient() {
               <TabsList className="bg-katalog-bg-card border-none mb-8 p-1.5 h-12 rounded-xl">
                 <TabsTrigger value="colors" className="data-[state=active]:bg-katalog-gold data-[state=active]:text-katalog-bg-deep font-bold gap-2 text-[11px] uppercase tracking-widest px-6 h-full rounded-lg">
                   <Palette className="size-4" />
-                  {t('colorsTab') || 'RENKLER'}
+                  {t('colorsTab')}
                 </TabsTrigger>
                 <TabsTrigger value="typography" className="data-[state=active]:bg-katalog-gold data-[state=active]:text-katalog-bg-deep font-bold gap-2 text-[11px] uppercase tracking-widest px-6 h-full rounded-lg">
                   <Type className="size-4" />
-                  {t('typographyTab') || 'FONTLAR'}
+                  {t('typographyTab')}
                 </TabsTrigger>
                 <TabsTrigger value="general" className="data-[state=active]:bg-katalog-gold data-[state=active]:text-katalog-bg-deep font-bold gap-2 text-[11px] uppercase tracking-widest px-6 h-full rounded-lg">
                   <CircleDot className="size-4" />
-                  {t('generalTab') || 'DİĞER'}
+                  {t('generalTab')}
                 </TabsTrigger>
               </TabsList>
 
@@ -165,7 +182,7 @@ export default function AdminThemeClient() {
                 {Array.from(groups.entries()).map(([group, keys]) => (
                   <div key={group} className="space-y-4">
                     <div className="flex items-center gap-2">
-                       <span className="text-[10px] font-bold text-white/40 uppercase tracking-[.2em]">{group}</span>
+                       <span className="text-[10px] font-bold text-white/40 uppercase tracking-[.2em]">{t(THEME_GROUP_LABEL_KEYS[group] || '') || group}</span>
                        <div className="h-[1px] flex-1 bg-white/5" />
                     </div>
                     <div className="bg-katalog-bg-card/40 border border-white/5 rounded-2xl p-6">
@@ -187,12 +204,12 @@ export default function AdminThemeClient() {
               {/* Typography Tab */}
               <TabsContent value="typography" className="space-y-6 mt-0">
                 <div className="flex items-center gap-2">
-                   <span className="text-[10px] font-bold text-white/40 uppercase tracking-[.2em]">{t('fonts') || 'TİPOGRAFİ'}</span>
+                   <span className="text-[10px] font-bold text-white/40 uppercase tracking-[.2em]">{t('fonts')}</span>
                    <div className="h-[1px] flex-1 bg-white/5" />
                 </div>
                 <div className="bg-katalog-bg-card/40 border border-white/5 rounded-2xl p-6 space-y-8">
                   <div className="space-y-4">
-                    <Label className="text-xs font-bold text-katalog-text-dim uppercase tracking-widest">{t('fontHeading') || 'Başlık Fontu'}</Label>
+                    <Label className="text-xs font-bold text-katalog-text-dim uppercase tracking-widest">{t('fontHeading')}</Label>
                     <Input
                       className="bg-katalog-bg-deep border-white/5 text-white h-11 rounded-lg"
                       value={draft.typography.fontHeading}
@@ -201,14 +218,14 @@ export default function AdminThemeClient() {
                     />
                     <div className="p-6 bg-white/2 rounded-xl border border-white/5">
                       <div className="text-4xl font-bold text-white leading-tight" style={{ fontFamily: draft.typography.fontHeading }}>
-                        {t('fontHeadingPreview') || 'The quick brown fox jumps over the lazy dog'}
+                        {t('fontHeadingPreview')}
                       </div>
-                      <p className="mt-2 text-[10px] text-katalog-gold font-mono uppercase tracking-widest opacity-40">Başlık Görünümü</p>
+                      <p className="mt-2 text-[10px] text-katalog-gold font-mono uppercase tracking-widest opacity-40">{t('fontHeadingLabel')}</p>
                     </div>
                   </div>
                   
                   <div className="space-y-4">
-                    <Label className="text-xs font-bold text-katalog-text-dim uppercase tracking-widest">{t('fontBody') || 'Gövde Fontu'}</Label>
+                    <Label className="text-xs font-bold text-katalog-text-dim uppercase tracking-widest">{t('fontBody')}</Label>
                     <Input
                       className="bg-katalog-bg-deep border-white/5 text-white h-11 rounded-lg"
                       value={draft.typography.fontBody}
@@ -217,9 +234,9 @@ export default function AdminThemeClient() {
                     />
                     <div className="p-6 bg-white/2 rounded-xl border border-white/5">
                       <div className="text-sm text-katalog-text-dim leading-relaxed" style={{ fontFamily: draft.typography.fontBody }}>
-                        {t('fontBodyPreview') || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'}
+                        {t('fontBodyPreview')}
                       </div>
-                      <p className="mt-2 text-[10px] text-katalog-gold font-mono uppercase tracking-widest opacity-40">Metin Görünümü</p>
+                      <p className="mt-2 text-[10px] text-katalog-gold font-mono uppercase tracking-widest opacity-40">{t('fontBodyLabel')}</p>
                     </div>
                   </div>
                 </div>
@@ -229,7 +246,7 @@ export default function AdminThemeClient() {
               <TabsContent value="general" className="space-y-8 mt-0">
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">
-                     <span className="text-[10px] font-bold text-white/40 uppercase tracking-[.2em]">{t('borderRadius') || 'KÖŞE YUVARI'}</span>
+                     <span className="text-[10px] font-bold text-white/40 uppercase tracking-[.2em]">{t('borderRadius')}</span>
                      <div className="h-[1px] flex-1 bg-white/5" />
                   </div>
                   <div className="bg-katalog-bg-card/40 border border-white/5 rounded-2xl p-6">
@@ -242,7 +259,7 @@ export default function AdminThemeClient() {
                       </SelectTrigger>
                       <SelectContent className="bg-katalog-bg-panel border-white/10 text-white">
                         {RADIUS_OPTIONS.map((opt) => (
-                          <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                          <SelectItem key={opt.value} value={opt.value}>{t(RADIUS_LABEL_KEYS[opt.label] || '') || opt.label}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -256,7 +273,7 @@ export default function AdminThemeClient() {
                           }}
                         >
                           <div className="text-[10px] font-bold text-katalog-gold uppercase">{size}</div>
-                          <div className="text-[8px] text-white/20 font-mono italic">Sample</div>
+                          <div className="text-[8px] text-white/20 font-mono italic">{t('radiusSample')}</div>
                         </div>
                       ))}
                     </div>
@@ -265,7 +282,7 @@ export default function AdminThemeClient() {
 
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">
-                     <span className="text-[10px] font-bold text-white/40 uppercase tracking-[.2em]">{t('darkModeLabel') || 'GECE MODU'}</span>
+                     <span className="text-[10px] font-bold text-white/40 uppercase tracking-[.2em]">{t('darkModeLabel')}</span>
                      <div className="h-[1px] flex-1 bg-white/5" />
                   </div>
                   <div className="bg-katalog-bg-card/40 border border-white/5 rounded-2xl p-6">
@@ -282,7 +299,7 @@ export default function AdminThemeClient() {
                           )}
                         >
                           <Icon className={cn("size-6 transition-transform group-active:scale-90", draft.darkMode === value ? "text-katalog-bg-deep" : "text-katalog-gold")} />
-                          <span className="text-xs font-bold uppercase tracking-widest">{t(labelKey)}</span>
+                          <span className="text-xs font-bold uppercase tracking-widest">{t(`darkMode.${value}`)}</span>
                         </button>
                       ))}
                     </div>
@@ -297,7 +314,7 @@ export default function AdminThemeClient() {
         <div className="space-y-6">
           <div className="sticky top-28">
             <div className="flex items-center gap-2 mb-4">
-               <span className="text-[10px] font-bold text-katalog-gold uppercase tracking-[.2em]">{t('preview') || 'CANLI ÖNİZLEME'}</span>
+               <span className="text-[10px] font-bold text-katalog-gold uppercase tracking-[.2em]">{t('previewTitle')}</span>
                <div className="h-[1px] flex-1 bg-white/5" />
             </div>
             <div className="bg-katalog-bg-panel border border-white/5 rounded-2xl p-6 shadow-2xl relative overflow-hidden group">

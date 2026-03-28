@@ -1,6 +1,7 @@
 'use client';
 
 import { Input } from '@/components/ui/input';
+import { useAdminT } from '@/app/(main)/admin/_components/common/use-admin-t';
 import {
   COLOR_TOKEN_LABELS,
   THEME_COLOR_HEX_PLACEHOLDER,
@@ -14,13 +15,15 @@ export type ColorFieldProps = {
 };
 
 export function ColorField({ tokenKey, value, onChange }: ColorFieldProps) {
+  const t = useAdminT('admin.theme');
   const meta = COLOR_TOKEN_LABELS[tokenKey];
+  const label = t(`colors.keys.${tokenKey}`) || meta.label;
 
   return (
     <div className="flex items-center gap-3">
       <label
         className="relative size-10 shrink-0 cursor-pointer overflow-hidden rounded-md border"
-        title={meta.label}
+        title={label}
       >
         <input
           type="color"
@@ -31,7 +34,7 @@ export function ColorField({ tokenKey, value, onChange }: ColorFieldProps) {
         <span className="block size-full rounded-md" style={{ backgroundColor: value }} />
       </label>
       <div className="min-w-0 flex-1">
-        <div className="truncate text-sm font-medium">{meta.label}</div>
+        <div className="truncate text-sm font-medium">{label}</div>
         <Input
           value={value}
           onChange={(e) => onChange(tokenKey, e.target.value)}
