@@ -31,4 +31,5 @@ INSERT INTO `site_settings` (`id`, `key`, `locale`, `value`) VALUES
 (UUID(), 'default_locale',   '*', '"tr"'),
 (UUID(), 'available_locales','*', '["tr","en","de"]'),
 (UUID(), 'footer_copyright', '*', '"© 2026 KatalogAI. Tüm hakları saklıdır."'),
-(UUID(), 'footer_keywords',  '*', '["Katalog","Ürün Kataloğu","Fide","Tohum","Tarım","PDF Katalog","KatalogAI"]');
+(UUID(), 'footer_keywords',  '*', '["Katalog","Ürün Kataloğu","Fide","Tohum","Tarım","PDF Katalog","KatalogAI"]'),
+(UUID(), 'developer_branding', '*', '{"name":"GWD","full_name":"Güzel Web Design","url":"https://guezelwebdesign.com"}');

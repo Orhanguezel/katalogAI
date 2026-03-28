@@ -37,7 +37,15 @@ export function AdminFooter() {
         <div className="flex items-center gap-6">
           {copyright ? <div className="text-white/30 italic font-medium tracking-normal normal-case">{copyright}</div> : null}
           <div className="h-4 w-[1px] bg-white/10 hidden sm:block" />
-          <div className="text-white/20">PREMIUM EDITION</div>
+          <a
+            href="https://guezelwebdesign.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/20 hover:text-katalog-gold transition-colors"
+            title="GWD — Güzel Web Design"
+          >
+            Design by <span className="text-white/30 hover:text-katalog-gold font-semibold">GWD</span>
+          </a>
         </div>
       </div>
     </footer>
