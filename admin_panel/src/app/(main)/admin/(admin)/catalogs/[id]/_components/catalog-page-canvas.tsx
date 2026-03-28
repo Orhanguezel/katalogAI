@@ -78,15 +78,15 @@ export default function CatalogPageCanvas({
 
   if (page.layoutType === 'cover') {
     return (
-      <div data-print-page style={{ width: A4_WIDTH, height: A4_HEIGHT, overflow: 'hidden' }}>
+      <div data-print-page data-cover style={{ width: A4_WIDTH, height: A4_HEIGHT, overflow: 'hidden' }}>
         <CoverPage brandName={brandName} title={title} season={season} logoUrl={logoUrl} colorTheme={colorTheme} accentColor={accentColor} />
       </div>
     );
   }
 
-  if (page.layoutType === 'backcover' as string) {
+  if (page.layoutType === ('backcover' as string)) {
     return (
-      <div data-print-page style={{ width: A4_WIDTH, height: A4_HEIGHT, overflow: 'hidden' }}>
+      <div data-print-page data-cover style={{ width: A4_WIDTH, height: A4_HEIGHT, overflow: 'hidden' }}>
         <BackCoverPage brandName={brandName} logoUrl={logoUrl} contactInfo={contactInfo} colorTheme={colorTheme} accentColor={accentColor} />
       </div>
     );

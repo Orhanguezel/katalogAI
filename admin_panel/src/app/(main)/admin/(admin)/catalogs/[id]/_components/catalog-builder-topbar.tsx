@@ -1,15 +1,15 @@
 // =============================================================
 // FILE: src/app/(main)/admin/(admin)/catalogs/[id]/_components/catalog-builder-topbar.tsx
-// Builder Topbar — Title, Save, Preview, Export
+// Builder Topbar — Logo, Save status, Preview, Email, PDF
 // =============================================================
 
 'use client';
 
 import * as React from 'react';
+import Link from 'next/link';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Check, Eye, FileDown, Loader2, Mail } from 'lucide-react';
-import { useAdminT } from '@/app/(main)/admin/_components/common/use-admin-t';
 import { useExportCatalogPdfAdminMutation } from '@/integrations/hooks';
 import { useCatalogBuilderStore } from '../_store/catalog-builder-store';
 
@@ -17,7 +17,6 @@ import PreviewDialog from './preview-dialog';
 import ExportEmailDialog from './export-email-dialog';
 
 export default function CatalogBuilderTopbar() {
-  const t = useAdminT('admin.catalogs');
   const { catalogId, title, isDirty, isSaving } = useCatalogBuilderStore();
   const [showPreview, setShowPreview] = React.useState(false);
   const [showEmail, setShowEmail] = React.useState(false);
@@ -34,74 +33,81 @@ export default function CatalogBuilderTopbar() {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      toast.success(t('messages.pdfExported'));
+      toast.success('PDF indirildi.');
     } catch {
-      toast.error(t('messages.pdfExportFailed'));
+      toast.error('PDF oluşturulamadı.');
     }
   };
 
   return (
     <>
-      <div data-panel="topbar" className="z-[100] flex h-16 shrink-0 items-center justify-between border-b border-white/6 bg-[#0a0c0a] px-8">
-        <div className="flex items-center gap-12">
-          {/* Brand */}
-          <div className="flex items-center gap-3 group cursor-default">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-katalog-gold text-lg font-bold text-katalog-bg-deep shadow-lg ring-1 ring-white/10 transition-transform group-hover:scale-110">
+      <div data-panel="topbar" className="z-[100] flex h-14 shrink-0 items-center justify-between border-b border-white/6 bg-[#0a0c0a] px-6">
+        {/* Sol — Logo + durum */}
+        <div className="flex items-center gap-6">
+          <Link href="/admin/dashboard" className="flex items-center gap-2.5 group">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-katalog-gold text-base font-bold text-katalog-bg-deep shadow-lg transition-transform group-hover:scale-110">
               K
             </div>
-            <div className="text-2xl font-bold tracking-tight text-white font-serif italic">
-              Katalog<span className="text-katalog-gold">AI</span>
-            </div>
-          </div>
+            <span className="text-xl font-bold tracking-tight text-white font-serif italic group-hover:text-katalog-gold transition-colors">
+              Katalog<span className="text-katalog-gold group-hover:text-white">AI</span>
+            </span>
+          </Link>
 
-          <div className="flex flex-col">
-             <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/5">
-                   <span className="text-[10px] font-mono text-katalog-text-dim uppercase tracking-widest leading-none">A4 PORTRAIT (595x842)</span>
-                </div>
-                <div className="flex items-center gap-1.5 translate-y-[0.5px]">
-                  {isSaving ? (
-                    <div className="flex items-center gap-1.5 text-[9px] uppercase tracking-widest text-katalog-gold/60 font-bold">
-                      <Loader2 className="h-2.5 w-2.5 animate-spin" />
-                      {t('builder.saving')}
-                    </div>
-                  ) : isDirty ? (
-                    <div className="flex items-center gap-1.5 text-[9px] uppercase tracking-widest text-amber-500/80 font-bold">
-                      <div className="w-1 h-1 rounded-full bg-amber-500 animate-pulse" />
-                      {t('builder.unsaved')}
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-1.5 text-[9px] uppercase tracking-widest text-emerald-500/40 font-bold">
-                      <Check className="h-2.5 w-2.5" />
-                      {t('builder.saved')}
-                    </div>
-                  )}
-                </div>
-             </div>
+          <div className="h-6 w-px bg-white/10" />
+
+          <div className="flex items-center gap-3">
+            <span className="text-[9px] font-mono text-white/30 uppercase tracking-widest">A4 PORTRAIT (595×842)</span>
+            <div className="flex items-center gap-1.5">
+              {isSaving ? (
+                <span className="flex items-center gap-1.5 text-[9px] uppercase tracking-widest text-katalog-gold/60 font-bold">
+                  <Loader2 className="h-2.5 w-2.5 animate-spin" /> KAYDEDİLİYOR
+                </span>
+              ) : isDirty ? (
+                <span className="flex items-center gap-1.5 text-[9px] uppercase tracking-widest text-amber-500/80 font-bold">
+                  <div className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" /> KAYDEDİLMEDİ
+                </span>
+              ) : (
+                <span className="flex items-center gap-1.5 text-[9px] uppercase tracking-widest text-emerald-500/50 font-bold">
+                  <Check className="h-2.5 w-2.5" /> KAYDEDİLDİ
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
+        {/* Sağ — Butonlar */}
         <div className="flex items-center gap-2">
+          {/* Preview */}
           <Button
             variant="ghost"
             size="sm"
-            className="h-9 px-5 rounded-lg border border-white/5 bg-white/[0.02] text-[10px] font-bold uppercase tracking-[0.2em] text-white/50 hover:border-white/10 hover:bg-white/5 hover:text-white transition-all"
+            className="h-9 px-4 rounded-lg border border-white/8 text-xs font-bold text-white/50 hover:text-white hover:bg-white/5"
+            onClick={() => setShowPreview(true)}
+          >
+            <Eye className="mr-1.5 h-3.5 w-3.5" />
+            Önizleme
+          </Button>
+
+          {/* Email */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-9 px-4 rounded-lg border border-white/8 text-xs font-bold text-white/50 hover:text-white hover:bg-white/5"
             onClick={() => setShowEmail(true)}
           >
-            {t('actions.sendEmail') || 'Taslak olarak Kaydet'}
+            <Mail className="mr-1.5 h-3.5 w-3.5" />
+            E-Posta
           </Button>
+
+          {/* PDF */}
           <Button
             size="sm"
-            className="h-9 px-6 rounded-lg bg-katalog-gold text-[10px] font-bold uppercase tracking-[0.2em] text-katalog-bg-deep shadow-[0_8px_20px_rgba(194,157,93,0.3)] transition-all hover:bg-katalog-gold-light hover:scale-105"
+            className="h-9 px-5 rounded-lg bg-katalog-gold text-xs font-bold text-katalog-bg-deep shadow-lg shadow-katalog-gold/20 hover:bg-katalog-gold-light transition-all"
             onClick={handleExportPdf}
             disabled={isExporting}
           >
-            {isExporting ? (
-              <Loader2 className="mr-2 h-3 w-3 animate-spin" />
-            ) : (
-              <FileDown className="mr-2 h-3.5 w-3.5" />
-            )}
-            {t('actions.exportPdf') || 'PDF Dışa Aktar'}
+            {isExporting ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <FileDown className="mr-1.5 h-3.5 w-3.5" />}
+            PDF İndir
           </Button>
         </div>
       </div>

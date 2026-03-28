@@ -67,6 +67,29 @@ function renderCoverPage(catalog: FullCatalog, headingFont: string): string {
   `;
 }
 
+function renderBackCoverPage(catalog: FullCatalog, headingFont: string): string {
+  const colorTheme = catalog.color_theme || '#1a1e1a';
+  const accentColor = catalog.accent_color || '#c29d5d';
+  const contact = catalog.contact_info as Record<string, string> | null;
+
+  return `
+    <div class="page cover-page" style="background-color: ${colorTheme}; color: #fff;">
+      <div class="cover-content">
+        ${catalog.logo_url ? `<img src="${catalog.logo_url}" class="cover-logo" alt="Logo" style="opacity:0.8;" />` : ''}
+        <h2 style="font-size:24px; font-weight:700; font-family:${headingFont},serif; text-transform:uppercase; letter-spacing:2px; margin-bottom:16px;">${catalog.brand_name || ''}</h2>
+        <div class="cover-divider" style="background-color:${accentColor}; opacity:0.4;"></div>
+        <div style="font-size:11px; opacity:0.6; display:flex; flex-direction:column; gap:6px; margin-top:16px;">
+          ${contact?.website ? `<span>${contact.website}</span>` : ''}
+          ${contact?.email ? `<span>${contact.email}</span>` : ''}
+          ${contact?.phone ? `<span>${contact.phone}</span>` : ''}
+          ${contact?.address ? `<span>${contact.address}</span>` : ''}
+        </div>
+        ${contact?.copyright ? `<p style="font-size:9px; opacity:0.3; margin-top:24px;">${contact.copyright}</p>` : ''}
+      </div>
+    </div>
+  `;
+}
+
 function renderGridPage(
   page: CatalogPage & { items: CatalogPageItem[] },
   catalog: FullCatalog,
@@ -81,14 +104,29 @@ function renderGridPage(
     .map((item) => renderItem(item, accentColor, headingFont))
     .join('');
 
+  const contact = catalog.contact_info as Record<string, string> | null;
+
   return `
     <div class="page grid-page" style="background-color: ${bgColor};">
       <div class="page-header">
-        <span class="page-brand" style="color: ${accentColor};">${catalog.brand_name || ''}</span>
-        <span class="page-number">${page.page_number}</span>
+        <div style="display:flex; align-items:center; gap:10px;">
+          ${catalog.logo_url ? `<img src="${catalog.logo_url}" style="height:28px; width:auto; object-fit:contain;" />` : ''}
+          <div>
+            <div style="font-size:22px; font-weight:600; font-family:${headingFont},serif; color:#1a1e1a;">${catalog.brand_name || ''}</div>
+            ${catalog.title ? `<div style="font-size:8px; text-transform:uppercase; letter-spacing:1.5px; color:#555; margin-top:2px;">${catalog.title}</div>` : ''}
+          </div>
+        </div>
+        <div style="text-align:right;">
+          ${catalog.season ? `<div style="font-size:9px; color:#777;">${catalog.season}</div>` : ''}
+          <div style="font-size:7px; text-transform:uppercase; letter-spacing:2px; color:#aaa;">Sayfa ${page.page_number}</div>
+        </div>
       </div>
       <div class="grid-container" style="${layoutCss}">
         ${itemsHtml}
+      </div>
+      <div class="page-footer">
+        <span>${contact?.website || ''}</span>
+        <span>${contact?.copyright || `© ${new Date().getFullYear()} ${catalog.brand_name || ''}`}</span>
       </div>
     </div>
   `;
@@ -104,6 +142,9 @@ export function buildCatalogHtml(catalog: FullCatalog): string {
     .map((page) => {
       if (page.layout_type === 'cover') {
         return renderCoverPage(catalog, headingFont);
+      }
+      if (page.layout_type === 'backcover') {
+        return renderBackCoverPage(catalog, headingFont);
       }
       return renderGridPage(page, catalog, headingFont);
     })
@@ -174,6 +215,11 @@ export function buildCatalogHtml(catalog: FullCatalog): string {
     }
     .page-brand { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
     .page-number { font-size: 10px; color: #8a9a8a; }
+    .page-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 6px; margin-top: 8px; border-top: 1px solid #eee;
+      font-size: 7px; color: #999; text-transform: uppercase; letter-spacing: 1.5px;
+    }
 
     .grid-container {
       flex: 1;

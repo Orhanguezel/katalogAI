@@ -306,28 +306,37 @@ html {
    ================================================================ */
 
 @media print {
-  body { 
-    background: white !important; 
-    display: block !important; 
-    overflow: visible !important; 
+  * {
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
   }
-  
-  /* Hide UI elements */
-  header, 
-  aside, 
+
+  body {
+    background: white !important;
+    display: block !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide ALL UI — sadece data-print-page göster */
+  header,
+  aside,
+  nav,
   [data-panel="topbar"],
   [data-panel="zoom"],
   [data-panel="page-nav"],
+  [data-panel="library"],
+  [data-panel="settings"],
+  [data-resize-handle],
   .toast,
-  .empty-slot,
-  button,
-  [data-resize-handle] { 
-    display: none !important; 
+  button {
+    display: none !important;
   }
 
+  /* Print area ve parent'ları düzleştir */
   [data-print-area],
-  .canvas,
-  .canvas-scroll {
+  [data-print-area] > * {
     display: block !important;
     padding: 0 !important;
     margin: 0 !important;
@@ -335,32 +344,43 @@ html {
     overflow: visible !important;
     position: static !important;
     transform: none !important;
+    box-shadow: none !important;
   }
 
+  /* A4 sayfa — birebir print */
   [data-print-page] {
     width: 210mm !important;
     height: 297mm !important;
-    padding: 15mm !important;
-    margin: 0 auto !important;
-    box-shadow: none !important;
+    margin: 0 !important;
     border: none !important;
-    background: white !important;
-    color: #000 !important;
-    page-break-after: always;
-    break-after: page;
+    box-shadow: none !important;
     overflow: hidden !important;
     display: flex !important;
     flex-direction: column !important;
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
+    page-break-after: always !important;
+    break-after: page !important;
+    position: relative !important;
+    transform: none !important;
   }
 
-  .catalog-item { 
-    break-inside: avoid; 
+  /* İçerik sayfaları — beyaz arka plan, padding */
+  [data-print-page]:not([data-cover]) {
+    background: white !important;
+    color: #000 !important;
+    padding: 12mm 14mm 10mm !important;
   }
 
-  @page { 
-    size: A4 portrait; 
-    margin: 0; 
+  /* Kapak/arka kapak sayfaları — arka plan rengini koru */
+  [data-print-page][data-cover] {
+    padding: 0 !important;
+  }
+
+  .catalog-item {
+    break-inside: avoid;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
   }
 }
