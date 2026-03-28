@@ -1,29 +1,74 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <radialGradient id="wg" cx="38%" cy="30%" r="70%">
-      <stop offset="0%" stop-color="hsl(155,38%,50%)"/>
-      <stop offset="100%" stop-color="hsl(153,42%,16%)"/>
-    </radialGradient>
-    <linearGradient id="lg" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="hsl(153,39%,30%)"/>
-      <stop offset="100%" stop-color="hsl(151,39%,60%)"/>
+    <linearGradient id="goldBody" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%" stop-color="#FFE680"/>
+      <stop offset="25%" stop-color="#F0C020"/>
+      <stop offset="55%" stop-color="#C48A00"/>
+      <stop offset="85%" stop-color="#8B6000"/>
+      <stop offset="100%" stop-color="#6B4800"/>
     </linearGradient>
+    <linearGradient id="pencilBody" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFE066"/>
+      <stop offset="40%" stop-color="#D4A010"/>
+      <stop offset="70%" stop-color="#B88010"/>
+      <stop offset="100%" stop-color="#8B6000"/>
+    </linearGradient>
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE870"/>
+      <stop offset="50%" stop-color="#C49000"/>
+      <stop offset="100%" stop-color="#7A5800"/>
+    </linearGradient>
+    <linearGradient id="darkBase" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3A2800"/>
+      <stop offset="100%" stop-color="#1A1200"/>
+    </linearGradient>
+    <linearGradient id="pencilTip" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5DEB3"/>
+      <stop offset="100%" stop-color="#D2B48C"/>
+    </linearGradient>
+    <filter id="softDrop">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="#00000040"/>
+    </filter>
   </defs>
-
-  <!-- Background circle -->
-  <circle cx="16" cy="16" r="15.5" fill="hsl(153,39%,30%)" stroke="hsl(30,64%,53%)" stroke-width="1"/>
-
-  <!-- Walnut body -->
-  <ellipse cx="16" cy="16" rx="10" ry="11" fill="url(#wg)"/>
-  <ellipse cx="16" cy="16" rx="7.5" ry="8.5" fill="hsl(153,42%,18%)"/>
-
-  <!-- Main suture arch — the key identifying feature -->
-  <path d="M7 16 Q16 7 25 16" stroke="hsl(30,64%,58%)" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-  <!-- Vertical suture -->
-  <line x1="16" y1="6" x2="16" y2="26" stroke="hsl(30,64%,58%)" stroke-width="0.9" opacity="0.5"/>
-  <!-- Upper arc -->
-  <path d="M9 11 Q16 18 23 11" stroke="hsl(30,64%,58%)" stroke-width="0.7" fill="none" opacity="0.4"/>
-
-  <!-- Leaf -->
-  <path d="M23 5 Q30 2 29 10 Q25 7 23 5Z" fill="url(#lg)"/>
+  <ellipse cx="50" cy="111" rx="28" ry="4" fill="#00000025"/>
+  <rect x="17" y="27" width="60" height="72" rx="7" fill="#2a1c00" opacity="0.5"/>
+  <rect x="13" y="23" width="60" height="72" rx="7" fill="url(#goldBody)" filter="url(#softDrop)"/>
+  <rect x="13" y="23" width="28" height="72" rx="7" fill="#FFE870" opacity="0.12"/>
+  <rect x="13" y="29" width="60" height="9" rx="2" fill="url(#darkBase)" opacity="0.45"/>
+  <rect x="13" y="29" width="60" height="2" rx="1" fill="#FFE870" opacity="0.2"/>
+  <path d="M 27 22 Q 27 17 32 17 Q 37 17 37 22" stroke="#2a1c00" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 27 36 Q 27 41 32 41 Q 37 41 37 36" stroke="#2a1c00" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 27.5 22 Q 27.5 17.5 32 17.5 Q 36.5 17.5 36.5 22" stroke="url(#ringGrad)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M 27.5 36 Q 27.5 40.5 32 40.5 Q 36.5 40.5 36.5 36" stroke="url(#ringGrad)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <rect x="27" y="22" width="10" height="14" fill="url(#goldBody)" opacity="0.9"/>
+  <path d="M 42 22 Q 42 17 47 17 Q 52 17 52 22" stroke="#2a1c00" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 42 36 Q 42 41 47 41 Q 52 41 52 36" stroke="#2a1c00" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 42.5 22 Q 42.5 17.5 47 17.5 Q 51.5 17.5 51.5 22" stroke="url(#ringGrad)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M 42.5 36 Q 42.5 40.5 47 40.5 Q 51.5 40.5 51.5 36" stroke="url(#ringGrad)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <rect x="42" y="22" width="10" height="14" fill="url(#goldBody)" opacity="0.9"/>
+  <path d="M 57 22 Q 57 17 62 17 Q 67 17 67 22" stroke="#2a1c00" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 57 36 Q 57 41 62 41 Q 67 41 62 36" stroke="#2a1c00" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 57.5 22 Q 57.5 17.5 62 17.5 Q 66.5 17.5 66.5 22" stroke="url(#ringGrad)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M 57.5 36 Q 57.5 40.5 62 40.5 Q 66.5 40.5 66.5 36" stroke="url(#ringGrad)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <rect x="57" y="22" width="10" height="14" fill="url(#goldBody)" opacity="0.9"/>
+  <line x1="22" y1="51" x2="66" y2="51" stroke="#3A2800" stroke-width="3.5" stroke-linecap="round" opacity="0.55"/>
+  <line x1="22" y1="50" x2="66" y2="50" stroke="#FFE870" stroke-width="0.8" stroke-linecap="round" opacity="0.25"/>
+  <line x1="22" y1="63" x2="66" y2="63" stroke="#3A2800" stroke-width="3.5" stroke-linecap="round" opacity="0.55"/>
+  <line x1="22" y1="62" x2="66" y2="62" stroke="#FFE870" stroke-width="0.8" stroke-linecap="round" opacity="0.25"/>
+  <line x1="22" y1="75" x2="52" y2="75" stroke="#3A2800" stroke-width="3.5" stroke-linecap="round" opacity="0.55"/>
+  <line x1="22" y1="74" x2="52" y2="74" stroke="#FFE870" stroke-width="0.8" stroke-linecap="round" opacity="0.25"/>
+  <g transform="translate(75, 92) rotate(-42)">
+    <rect x="-1" y="-50" width="15" height="60" rx="2" fill="#00000030"/>
+    <rect x="0" y="-50" width="13" height="55" rx="2" fill="url(#pencilBody)"/>
+    <rect x="0" y="-50" width="3.5" height="55" rx="2" fill="#FFE870" opacity="0.30"/>
+    <rect x="9.5" y="-50" width="3.5" height="55" rx="2" fill="#7A5800" opacity="0.35"/>
+    <rect x="0" y="-52" width="13" height="6" rx="2" fill="#C49000"/>
+    <line x1="0" y1="-49" x2="13" y2="-49" stroke="#FFE066" stroke-width="0.7" opacity="0.5"/>
+    <rect x="0.5" y="-60" width="12" height="10" rx="3" fill="#E8B4A0"/>
+    <rect x="0.5" y="-60" width="4" height="10" rx="2" fill="#F5C8B8" opacity="0.5"/>
+    <rect x="0" y="5" width="13" height="5" fill="#A07810"/>
+    <polygon points="0,10 13,10 6.5,22" fill="url(#pencilTip)"/>
+    <polygon points="3,16 10,16 6.5,22" fill="#2a1800"/>
+  </g>
+  <path d="M 13 23 Q 43 20 73 23 L 73 35 Q 43 30 13 35 Z" fill="#FFFFFF" opacity="0.08"/>
 </svg>

@@ -31,9 +31,9 @@ export const DEFAULT_BRANDING: AdminBrandingConfig = {
   app_name: 'KatalogAI Admin Panel',
   app_copyright: 'KatalogAI',
   html_lang: FALLBACK_LOCALE,
-  theme_color: '#F97316',
-  favicon_16: '/favicon/favicon.svg',
-  favicon_32: '/favicon/favicon.svg',
+  theme_color: '#c29d5d',
+  favicon_16: '/favicon/favicon-16.png',
+  favicon_32: '/favicon/favicon-32.png',
   apple_touch_icon: '/apple/apple-touch-icon.png',
   meta: {
     title: 'KatalogAI Admin Panel',
