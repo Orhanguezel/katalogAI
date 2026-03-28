@@ -1,13 +1,11 @@
 import type { AdminUserView, AdminUsersListParams, UserRoleName } from './users';
 import { toNonNegativeInt } from '@/integrations/shared/common';
 
-export const ADMIN_USERS_ALL_ROLES: UserRoleName[] = ['admin', 'moderator', 'seller', 'user'];
+export const ADMIN_USERS_ALL_ROLES: UserRoleName[] = ['admin', 'user'];
 export const ADMIN_USERS_DEFAULT_LIMIT = 20;
 
-export function getAdminUserRoleLocaleKey(role: UserRoleName): 'admin' | 'moderator' | 'seller' | 'user' {
+export function getAdminUserRoleLocaleKey(role: UserRoleName): string {
   if (role === 'admin') return 'admin';
-  if (role === 'moderator') return 'moderator';
-  if (role === 'seller') return 'seller';
   return 'user';
 }
 

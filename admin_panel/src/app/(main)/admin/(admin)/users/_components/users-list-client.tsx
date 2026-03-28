@@ -8,7 +8,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Search, Filter, RefreshCcw, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, RefreshCcw, ChevronLeft, ChevronRight, UserPlus } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
@@ -122,9 +122,15 @@ export default function UsersListClient() {
             {t('list.title') || 'Kullanıcı Yönetimi'}
           </h1>
           <p className="text-sm text-katalog-text-dim max-w-lg">
-            {t('list.description') || 'Sistemdeki tüm admin ve bayi kullanıcılarını yönetin, erişim yetkilerini düzenleyin.'}
+            Sistemdeki kullanıcıları yönetin, erişim yetkilerini düzenleyin.
           </p>
         </div>
+        <Link href="/auth/register">
+          <Button className="h-10 bg-katalog-gold text-katalog-bg-deep font-bold hover:bg-katalog-gold-light">
+            <UserPlus className="mr-2 h-4 w-4" />
+            Kullanıcı Ekle
+          </Button>
+        </Link>
       </div>
 
       {/* Filters Section */}
