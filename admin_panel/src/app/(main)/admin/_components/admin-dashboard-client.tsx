@@ -47,7 +47,7 @@ export default function AdminDashboardClient() {
   const q = useGetDashboardSummaryAdminQuery();
   const statusQ = useStatusQuery();
   const me = normalizeMeFromStatus(statusQ.data as AuthStatusResponse | undefined);
-  const role: PanelRole = me?.isAdmin ? 'admin' : 'seller';
+  const role: PanelRole = me?.isAdmin ? 'admin' : 'admin';
 
   React.useEffect(() => {
     if (!q.isError) return;

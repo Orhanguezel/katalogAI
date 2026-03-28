@@ -1,91 +1,69 @@
+// src/app/(main)/auth/register/page.tsx
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { Suspense } from 'react';
-
 import { RegisterForm } from '../_components/register-form';
-import { useAdminTranslations } from '@/i18n';
-import { useLocaleShort } from '@/i18n/use-locale-short';
 
 function RegisterFormFallback() {
   return (
     <div className="space-y-4">
-      <div className="h-10 w-full rounded-md bg-muted animate-pulse" />
-      <div className="h-10 w-full rounded-md bg-muted animate-pulse" />
-      <div className="h-10 w-full rounded-md bg-muted animate-pulse" />
-      <div className="h-10 w-full rounded-md bg-muted animate-pulse" />
+      <div className="h-10 w-full rounded-md bg-white/5 animate-pulse" />
+      <div className="h-10 w-full rounded-md bg-white/5 animate-pulse" />
+      <div className="h-10 w-full rounded-md bg-white/5 animate-pulse" />
     </div>
   );
 }
 
 export default function Register() {
-  const locale = useLocaleShort();
-  const t = useAdminTranslations(locale);
-
   return (
-    <div className="flex min-h-dvh">
-      {/* Sol (marka) */}
-      <div className="hidden bg-primary lg:block lg:w-1/3">
-        <div className="flex h-full flex-col items-center justify-center p-12 text-center">
-          <div className="space-y-6">
-            <div className="mx-auto size-24 relative">
-              <Image
-                src="/logo/logo-horizontal.svg"
-                alt="KatalogAI"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <div className="space-y-2">
-              <h1 className="font-light text-5xl text-primary-foreground">
-                {t('admin.auth.register.createAccount')}
-              </h1>
-              <p className="text-primary-foreground/80 text-xl">
-                {t('admin.auth.register.continueRegister')}
-              </p>
-            </div>
+    <div className="flex min-h-dvh bg-katalog-bg-deep">
+      {/* Sol — brand */}
+      <div className="hidden lg:flex lg:w-2/5 items-center justify-center bg-linear-to-br from-katalog-bg-panel to-katalog-bg-deep p-12">
+        <div className="flex flex-col items-center gap-8 text-center">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-katalog-gold text-3xl font-bold text-katalog-bg-deep shadow-2xl shadow-katalog-gold/30">
+            K
+          </div>
+          <div>
+            <h1 className="font-serif text-4xl font-bold text-white italic">
+              Katalog<span className="text-katalog-gold">AI</span>
+            </h1>
+            <p className="mt-2 text-sm text-katalog-text-muted">
+              Profesyonel Katalog Oluşturma Platformu
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Sağ (form) */}
-      <div className="flex w-full items-center justify-center bg-background p-8 lg:w-2/3">
-        <div className="w-full max-w-md space-y-10 py-24 lg:py-32">
-          <div className="space-y-4 text-center">
-            <div className="font-medium tracking-tight">{t('admin.auth.register.title')}</div>
-            <div className="mx-auto max-w-xl text-muted-foreground">
-              {t('admin.auth.register.description')}
+      {/* Sağ — form */}
+      <div className="flex w-full items-center justify-center p-8 lg:w-3/5">
+        <div className="w-full max-w-sm space-y-8">
+          <div className="flex flex-col items-center gap-3 lg:hidden">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-katalog-gold text-xl font-bold text-katalog-bg-deep">
+              K
             </div>
+            <span className="font-serif text-2xl font-bold text-white italic">
+              Katalog<span className="text-katalog-gold">AI</span>
+            </span>
           </div>
 
-          <div className="space-y-4">
-            <Suspense fallback={<RegisterFormFallback />}>
-              <RegisterForm />
-            </Suspense>
-
-            <p className="text-center text-muted-foreground text-xs">
-              {t('admin.auth.register.alreadyHaveAccount')}{' '}
-              <Link
-                prefetch={false}
-                href="/auth/login"
-                className="text-primary underline-offset-4 hover:underline"
-              >
-                {t('admin.auth.register.loginLink')}
-              </Link>
-            </p>
-            <p className="text-center text-muted-foreground text-xs">
-              Satıcı kaydı için{' '}
-              <Link
-                prefetch={false}
-                href="/auth/seller/register"
-                className="text-primary underline-offset-4 hover:underline"
-              >
-                satıcı formuna git
-              </Link>
-              .
+          <div className="text-center space-y-1">
+            <h2 className="text-lg font-bold text-white">Hesap Oluştur</h2>
+            <p className="text-sm text-katalog-text-muted">
+              KatalogAI hesabınızı oluşturun.
             </p>
           </div>
+
+          <Suspense fallback={<RegisterFormFallback />}>
+            <RegisterForm />
+          </Suspense>
+
+          <p className="text-center text-katalog-text-dim text-xs">
+            Zaten hesabınız var mı?{' '}
+            <Link href="/auth/login" className="text-katalog-gold hover:underline">
+              Giriş Yap
+            </Link>
+          </p>
         </div>
       </div>
     </div>

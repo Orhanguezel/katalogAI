@@ -27,10 +27,10 @@ import { ThemeSwitcher } from './theme-switcher';
 import { AccountSwitcher } from './account-switcher';
 
 function withPanelTitle(appNameRaw: string, isAdmin: boolean): string {
-  const panelTitle = isAdmin ? 'Admin Panel' : 'Satici Panel';
+  const panelTitle = isAdmin ? 'Admin Panel' : 'Admin Panel';
   const cleaned = appNameRaw
     .replace(/\badmin\s*panel\b/gi, '')
-    .replace(/\bsatici\s*panel\b/gi, '')
+    .replace(/\badmin panel\b/gi, '')
     .trim();
   return cleaned ? `${cleaned} ${panelTitle}` : panelTitle;
 }
@@ -70,7 +70,7 @@ export function AdminHeader() {
     return t(key, params, fallback);
   };
 
-  const sidebarRole: AdminSidebarRole = currentUser.role === 'admin' ? 'admin' : 'seller';
+  const sidebarRole: AdminSidebarRole = currentUser.role === 'admin' ? 'admin' : 'admin';
   const navGroups: NavGroup[] = buildAdminSidebarItems(copy.nav, wrappedT, sidebarRole);
   const panelLabel = withPanelTitle(baseName, sidebarRole === 'admin');
 

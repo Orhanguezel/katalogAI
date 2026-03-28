@@ -37,8 +37,8 @@ export function AdminSidebar() {
   }, [statusData]);
   
   const navGroups: NavGroup[] = React.useMemo(() => {
-    const role: PanelRole = currentUser.role === 'admin' ? 'admin' : 'seller';
-    return buildAdminSidebarItems(copy.nav, t, role === 'admin' ? 'admin' : 'seller');
+    const role: PanelRole = currentUser.role === 'admin' ? 'admin' : 'admin';
+    return buildAdminSidebarItems(copy.nav, t, role === 'admin' ? 'admin' : 'admin');
   }, [copy.nav, t, currentUser.role]);
 
   return (

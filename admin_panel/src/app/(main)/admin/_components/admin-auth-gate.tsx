@@ -35,7 +35,7 @@ export default function AdminAuthGate({ children }: { children: React.ReactNode 
     }
 
     if (me.isAdmin === true && canAccessAdminPath('admin', pathname)) return;
-    if (me.role === 'seller' && canAccessAdminPath('seller', pathname)) return;
+    if (me.role === 'admin' && canAccessAdminPath('admin', pathname)) return;
 
     router.replace('/auth/login');
   }, [q.isFetching, q.isUninitialized, q.data, router, pathname]);
@@ -50,7 +50,7 @@ export default function AdminAuthGate({ children }: { children: React.ReactNode 
   const allowed =
     !!me &&
     ((me.isAdmin === true && canAccessAdminPath('admin', pathname)) ||
-      (me.role === 'seller' && canAccessAdminPath('seller', pathname)));
+      (me.role === 'admin' && canAccessAdminPath('admin', pathname)));
   if (!allowed) return null;
 
   return <>{children}</>;

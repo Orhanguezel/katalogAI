@@ -6,10 +6,10 @@ import { useStatusQuery } from '@/integrations/hooks';
 import { normalizeMeFromStatus } from '@/integrations/shared';
 
 function withPanelTitle(appNameRaw: string, isAdmin: boolean): string {
-  const panelTitle = isAdmin ? 'Admin Panel' : 'Satici Panel';
+  const panelTitle = isAdmin ? 'Admin Panel' : 'Admin Panel';
   const cleaned = appNameRaw
     .replace(/\badmin\s*panel\b/gi, '')
-    .replace(/\bsatici\s*panel\b/gi, '')
+    .replace(/\badmin panel\b/gi, '')
     .trim();
   return cleaned ? `${cleaned} ${panelTitle}` : panelTitle;
 }

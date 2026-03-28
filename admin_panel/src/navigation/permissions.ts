@@ -1,4 +1,4 @@
-export type PanelRole = 'admin' | 'seller';
+export type PanelRole = 'admin';
 
 export type AdminPermissionKey =
   | 'admin.dashboard'
