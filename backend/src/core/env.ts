@@ -92,6 +92,13 @@ export const env = {
   PAYTR_MERCHANT_SALT: process.env.PAYTR_MERCHANT_SALT || "",
   PAYTR_TEST_MODE:     parseEnvBool(process.env.PAYTR_TEST_MODE, true),
 
+  // Product Sources
+  SOURCE_ENCRYPTION_KEY: process.env.SOURCE_ENCRYPTION_KEY || 'katalogai-dev-key-32chars-padding!',
+
+  // AI / Groq
+  GROQ_API_KEY: process.env.GROQ_API_KEY || '',
+  GROQ_MODEL: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
+
   // SMTP
   SMTP_HOST: process.env.SMTP_HOST || "",
   SMTP_PORT: parseEnvInt(process.env.SMTP_PORT, 465),

@@ -3,7 +3,7 @@
   "description": "Dosyaları yükleyin, düzenleyin ve silin.",
   "list": {
     "title": "Storage Assets",
-    "description": "Dosya yönetimi - yükleme, düzenleme, silme.",
+    "description": "Tüm görsel ve katalog çıktılarını buradan yönetin.",
     "uploadButton": "Yükle",
     "deleteSelected": "Seçilenleri Sil ({count})",
     "selectFileError": "Lütfen en az bir dosya seçin",
@@ -36,10 +36,12 @@
     "emptyValue": "-",
     "downloadTitle": "İndir",
     "editButton": "Düzenle",
+    "editButtonCompact": "DÜZENLE",
     "deleteConfirmTitle": "Silmek istediğinizden emin misiniz?",
     "deleteConfirmDescription": "{name} silinecek. Bu işlem geri alınamaz.",
     "cancelButton": "İptal",
     "deleteButton": "Sil",
+    "deleteButtonCompact": "SİL",
     "defaultFileName": "Bu dosya"
   },
   "detail": {

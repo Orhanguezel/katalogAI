@@ -1,621 +1,1100 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KatalogAI — Katalog Editörü</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KatalogAI — Modern Tohum & Fide Kataloğu Editörü</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Color Palette - Premium Agricultural */
+            --bg-deep: #0a0c0a;
+            --bg-panel: #121512;
+            --bg-card: #1a1e1a;
+            --bg-accent: #232a23;
+            
+            --primary: #c29d5d; /* Gold/Amber */
+            --primary-light: #e6c58d;
+            --primary-dim: rgba(194, 157, 93, 0.15);
+            
+            --success: #4ade80;
+            --success-dim: rgba(74, 222, 128, 0.1);
+            
+            --text-main: #e2e8e2;
+            --text-muted: #8a9a8a;
+            --text-dim: #4d5a4d;
+            
+            --border: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.12);
+            
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 20px;
+            
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains+Mono', monospace;
+            
+            --transition: cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-  :root {
-    --bg: #0f0e0c;
-    --bg2: #171612;
-    --bg3: #1e1d18;
-    --bg4: #252420;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.12);
-    --amber: #e8a23a;
-    --amber2: #f5c877;
-    --amber-dim: rgba(232,162,58,0.12);
-    --amber-dim2: rgba(232,162,58,0.22);
-    --green: #5aad6e;
-    --green-dim: rgba(90,173,110,0.12);
-    --text: #f0ede4;
-    --text2: #a09a8e;
-    --text3: #5e594f;
-    --red: #e05a4e;
-    --radius: 10px;
-    --radius-lg: 16px;
-  }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; overflow: hidden; }
+        body {
+            height: 100vh;
+            background: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            font-size: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
 
-  /* ── Topbar ─────────────────────────────── */
-  .topbar {
-    display: flex; align-items: center; justify-content: space-between;
-    height: 52px; padding: 0 20px;
-    background: var(--bg2); border-bottom: 1px solid var(--border);
-  }
-  .logo { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--amber); letter-spacing: -0.3px; }
-  .logo span { color: var(--text2); font-size: 13px; font-family: 'DM Sans', sans-serif; margin-left: 8px; font-weight: 300; }
-  .topbar-actions { display: flex; gap: 8px; align-items: center; }
-  .badge { background: var(--amber-dim); color: var(--amber); font-size: 11px; padding: 3px 8px; border-radius: 20px; font-family: 'DM Mono', monospace; }
+        /* ── Topbar ─────────────────────────────── */
+        header {
+            height: 64px;
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 100;
+        }
 
-  .btn {
-    padding: 7px 16px; border-radius: 8px; border: none; cursor: pointer;
-    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
-    transition: all 0.18s;
-  }
-  .btn-ghost { background: transparent; color: var(--text2); border: 1px solid var(--border2); }
-  .btn-ghost:hover { background: var(--bg4); color: var(--text); }
-  .btn-primary {
-    background: var(--amber); color: #1a1300;
-    box-shadow: 0 0 24px rgba(232,162,58,0.3);
-  }
-  .btn-primary:hover { background: var(--amber2); box-shadow: 0 0 32px rgba(232,162,58,0.45); }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-  /* ── Layout ─────────────────────────────── */
-  .app { display: grid; grid-template-columns: 280px 1fr 260px; height: calc(100vh - 52px); }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), #8a6d3b);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-deep);
+            font-weight: 700;
+            font-size: 18px;
+        }
 
-  /* ── Left panel ─────────────────────────── */
-  .panel-left {
-    background: var(--bg2); border-right: 1px solid var(--border);
-    display: flex; flex-direction: column; overflow: hidden;
-  }
-  .panel-header {
-    padding: 16px 16px 12px; border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .panel-title { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); }
-  .count-pill { background: var(--bg4); color: var(--text2); font-size: 11px; padding: 2px 8px; border-radius: 10px; }
-  .count-pill.active { background: var(--amber-dim); color: var(--amber); }
+        .brand-text {
+            font-family: var(--font-serif);
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: #fff; /* Increased contrast for brand visibility */
+        }
 
-  .search-wrap { padding: 10px 12px; border-bottom: 1px solid var(--border); }
-  .search-input {
-    width: 100%; background: var(--bg3); border: 1px solid var(--border);
-    border-radius: 8px; padding: 7px 12px 7px 32px; color: var(--text);
-    font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none;
-    transition: border-color 0.18s;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%235e594f' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: 10px center;
-  }
-  .search-input:focus { border-color: var(--amber); }
-  .search-input::placeholder { color: var(--text3); }
+        .brand-text span {
+            color: var(--primary);
+        }
 
-  .category-tabs { display: flex; gap: 4px; padding: 8px 12px; border-bottom: 1px solid var(--border); }
-  .cat-tab {
-    font-size: 11px; padding: 4px 10px; border-radius: 6px; cursor: pointer;
-    color: var(--text3); border: 1px solid transparent; transition: all 0.15s;
-  }
-  .cat-tab:hover { color: var(--text2); }
-  .cat-tab.active { background: var(--amber-dim); color: var(--amber); border-color: rgba(232,162,58,0.3); }
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
 
-  .product-list { flex: 1; overflow-y: auto; padding: 8px; }
-  .product-list::-webkit-scrollbar { width: 4px; }
-  .product-list::-webkit-scrollbar-track { background: transparent; }
-  .product-list::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 4px; }
+        .btn {
+            height: 38px;
+            padding: 0 18px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid transparent;
+        }
 
-  .product-card {
-    display: flex; gap: 10px; padding: 10px; border-radius: var(--radius);
-    border: 1px solid transparent; cursor: pointer; transition: all 0.18s;
-    margin-bottom: 4px; position: relative;
-  }
-  .product-card:hover { background: var(--bg3); border-color: var(--border); }
-  .product-card.selected { background: var(--amber-dim); border-color: rgba(232,162,58,0.35); }
-  .product-card.selected .product-name { color: var(--amber2); }
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-muted);
+            border-color: var(--border);
+        }
 
-  .product-img {
-    width: 48px; height: 48px; border-radius: 8px; object-fit: cover;
-    background: var(--bg4); flex-shrink: 0; display: flex; align-items: center;
-    justify-content: center; font-size: 22px; border: 1px solid var(--border);
-  }
-  .product-info { flex: 1; min-width: 0; }
-  .product-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .product-meta { font-size: 11px; color: var(--text3); }
-  .product-tag { display: inline-block; background: var(--green-dim); color: var(--green); font-size: 10px; padding: 1px 6px; border-radius: 4px; margin-top: 4px; }
-  .check-icon {
-    position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-    width: 18px; height: 18px; border-radius: 50%; background: var(--amber);
-    display: none; align-items: center; justify-content: center; flex-shrink: 0;
-  }
-  .product-card.selected .check-icon { display: flex; }
-  .check-icon::after { content: ''; width: 5px; height: 8px; border-right: 2px solid #1a1300; border-bottom: 2px solid #1a1300; transform: rotate(45deg) translate(-1px,-1px); }
+        .btn-ghost:hover {
+            background: var(--bg-accent);
+            color: var(--text-main);
+            border-color: var(--border-hover);
+        }
 
-  /* ── Center canvas ───────────────────────── */
-  .canvas-area {
-    background: var(--bg); display: flex; flex-direction: column; overflow: hidden;
-  }
-  .canvas-toolbar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 16px; border-bottom: 1px solid var(--border); background: var(--bg2);
-  }
-  .layout-btns { display: flex; gap: 4px; }
-  .layout-btn {
-    width: 30px; height: 30px; border-radius: 7px; border: 1px solid var(--border);
-    background: transparent; cursor: pointer; display: flex; align-items: center;
-    justify-content: center; transition: all 0.15s; color: var(--text3);
-    font-size: 13px;
-  }
-  .layout-btn:hover { background: var(--bg4); color: var(--text2); }
-  .layout-btn.active { background: var(--amber-dim); border-color: rgba(232,162,58,0.4); color: var(--amber); }
+        .btn-primary {
+            background: var(--primary);
+            color: var(--bg-deep);
+            box-shadow: 0 4px 12px rgba(194, 157, 93, 0.2);
+        }
 
-  .zoom-ctrl { display: flex; align-items: center; gap: 8px; color: var(--text3); font-size: 12px; }
-  .zoom-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--text2); width: 24px; height: 24px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(194, 157, 93, 0.3);
+        }
 
-  .canvas-scroll { flex: 1; overflow: auto; display: flex; align-items: flex-start; justify-content: center; padding: 24px; }
-  .canvas-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
-  .canvas-scroll::-webkit-scrollbar-track { background: transparent; }
-  .canvas-scroll::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 4px; }
+        /* ── Layout ─────────────────────────────── */
+        .main-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 320px 1fr 300px;
+            overflow: hidden;
+        }
 
-  /* Katalog sayfası (A4 oranı) */
-  .catalog-page {
-    width: 595px; min-height: 842px; background: #fff; border-radius: 4px;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
-    overflow: hidden; flex-shrink: 0;
-  }
-  .page-header {
-    background: #1a2a1a; padding: 28px 32px 20px;
-    display: flex; align-items: flex-end; justify-content: space-between;
-  }
-  .page-brand { font-family: 'Playfair Display', serif; font-size: 28px; color: #e8c86a; line-height: 1; }
-  .page-brand-sub { font-family: 'DM Sans', sans-serif; font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 4px; }
-  .page-season { font-family: 'DM Sans', sans-serif; font-size: 11px; color: rgba(255,255,255,0.35); text-align: right; }
+        /* ── Left Sidebar ───────────────────────── */
+        .sidebar {
+            background: var(--bg-panel);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
 
-  .page-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: #e8e2d8; }
-  .catalog-item {
-    background: #fff; padding: 20px 18px;
-    transition: background 0.2s;
-  }
-  .catalog-item:hover { background: #fdf9f3; }
-  .item-img {
-    width: 100%; aspect-ratio: 4/3; border-radius: 6px;
-    object-fit: cover; background: #f0ece3;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 52px; margin-bottom: 12px; overflow: hidden;
-  }
-  .item-badge { display: inline-block; background: #1a2a1a; color: #e8c86a; font-size: 9px; font-family: 'DM Mono', monospace; padding: 2px 6px; border-radius: 3px; letter-spacing: 0.08em; margin-bottom: 6px; }
-  .item-name { font-family: 'Playfair Display', serif; font-size: 16px; color: #1a1a14; margin-bottom: 4px; }
-  .item-desc { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #7a7468; line-height: 1.5; }
-  .item-price { font-family: 'DM Mono', monospace; font-size: 13px; color: #1a2a1a; margin-top: 8px; font-weight: 600; }
+        .sidebar-header {
+            padding: 24px;
+        }
 
-  .empty-slot {
-    background: #f8f5ef; padding: 20px 18px; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; min-height: 200px;
-    border: 2px dashed #d4cfc4; cursor: pointer; transition: all 0.18s;
-  }
-  .empty-slot:hover { background: #f2ede3; border-color: #b8a96a; }
-  .empty-slot-icon { font-size: 28px; margin-bottom: 8px; opacity: 0.5; }
-  .empty-slot-text { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #9a9488; text-align: center; }
+        .search-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
 
-  .page-footer {
-    background: #f5f1e8; padding: 12px 32px; display: flex;
-    align-items: center; justify-content: space-between;
-    border-top: 1px solid #e0dbd0;
-  }
-  .page-footer-text { font-family: 'DM Sans', sans-serif; font-size: 10px; color: #9a9488; }
-  .page-num { font-family: 'DM Mono', monospace; font-size: 10px; color: #b8b0a0; }
+        .search-input {
+            width: 100%;
+            height: 40px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 0 16px 0 40px;
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            outline: none;
+            transition: all 0.2s;
+        }
 
-  /* ── Right panel ─────────────────────────── */
-  .panel-right {
-    background: var(--bg2); border-left: 1px solid var(--border);
-    display: flex; flex-direction: column; overflow-y: auto;
-  }
-  .panel-right::-webkit-scrollbar { width: 4px; }
-  .panel-right::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 4px; }
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary-dim);
+        }
 
-  .section { padding: 14px 14px; border-bottom: 1px solid var(--border); }
-  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; }
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff; /* Increased contrast icon */
+            font-size: 14px;
+        }
 
-  /* Şablon kartları */
-  .template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-  .template-card {
-    aspect-ratio: 3/4; border-radius: 8px; border: 2px solid var(--border);
-    cursor: pointer; overflow: hidden; position: relative; transition: all 0.18s;
-    background: var(--bg3);
-  }
-  .template-card:hover { border-color: var(--border2); }
-  .template-card.active { border-color: var(--amber); }
-  .template-card.active::after { content: ''; position: absolute; inset: 0; background: var(--amber-dim); }
-  .template-preview { width: 100%; height: 100%; padding: 6px; display: flex; flex-direction: column; gap: 3px; }
-  .tpl-row { background: rgba(255,255,255,0.08); border-radius: 2px; flex: 1; }
-  .tpl-row.header { flex: 0 0 16px; background: rgba(232,162,58,0.3); }
-  .tpl-row.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; flex: 3; }
-  .tpl-cell { background: rgba(255,255,255,0.06); border-radius: 2px; }
-  .template-name { position: absolute; bottom: 0; left: 0; right: 0; padding: 4px 6px; background: rgba(15,14,12,0.8); font-size: 9px; color: var(--text3); text-align: center; backdrop-filter: blur(4px); }
-  .template-card.active .template-name { color: var(--amber); }
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 12px;
+            scrollbar-width: none;
+        }
 
-  /* Renk & font */
-  .color-row { display: flex; gap: 6px; flex-wrap: wrap; }
-  .color-dot {
-    width: 24px; height: 24px; border-radius: 50%; cursor: pointer;
-    border: 2px solid transparent; transition: all 0.15s; flex-shrink: 0;
-  }
-  .color-dot.active { border-color: #fff; transform: scale(1.15); }
-  .color-dot:hover { transform: scale(1.1); }
+        .filter-tabs::-webkit-scrollbar { display: none; }
 
-  .font-option {
-    padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border);
-    cursor: pointer; margin-bottom: 4px; transition: all 0.15s;
-  }
-  .font-option:hover { background: var(--bg3); }
-  .font-option.active { background: var(--amber-dim); border-color: rgba(232,162,58,0.35); }
-  .font-name { font-size: 13px; color: var(--text); }
-  .font-preview { font-size: 11px; color: var(--text3); margin-top: 1px; }
+        .tab {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--bg-accent);
+            color: #bbb; /* Brighter inactive tabs */
+        }
 
-  /* Seçili ürünler özeti */
-  .selected-summary { padding: 10px 14px; background: var(--amber-dim); margin: 8px; border-radius: var(--radius); border: 1px solid rgba(232,162,58,0.25); }
-  .summary-count { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--amber); line-height: 1; }
-  .summary-label { font-size: 11px; color: var(--text3); margin-top: 2px; }
+        .tab.active {
+            background: var(--primary);
+            color: var(--bg-deep);
+            font-weight: 600;
+        }
 
-  /* Field editing */
-  .field-row { margin-bottom: 8px; }
-  .field-label { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
-  .field-input {
-    width: 100%; background: var(--bg3); border: 1px solid var(--border);
-    border-radius: 7px; padding: 7px 10px; color: var(--text);
-    font-family: 'DM Sans', sans-serif; font-size: 12px; outline: none;
-    transition: border-color 0.18s;
-  }
-  .field-input:focus { border-color: var(--amber); }
+        .product-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 16px 24px;
+        }
 
-  /* Progress bar */
-  .progress-wrap { padding: 10px 14px 14px; }
-  .progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); margin-bottom: 6px; }
-  .progress-bar { height: 4px; background: var(--bg4); border-radius: 2px; overflow: hidden; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--amber), var(--amber2)); border-radius: 2px; transition: width 0.4s ease; }
+        .product-list::-webkit-scrollbar { width: 4px; }
+        .product-list::-webkit-scrollbar-thumb { background: var(--bg-accent); border-radius: 4px; }
 
-  /* Animasyonlar */
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-  .catalog-item { animation: fadeIn 0.3s ease both; }
-  .catalog-item:nth-child(1) { animation-delay: 0.05s; }
-  .catalog-item:nth-child(2) { animation-delay: 0.1s; }
-  .catalog-item:nth-child(3) { animation-delay: 0.15s; }
-  .catalog-item:nth-child(4) { animation-delay: 0.2s; }
+        .product-card {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 8px;
+            position: relative;
+        }
 
-  .toast {
-    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(60px);
-    background: var(--bg3); border: 1px solid var(--border2);
-    color: var(--text); padding: 10px 18px; border-radius: 10px;
-    font-size: 13px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    transition: transform 0.3s ease; z-index: 100;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
-</style>
+        .product-card:hover {
+            background: var(--bg-card);
+            border-color: var(--border-hover);
+            transform: scale(1.02);
+        }
+
+        .product-card.selected {
+            background: var(--primary-dim);
+            border-color: var(--primary);
+        }
+
+        .product-thumb {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            background: var(--bg-accent);
+            object-fit: cover;
+            border: 1px solid var(--border);
+        }
+
+        .product-info h4 {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: #fff;
+        }
+
+        .product-info p {
+            font-size: 11px;
+            color: #ccc;
+            margin-bottom: 6px;
+        }
+
+        .product-tag {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: var(--success-dim);
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        /* ── Main Canvas ────────────────────────── */
+        .canvas {
+            background: var(--bg-deep);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .canvas-toolbar {
+            height: 48px;
+            background: rgba(18, 21, 18, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+        .canvas-scroll {
+            flex: 1;
+            overflow: auto;
+            padding: 80px 40px 40px;
+            display: flex;
+            justify-content: center;
+            background-image: radial-gradient(var(--bg-panel) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .a4-page {
+            width: 595px; /* A4 Ratio */
+            height: 842px !important; /* Fixed A4 Height */
+            background: #ffffff !important;
+            color: #1a1e1a !important;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            transform-origin: top center;
+            transition: transform 0.3s var(--transition);
+            overflow: hidden !important; /* Force pagination flow */
+            position: relative;
+        }
+
+        /* ── Catalog Design ─────────────────────── */
+        .catalog-header {
+            border-bottom: 2px solid #1a1e1a;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .catalog-brand {
+            font-family: var(--font-serif);
+        }
+
+        .catalog-brand h1 {
+            font-size: 42px;
+            line-height: 0.9;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .catalog-brand p {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-top: 5px;
+            color: #555;
+        }
+        /* ── Modal ─────────────────────────────── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal {
+            background: var(--bg-panel);
+            width: 400px;
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-hover);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        .modal-title {
+            font-family: var(--font-serif);
+            font-size: 24px;
+            margin-bottom: 24px;
+            color: var(--primary);
+        }
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .file-upload-label {
+            height: 120px;
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            overflow: hidden;
+            position: relative;
+        }
+        .file-upload-label:hover { border-color: var(--primary); background: var(--bg-accent); }
+        .file-upload-label img { width: 100%; height: 100%; object-fit: cover; }
+        #new-product-file { display: none; }
+
+        .catalog-meta {
+            text-align: right;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            flex: 1;
+        }
+
+        .catalog-item {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .item-image-box {
+            aspect-ratio: 1;
+            background: #f7f9f7;
+            border: 1px solid #eee;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .item-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-details h3 {
+            font-family: var(--font-serif);
+            font-size: 20px;
+            margin-bottom: 4px;
+            color: #1a1e1a !important;
+        }
+
+        .item-details p {
+            font-size: 12px;
+            color: #333 !important; /* Specific color for PDF visibility */
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .item-price {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            font-size: 14px;
+            color: #000 !important;
+        }
+
+        .empty-slot {
+            border: 2px dashed #ddd;
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .empty-slot:hover {
+            background: #fcfcfc;
+            border-color: #ccc;
+        }
+
+        .catalog-footer {
+            margin-top: 40px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* ── Right Panel ────────────────────────── */
+        .settings {
+            background: var(--bg-panel);
+            border-left: 1px solid var(--border);
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .settings-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-dim);
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .input-wrap label {
+            display: block;
+            font-size: 12px;
+            color: #fff; /* High contrast label */
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .input-text {
+            width: 100%;
+            height: 36px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 0 12px;
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            outline: none;
+        }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .layout-option {
+            aspect-ratio: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .layout-option.active {
+            border-color: var(--primary);
+            background: var(--primary-dim);
+        }
+
+        .color-palette {
+            display: flex;
+            gap: 10px;
+        }
+
+        .color-swatch {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .color-swatch.active {
+            border-color: #fff;
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            background: var(--primary);
+            color: var(--bg-deep);
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transform: translateY(100px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+        }
+
+        .toast.show { transform: translateY(0); }
+
+        /* ── Print Styles ───────────────────────── */
+        @media print {
+            body, .main-container {
+                height: auto !important;
+                background: white !important;
+                display: block !important;
+                overflow: visible !important;
+            }
+            header, .sidebar, .settings, .canvas-toolbar, .toast, .empty-slot {
+                display: none !important;
+            }
+            .canvas {
+                padding: 0 !important;
+                margin: 0 !important;
+                background: none !important;
+                overflow: visible !important;
+                position: static !important;
+            }
+            .canvas-scroll {
+                padding: 0 !important;
+                background: none !important;
+                display: block !important;
+                overflow: visible !important;
+            }
+            .a4-page {
+                box-shadow: none !important;
+                transform: none !important;
+                margin: 0 auto !important;
+                width: 210mm !important; /* Proper A4 width */
+                height: 297mm !important; /* Fixed A4 Height */
+                border: none !important;
+                padding: 15mm !important;
+                page-break-after: always;
+                color: #000 !important;
+                background: #fff !important;
+                overflow: hidden !important;
+            }
+            .catalog-item {
+                break-inside: avoid;
+            }
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+        }
+
+    </style>
 </head>
 <body>
 
-<!-- Topbar -->
-<div class="topbar">
-  <div style="display:flex;align-items:center;gap:16px;">
-    <div class="logo">KatalogAI <span>/ Yeni Katalog</span></div>
-    <div class="badge">TASLAK</div>
-  </div>
-  <div class="topbar-actions">
-    <button class="btn btn-ghost">Önizle</button>
-    <button class="btn btn-ghost">Kaydet</button>
-    <button class="btn btn-primary" onclick="generatePDF()">⬇ PDF İndir</button>
-  </div>
-</div>
+    <header>
+        <div class="brand">
+            <div class="logo-icon">K</div>
+            <div class="brand-text">Katalog<span>AI</span></div>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-ghost">Taslaklarak Kaydet</button>
+            <button class="btn btn-primary" onclick="exportToPDF()">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                PDF Dışa Aktar
+            </button>
+        </div>
+    </header>
 
-<div class="app">
-
-  <!-- Sol Panel: Ürünler -->
-  <div class="panel-left">
-    <div class="panel-header">
-      <span class="panel-title">Ürün Kütüphanesi</span>
-      <span class="count-pill active" id="sel-count">0 seçili</span>
-    </div>
-    <div class="search-wrap">
-      <input class="search-input" placeholder="Ürün ara..." oninput="filterProducts(this.value)">
-    </div>
-    <div class="category-tabs">
-      <div class="cat-tab active" onclick="filterCat(this,'tümü')">Tümü</div>
-      <div class="cat-tab" onclick="filterCat(this,'sebze')">Sebze</div>
-      <div class="cat-tab" onclick="filterCat(this,'meyve')">Meyve</div>
-      <div class="cat-tab" onclick="filterCat(this,'çiçek')">Çiçek</div>
-    </div>
-    <div class="product-list" id="product-list"></div>
-  </div>
-
-  <!-- Orta: Kanvas -->
-  <div class="canvas-area">
-    <div class="canvas-toolbar">
-      <div class="layout-btns">
-        <button class="layout-btn active" title="2'li grid" onclick="setLayout(this,2)">▦</button>
-        <button class="layout-btn" title="3'lü grid" onclick="setLayout(this,3)">⣿</button>
-        <button class="layout-btn" title="Liste" onclick="setLayout(this,1)">☰</button>
-      </div>
-      <div style="font-size:11px;color:var(--text3);">A4 · 595 × 842 px</div>
-      <div class="zoom-ctrl">
-        <button class="zoom-btn" onclick="zoom(-0.1)">−</button>
-        <span id="zoom-label">100%</span>
-        <button class="zoom-btn" onclick="zoom(0.1)">+</button>
-      </div>
-    </div>
-    <div class="canvas-scroll">
-      <div class="catalog-page" id="catalog-page">
-        <div class="page-header">
-          <div>
-            <div class="page-brand" id="brand-name">Vega Star</div>
-            <div class="page-brand-sub">Tohum Kataloğu 2025</div>
-          </div>
-          <div class="page-season">İlkbahar · Yaz<br>Koleksiyonu</div>
-        </div>
-        <div class="page-grid" id="page-grid" style="grid-template-columns:1fr 1fr;"></div>
-        <div class="page-footer">
-          <div class="page-footer-text">vegastar.com.tr · +90 212 000 00 00</div>
-          <div class="page-num">1 / 1</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Sağ Panel: Ayarlar -->
-  <div class="panel-right">
-
-    <!-- Özet -->
-    <div class="section">
-      <div class="selected-summary">
-        <div class="summary-count" id="summary-count">0</div>
-        <div class="summary-label">ürün seçildi</div>
-      </div>
-      <div class="progress-wrap" style="padding:10px 0 0;">
-        <div class="progress-label">
-          <span>Katalog doluluk</span>
-          <span id="fill-pct">0%</span>
-        </div>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Şablonlar -->
-    <div class="section">
-      <div class="section-label">Şablon</div>
-      <div class="template-grid">
-        <div class="template-card active" onclick="selectTpl(this)">
-          <div class="template-preview">
-            <div class="tpl-row header"></div>
-            <div class="tpl-row grid"><div class="tpl-cell"></div><div class="tpl-cell"></div></div>
-            <div class="tpl-row grid"><div class="tpl-cell"></div><div class="tpl-cell"></div></div>
-          </div>
-          <div class="template-name">2 × 2 Grid</div>
-        </div>
-        <div class="template-card" onclick="selectTpl(this)">
-          <div class="template-preview">
-            <div class="tpl-row header"></div>
-            <div class="tpl-row grid" style="grid-template-columns:1fr 1fr 1fr"><div class="tpl-cell"></div><div class="tpl-cell"></div><div class="tpl-cell"></div></div>
-            <div class="tpl-row grid" style="grid-template-columns:1fr 1fr 1fr"><div class="tpl-cell"></div><div class="tpl-cell"></div><div class="tpl-cell"></div></div>
-          </div>
-          <div class="template-name">3 × 2 Grid</div>
-        </div>
-        <div class="template-card" onclick="selectTpl(this)">
-          <div class="template-preview">
-            <div class="tpl-row header"></div>
-            <div class="tpl-row" style="flex:2;"></div>
-            <div class="tpl-row"></div>
-            <div class="tpl-row"></div>
-          </div>
-          <div class="template-name">Öne Çıkan</div>
-        </div>
-        <div class="template-card" onclick="selectTpl(this)">
-          <div class="template-preview">
-            <div class="tpl-row header"></div>
-            <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:3px;flex:4;">
-              <div class="tpl-cell"></div>
-              <div style="display:flex;flex-direction:column;gap:3px">
-                <div class="tpl-cell"></div>
-                <div class="tpl-cell"></div>
-              </div>
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary);">Kütüphane</h2>
+                    <button class="btn btn-primary" style="height: 32px; padding: 0 10px; font-size: 11px;" onclick="openAddProductModal()">+ Yeni Ürün</button>
+                </div>
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Ürün ara..." oninput="filterProducts(this.value)">
+                </div>
+                <div class="filter-tabs">
+                    <div class="tab active" onclick="setCategory('tümü', this)">Tümü</div>
+                    <div class="tab" onclick="setCategory('tohum', this)">Tohumlar</div>
+                    <div class="tab" onclick="setCategory('fide', this)">Fideler</div>
+                    <div class="tab" onclick="setCategory('gubre', this)">Gübreler</div>
+                </div>
             </div>
-          </div>
-          <div class="template-name">Asimetrik</div>
+            <div class="product-list" id="product-list">
+                <!-- Products dynamically added here -->
+            </div>
+        </aside>
+
+        <!-- Canvas -->
+        <main class="canvas">
+            <div class="canvas-toolbar">
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <span style="font-size: 12px; color: var(--text-muted);">Zoom:</span>
+                    <button class="btn btn-ghost" style="height: 28px; width: 28px; padding: 0;" onclick="zoom(-0.1)">-</button>
+                    <span id="zoom-text" style="font-size: 12px; width: 40px; text-align: center;">100%</span>
+                    <button class="btn btn-ghost" style="height: 28px; width: 28px; padding: 0;" onclick="zoom(0.1)">+</button>
+                </div>
+                <div style="font-size: 12px; color: var(--text-dim); font-family: var(--font-mono);">A4 PORTRAIT (595x842)</div>
+                <button class="btn btn-ghost" style="height: 28px;" onclick="resetCanvas()">Temizle</button>
+            </div>
+            <div class="canvas-scroll" id="canvas-pages-container">
+                <!-- Pages will be dynamically rendered here -->
+            </div>
+        </main>
+
+        <!-- Settings -->
+        <aside class="settings">
+            <div class="settings-section">
+                <h2 class="section-title">Katalog Bilgileri</h2>
+                <div class="group">
+                    <div class="input-wrap">
+                        <label>Marka Adı</label>
+                        <input type="text" class="input-text" value="VISTA SEED" oninput="updateBrand(this.value)">
+                    </div>
+                    <div class="input-wrap">
+                        <label>Alt Başlık</label>
+                        <input type="text" class="input-text" value="2026 PROFESYONEL ÜRETİM KATALOĞU" oninput="updateSubtitle(this.value)">
+                    </div>
+                    <div class="input-wrap">
+                        <label>Dönem / Sezon</label>
+                        <input type="text" class="input-text" value="İLKBAHAR / YAZ" oninput="updateSeason(this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h2 class="section-title">Yerleşim</h2>
+                <div class="layout-grid">
+                    <div class="layout-option active" onclick="setLayout(1, this)">1x1</div>
+                    <div class="layout-option" onclick="setLayout(2, this)">2x2</div>
+                    <div class="layout-option" onclick="setLayout(3, this)">2x3</div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h2 class="section-title">Tema Renkleri</h2>
+                <div class="color-palette">
+                    <div class="color-swatch active" style="background: #1a1e1a;" onclick="setThemeColor('#1a1e1a', this)"></div>
+                    <div class="color-swatch" style="background: #1e1a1a;" onclick="setThemeColor('#1e1a1a', this)"></div>
+                    <div class="color-swatch" style="background: #1a1c1e;" onclick="setThemeColor('#1a1c1e', this)"></div>
+                    <div class="color-swatch" style="background: #2a251a;" onclick="setThemeColor('#2a251a', this)"></div>
+                </div>
+            </div>
+
+            <div class="settings-section" style="margin-top: auto; padding-top: 20px;">
+                <div style="background: var(--bg-accent); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
+                    <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">KATALOG DURUMU</p>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                        <span style="font-size: 24px; font-weight: 600; font-family: var(--font-serif);" id="item-count">0</span>
+                        <span style="font-size: 12px; color: var(--primary);">Ürün Seçildi</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <div id="toast" class="toast">Mesaj</div>
+
+    <!-- Add Product Modal -->
+    <div class="modal-overlay" id="add-product-modal">
+        <div class="modal">
+            <h3 class="modal-title">Yeni Ürün Ekle</h3>
+            <div class="modal-form">
+                <label class="file-upload-label" id="file-preview-label">
+                    <span id="upload-placeholder">📸 Fotoğraf Seç</span>
+                    <input type="file" id="new-product-file" accept="image/*" onchange="previewImage(this)">
+                </label>
+                <div class="input-wrap">
+                    <label>Ürün Adı</label>
+                    <input type="text" id="new-product-name" class="input-text" placeholder="Örn: Pembe Domates">
+                </div>
+                <div class="input-wrap">
+                    <label>Açıklama</label>
+                    <textarea id="new-product-desc" class="input-text" style="height: 80px; padding: 10px; resize: none;" placeholder="Ürün özellikleri..."></textarea>
+                </div>
+                <div class="input-wrap">
+                    <label>Fiyat (Opsiyonel)</label>
+                    <input type="text" id="new-product-price" class="input-text" placeholder="Örn: ₺50 / Paket">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
+                    <button class="btn btn-ghost" onclick="closeAddProductModal()">Vazgeç</button>
+                    <button class="btn btn-primary" onclick="saveNewProduct()">Ekle</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
-    <!-- Renk temaları -->
-    <div class="section">
-      <div class="section-label">Renk Teması</div>
-      <div class="color-row">
-        <div class="color-dot active" style="background:#1a2a1a;" title="Koyu Yeşil" onclick="selectColor(this,'#1a2a1a')"></div>
-        <div class="color-dot" style="background:#1a1a2e;" title="Gece Mavisi" onclick="selectColor(this,'#1a1a2e')"></div>
-        <div class="color-dot" style="background:#2a1a0e;" title="Toprak" onclick="selectColor(this,'#2a1a0e')"></div>
-        <div class="color-dot" style="background:#1e1e1e;" title="Siyah" onclick="selectColor(this,'#1e1e1e')"></div>
-        <div class="color-dot" style="background:#f5f0e8;" title="Krem" onclick="selectColor(this,'#f5f0e8')"></div>
-        <div class="color-dot" style="background:#2a3a2a;" title="Orman" onclick="selectColor(this,'#2a3a2a')"></div>
-      </div>
-    </div>
+    <script>
+        const products = [
+            { 
+                id: 1, 
+                name: 'Black Krim Domates', 
+                category: 'tohum', 
+                code: 'TM-001', 
+                tag: 'En Sevilen', 
+                desc: 'Organik ata tohumu Black Krim domates. İri, etli ve aromatik meyveler.',
+                price: '₺120 / Paket',
+                img: 'assets/tomato.png'
+            },
+            { 
+                id: 2, 
+                name: 'Mini Salatalık Fidesi', 
+                category: 'fide', 
+                code: 'FD-042', 
+                tag: 'Hızlı Hasat', 
+                desc: 'Hızlı gelişim gösteren, hastalıklara dirençli mini salatalık fidesi.',
+                price: '₺45 / Adet',
+                img: 'assets/cucumber.png'
+            },
+            { 
+                id: 3, 
+                name: 'Dolmalık Biber Tohumu', 
+                category: 'tohum', 
+                code: 'TM-005', 
+                tag: 'Verimli', 
+                desc: 'Yüksek verimli, kalın etli dolmalık biber tohumları.',
+                price: '₺85 / Paket',
+                img: 'assets/pepper.png'
+            },
+            { 
+                id: 4, 
+                name: 'Cherry Domates Fidesi', 
+                category: 'fide', 
+                code: 'FD-012', 
+                tag: 'Yeni', 
+                desc: 'Salkım cherry domates. Balkon üretimine uygun hibrit fide.',
+                price: '₺38 / Adet',
+                img: 'assets/seedling.png'
+            },
+            { 
+                id: 5, 
+                name: 'Sivri Biber Tohumu', 
+                category: 'tohum', 
+                code: 'TM-009', 
+                tag: '', 
+                desc: 'Arap tip, ince uzun sivri biber tohumu. Orta acı.',
+                price: '₺75 / Paket',
+                img: 'assets/pepper.png'
+            },
+            { 
+                id: 6, 
+                name: 'Köy Tipi Domates Fidesi', 
+                category: 'fide', 
+                code: 'FD-008', 
+                tag: 'Ata Tohum', 
+                desc: 'Anadolu yerli tip domates fidesi. Geleneksel tat.',
+                price: '₺42 / Adet',
+                img: 'assets/tomato.png'
+            }
+        ];
 
-    <!-- Font -->
-    <div class="section">
-      <div class="section-label">Yazı Tipi</div>
-      <div class="font-option active" onclick="selectFont(this,'Playfair Display')">
-        <div class="font-name" style="font-family:'Playfair Display',serif">Playfair Display</div>
-        <div class="font-preview" style="font-family:'Playfair Display',serif">Abc Çilek Domates</div>
-      </div>
-      <div class="font-option" onclick="selectFont(this,'DM Sans')">
-        <div class="font-name">DM Sans</div>
-        <div class="font-preview">Abc Çilek Domates</div>
-      </div>
-      <div class="font-option" onclick="selectFont(this,'DM Mono')">
-        <div class="font-name" style="font-family:'DM Mono',monospace">DM Mono</div>
-        <div class="font-preview" style="font-family:'DM Mono',monospace">Abc Çilek Domates</div>
-      </div>
-    </div>
+        let selectedIds = new Set();
+        let currentGridCols = 2;
+        let currentCategory = 'tümü';
+        let zoomLevel = 1;
 
-    <!-- Katalog Bilgileri -->
-    <div class="section">
-      <div class="section-label">Katalog Bilgileri</div>
-      <div class="field-row">
-        <div class="field-label">Marka adı</div>
-        <input class="field-input" value="Vega Star" oninput="document.getElementById('brand-name').textContent=this.value">
-      </div>
-      <div class="field-row">
-        <div class="field-label">Dönem</div>
-        <input class="field-input" value="İlkbahar · Yaz 2025">
-      </div>
-      <div class="field-row">
-        <div class="field-label">İletişim</div>
-        <input class="field-input" value="vegastar.com.tr">
-      </div>
-    </div>
+        function renderProducts(filter = '') {
+            const list = document.getElementById('product-list');
+            const filtered = products.filter(p => {
+                const matchCat = currentCategory === 'tümü' || p.category === currentCategory;
+                const matchName = p.name.toLowerCase().includes(filter.toLowerCase());
+                return matchCat && matchName;
+            });
 
-  </div>
-</div>
+            list.innerHTML = filtered.map(p => `
+                <div class="product-card ${selectedIds.has(p.id) ? 'selected' : ''}" onclick="toggleProduct(${p.id})">
+                    <img src="${p.img}" class="product-thumb" alt="${p.name}">
+                    <div class="product-info">
+                        <h4>${p.name}</h4>
+                        <p>${p.code} • ${p.price}</p>
+                        ${p.tag ? `<span class="product-tag">${p.tag}</span>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
 
-<!-- Toast -->
-<div class="toast" id="toast">
-  <div class="toast-dot"></div>
-  <span id="toast-msg">PDF oluşturuluyor…</span>
-</div>
+        function toggleProduct(id) {
+            if (selectedIds.has(id)) {
+                selectedIds.delete(id);
+            } else {
+                selectedIds.add(id);
+            }
+            updateUI();
+        }
 
-<script>
-const products = [
-  { id:1, emoji:'🍅', name:'Beef Tomato F1', category:'sebze', code:'BT-221', tag:'YENİ', desc:'İri, etli, uzun raf ömürlü domates çeşidi. Seralarda yüksek verim.' },
-  { id:2, emoji:'🥒', name:'Vega Cucumber', category:'sebze', code:'VC-118', tag:'', desc:'Çekirdeksiz, ince kabuklu salatalık. 55 günde hasat.' },
-  { id:3, emoji:'🌶', name:'Kırmızı Biber F1', category:'sebze', code:'KB-305', tag:'ÇOK SATAN', desc:'Kalın etli, koyu kırmızı dolmalık biber çeşidi.' },
-  { id:4, emoji:'🍆', name:'Patlıcan Kara', category:'sebze', code:'PK-072', tag:'', desc:'Geleneksel Anadolu patlıcanı. Mor-siyah, uzun form.' },
-  { id:5, emoji:'🍉', name:'Crimson Sweet', category:'meyve', code:'CS-441', tag:'YENİ', desc:'Çekirdeksiz karpuz. 80-85 günde olgunlaşır, yüksek şeker.' },
-  { id:6, emoji:'🍈', name:'Kavun Ananas F1', category:'meyve', code:'KA-207', tag:'', desc:'Ananas aromalı, sarı kabuklu kavun. İhracata uygun.' },
-  { id:7, emoji:'🌻', name:'Dev Ayçiçeği', category:'çiçek', code:'DA-991', tag:'', desc:'200 cm boya ulaşan, dekoratif ve yağlık ayçiçeği.' },
-  { id:8, emoji:'🌹', name:'Gül Rosa F1', category:'çiçek', code:'GR-555', tag:'ÇOK SATAN', desc:'Kırmızı, katmerli gül. Uzun saplı, kesim çiçeklerine uygun.' },
-];
+        function updateUI() {
+            document.getElementById('item-count').textContent = selectedIds.size;
+            renderProducts();
+            renderCatalog();
+        }
 
-let selected = new Set();
-let currentCat = 'tümü';
-let currentSearch = '';
-let zoomLevel = 1;
-let cols = 2;
+        function renderCatalog() {
+            const container = document.getElementById('canvas-pages-container');
+            const selectedItems = products.filter(p => selectedIds.has(p.id));
+            const brandName = document.querySelector('.input-text[oninput="updateBrand(this.value)"]').value;
+            const subtitle = document.querySelector('.input-text[oninput="updateSubtitle(this.value)"]').value;
+            const season = document.querySelector('.input-text[oninput="updateSeason(this.value)"]').value;
+            
+            // Items per page based on grid (Optimized for A4 height)
+            const itemsPerPage = currentGridCols === 1 ? 2 : 4;
+            const pageCount = Math.max(1, Math.ceil(selectedItems.length / itemsPerPage));
+            
+            let pagesHtml = '';
 
-function renderProducts() {
-  const list = document.getElementById('product-list');
-  const filtered = products.filter(p => {
-    const matchCat = currentCat === 'tümü' || p.category === currentCat;
-    const matchSearch = p.name.toLowerCase().includes(currentSearch.toLowerCase());
-    return matchCat && matchSearch;
-  });
-  list.innerHTML = filtered.map(p => `
-    <div class="product-card ${selected.has(p.id)?'selected':''}" onclick="toggleProduct(${p.id})">
-      <div class="product-img">${p.emoji}</div>
-      <div class="product-info">
-        <div class="product-name">${p.name}</div>
-        <div class="product-meta">${p.code}</div>
-        ${p.tag ? `<div class="product-tag">${p.tag}</div>` : ''}
-      </div>
-      <div class="check-icon"></div>
-    </div>
-  `).join('');
-}
+            for (let i = 0; i < pageCount; i++) {
+                const pageItems = selectedItems.slice(i * itemsPerPage, (i + 1) * itemsPerPage);
+                const pageNum = i + 1;
+                
+                let gridHtml = pageItems.map(p => `
+                    <div class="catalog-item">
+                        <div class="item-image-box">
+                            <img src="${p.img}" alt="${p.name}">
+                        </div>
+                        <div class="item-details">
+                            <h3>${p.name}</h3>
+                            <p>${p.desc}</p>
+                            <div class="item-price">${p.price}</div>
+                        </div>
+                    </div>
+                `).join('');
 
-function toggleProduct(id) {
-  if (selected.has(id)) selected.delete(id);
-  else selected.add(id);
-  updateUI();
-}
+                // Fill empty slots on the LAST page if needed
+                if (pageNum === pageCount && pageItems.length < itemsPerPage) {
+                    const emptyCount = itemsPerPage - pageItems.length;
+                    for (let j = 0; j < emptyCount; j++) {
+                        gridHtml += `<div class="empty-slot"><span>+</span><small>Ürün Ekleyin</small></div>`;
+                    }
+                }
 
-function updateUI() {
-  const n = selected.size;
-  document.getElementById('sel-count').textContent = n + ' seçili';
-  document.getElementById('summary-count').textContent = n;
-  const pct = Math.min(100, Math.round((n / (cols*2)) * 100));
-  document.getElementById('fill-pct').textContent = pct + '%';
-  document.getElementById('progress-fill').style.width = pct + '%';
-  renderProducts();
-  renderCatalog();
-}
+                pagesHtml += `
+                    <div class="a4-page" style="transform: scale(${zoomLevel}); margin-bottom: 40px;">
+                        <div class="catalog-header">
+                            <div class="catalog-brand">
+                                <h1>${brandName}</h1>
+                                <p>${subtitle}</p>
+                            </div>
+                            <div class="catalog-meta">
+                                <p>SAYFA ${pageNum.toString().padStart(2, '0')}</p>
+                                <p>${season}</p>
+                            </div>
+                        </div>
+                        <div class="catalog-grid" style="grid-template-columns: repeat(${currentGridCols}, 1fr)">
+                            ${gridHtml}
+                        </div>
+                        <div class="catalog-footer">
+                            <span>katalogai.com / tarim-ekosistemi</span>
+                            <span>Tüm hakları saklıdır © 2026</span>
+                        </div>
+                    </div>
+                `;
+            }
 
-function renderCatalog() {
-  const grid = document.getElementById('page-grid');
-  const items = products.filter(p => selected.has(p.id));
-  const slots = Math.max(cols*2, items.length + (items.length < cols*2 ? 1 : 0));
-  
-  grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-  
-  let html = items.map((p, i) => `
-    <div class="catalog-item" style="animation-delay:${i*0.05}s">
-      <div class="item-img">${p.emoji}</div>
-      <div class="item-badge">${p.code}</div>
-      <div class="item-name">${p.name}</div>
-      <div class="item-desc">${p.desc}</div>
-      <div class="item-price">₺ — / kg</div>
-    </div>
-  `).join('');
-  
-  if (items.length < cols*2) {
-    html += `<div class="empty-slot" onclick="">
-      <div class="empty-slot-icon">＋</div>
-      <div class="empty-slot-text">Soldan ürün<br>ekleyin</div>
-    </div>`;
-  }
-  
-  grid.innerHTML = html;
-}
+            container.innerHTML = pagesHtml;
+        }
 
-function filterCat(el, cat) {
-  currentCat = cat;
-  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  renderProducts();
-}
+        function filterProducts(val) {
+            renderProducts(val);
+        }
 
-function filterProducts(val) {
-  currentSearch = val;
-  renderProducts();
-}
+        function setCategory(cat, el) {
+            currentCategory = cat;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            renderProducts();
+        }
 
-function setLayout(btn, c) {
-  cols = c;
-  document.querySelectorAll('.layout-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderCatalog();
-}
+        function updateBrand(val) {
+            renderCatalog();
+        }
 
-function selectTpl(el) {
-  document.querySelectorAll('.template-card').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-}
+        function updateSubtitle(val) {
+            renderCatalog();
+        }
 
-function selectColor(el, color) {
-  document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelector('.page-header').style.background = color;
-}
+        function updateSeason(val) {
+            renderCatalog();
+        }
 
-function selectFont(el, font) {
-  document.querySelectorAll('.font-option').forEach(f => f.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('.item-name').forEach(n => n.style.fontFamily = `'${font}', serif`);
-  document.querySelector('.page-brand').style.fontFamily = `'${font}', serif`;
-}
+        function setLayout(cols, el) {
+            currentGridCols = cols === 3 ? 2 : cols; // Simplify for demo
+            if(cols === 3) currentGridCols = 2; // Fixed to 2 for looks in this demo A4
+            
+            document.querySelectorAll('.layout-option').forEach(o => o.classList.remove('active'));
+            el.classList.add('active');
+            renderCatalog();
+        }
 
-let zoomVal = 1;
-function zoom(delta) {
-  zoomVal = Math.max(0.4, Math.min(1.6, zoomVal + delta));
-  document.getElementById('catalog-page').style.transform = `scale(${zoomVal})`;
-  document.getElementById('catalog-page').style.transformOrigin = 'top center';
-  document.getElementById('zoom-label').textContent = Math.round(zoomVal*100) + '%';
-}
+        function setThemeColor(color, el) {
+            document.getElementById('page').style.borderTop = `10px solid ${color}`;
+            document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+            el.classList.add('active');
+        }
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toast-msg').textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
+        function zoom(delta) {
+            zoomLevel = Math.max(0.3, Math.min(1.5, zoomLevel + delta));
+            document.querySelectorAll('.a4-page').forEach(page => {
+                page.style.transform = `scale(${zoomLevel})`;
+            });
+            document.getElementById('zoom-text').textContent = Math.round(zoomLevel * 100) + '%';
+        }
 
-function generatePDF() {
-  if (selected.size === 0) { showToast('Önce en az 1 ürün seçin!'); return; }
-  showToast(`${selected.size} ürünlü katalog PDF oluşturuluyor…`);
-}
+        function resetCanvas() {
+            selectedIds.clear();
+            updateUI();
+        }
 
-renderProducts();
-renderCatalog();
-</script>
+        // New Product Logic
+        function openAddProductModal() {
+            document.getElementById('add-product-modal').classList.add('show');
+        }
+
+        function closeAddProductModal() {
+            document.getElementById('add-product-modal').classList.remove('show');
+            resetModalForm();
+        }
+
+        function resetModalForm() {
+            document.getElementById('new-product-name').value = '';
+            document.getElementById('new-product-desc').value = '';
+            document.getElementById('new-product-price').value = '';
+            document.getElementById('new-product-file').value = '';
+            document.getElementById('upload-placeholder').style.display = 'block';
+            const existingImg = document.getElementById('file-preview-label').querySelector('img');
+            if(existingImg) existingImg.remove();
+        }
+
+        let tempImg = '';
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempImg = e.target.result;
+                    document.getElementById('upload-placeholder').style.display = 'none';
+                    let img = document.getElementById('file-preview-label').querySelector('img');
+                    if(!img) {
+                        img = document.createElement('img');
+                        document.getElementById('file-preview-label').appendChild(img);
+                    }
+                    img.src = tempImg;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function saveNewProduct() {
+            const name = document.getElementById('new-product-name').value;
+            const desc = document.getElementById('new-product-desc').value;
+            const price = document.getElementById('new-product-price').value || '₺ --';
+            
+            if(!name || !tempImg) {
+                showToast('İsim ve fotoğraf zorunludur!');
+                return;
+            }
+
+            const newProd = {
+                id: Date.now(),
+                name: name,
+                category: 'custom',
+                code: 'NEW',
+                tag: 'Özel',
+                desc: desc,
+                price: price,
+                img: tempImg
+            };
+
+            products.unshift(newProd);
+            renderProducts();
+            closeAddProductModal();
+            showToast('Ürün başarıyla eklendi!');
+        }
+
+        async function exportToPDF() {
+            window.print();
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        // Initialize
+        renderProducts();
+        renderCatalog();
+    </script>
 </body>
 </html>

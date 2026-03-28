@@ -8,32 +8,39 @@
 @import "../styles/presets/soft-pop.css";
 @import "../styles/presets/tangerine.css";
 
-/* Ensotek Brand Colors */
+/* KatalogAI Brand Colors */
 :root {
-  /* Logo Primary Colors */
-  --logo-coral-light: #F4BDB3;      /* Highlights, light bg text */
-  --logo-coral: #E8A598;            /* Main brand color */
-  --logo-coral-medium: #D88D7E;     /* Default logo on light */
-  --logo-coral-dark: #C77665;       /* Logo on very light bg */
-  --logo-coral-darkest: #A6604F;    /* Text, details */
-  
-  /* Background Colors for Logo */
-  --logo-bg-light: #FDFCFB;         /* Light mode primary */
-  --logo-bg-white: #FFFFFF;         /* Pure white */
-  --logo-bg-dark: #1A1512;          /* Dark mode */
-  --logo-bg-black: #0A0806;         /* Pure black */
-  
-  /* Logo Accents */
-  --logo-gold: #E8C57A;             /* Accent touch */
-  --logo-shadow: rgba(232, 165, 152, 0.15);  /* Soft glow */
+  /* Gold Primary */
+  --katalog-gold: #c29d5d;
+  --katalog-gold-light: #e6c58d;
+  --katalog-gold-dark: #a07d3a;
+
+  /* Premium Dark Surfaces */
+  --katalog-bg-deep: #0a0c0a;
+  --katalog-bg-panel: #121512;
+  --katalog-bg-card: #1a1e1a;
+  --katalog-bg-accent: #232a23;
+
+  /* Text Hierarchy */
+  --katalog-text-main: #e2e8e2;
+  --katalog-text-muted: #8a9a8a;
+  --katalog-text-dim: #4d5a4d;
+
+  /* Borders */
+  --katalog-border: rgba(255,255,255,0.06);
+  --katalog-border-hover: rgba(255,255,255,0.12);
+
+  /* Legacy compat aliases */
+  --logo-gold: var(--katalog-gold);
+  --logo-shadow: rgba(194, 157, 93, 0.15);
 }
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
+  --radius-sm: 6px;
+  --radius-md: var(--radius);
+  --radius-lg: 20px;
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
@@ -70,94 +77,102 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* Brand Colors */
-  --color-logo-coral-light: var(--logo-coral-light);
-  --color-logo-coral: var(--logo-coral);
-  --color-logo-coral-medium: var(--logo-coral-medium);
-  --color-logo-coral-dark: var(--logo-coral-dark);
-  --color-logo-coral-darkest: var(--logo-coral-darkest);
-  --color-logo-bg-light: var(--logo-bg-light);
-  --color-logo-bg-white: var(--logo-bg-white);
-  --color-logo-bg-dark: var(--logo-bg-dark);
-  --color-logo-bg-black: var(--logo-bg-black);
+  /* KatalogAI Brand */
+  --color-katalog-gold: var(--katalog-gold);
+  --color-katalog-gold-light: var(--katalog-gold-light);
+  --color-katalog-gold-dark: var(--katalog-gold-dark);
+  --color-katalog-bg-deep: var(--katalog-bg-deep);
+  --color-katalog-bg-panel: var(--katalog-bg-panel);
+  --color-katalog-bg-card: var(--katalog-bg-card);
+  --color-katalog-bg-accent: var(--katalog-bg-accent);
+  --color-katalog-text-main: var(--katalog-text-main);
+  --color-katalog-text-muted: var(--katalog-text-muted);
+  --color-katalog-text-dim: var(--katalog-text-dim);
   --color-logo-gold: var(--logo-gold);
+
+  /* Font families */
+  --font-serif: var(--font-cormorant), Georgia, serif;
+  --font-mono-code: var(--font-jetbrains-mono), monospace;
 }
 
 /* Default theme styles (used when no data-theme-preset is set or when 'default' is selected).
 These serve as the fallback; there is no separate default.css file. */
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.141 0.005 285.823);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.141 0.005 285.823);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.141 0.005 285.823);
-  /* Primary: Ensotek Coral */
-  --primary: var(--logo-coral);
-  --primary-foreground: oklch(0.985 0 0); /* Light text on coral */
-  --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.21 0.006 285.885);
+  --radius: 0.625rem; /* 10px — md */
+  /* KatalogAI Light Theme */
+  --background: #fafbfa;
+  --foreground: #1a1e1a;
+  --card: #ffffff;
+  --card-foreground: #1a1e1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1e1a;
+  /* Primary: Gold */
+  --primary: var(--katalog-gold);
+  --primary-foreground: #ffffff;
+  --secondary: #f0f2f0;
+  --secondary-foreground: #1a1e1a;
+  --muted: #f0f2f0;
+  --muted-foreground: #6b7a6b;
+  --accent: #f0f2f0;
+  --accent-foreground: #1a1e1a;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-primary: oklch(0.546 0.245 262.881);
-  --sidebar-primary-foreground: oklch(0.97 0.014 254.604);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.708 0 0);
+  --border: #e2e5e2;
+  --input: #e2e5e2;
+  --ring: var(--katalog-gold);
+  --chart-1: var(--katalog-gold);
+  --chart-2: var(--katalog-gold-dark);
+  --chart-3: #6b8f71;
+  --chart-4: #4a7c59;
+  --chart-5: #8a9a8a;
+  --sidebar: #f5f6f5;
+  --sidebar-foreground: #1a1e1a;
+  --sidebar-primary: var(--katalog-gold);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eaece9;
+  --sidebar-accent-foreground: #1a1e1a;
+  --sidebar-border: #e2e5e2;
+  --sidebar-ring: var(--katalog-gold);
 
   /* fonts */
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-outfit);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
 .dark {
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.985 0 0);
-  /* Primary Dark: Coral Light or Medium */
-  --primary: var(--logo-coral-medium);
-  --primary-foreground: oklch(0.141 0.005 285.823); /* Dark text on light coral */
-  --secondary: oklch(0.274 0.006 286.033);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground: oklch(0.985 0 0);
+  /* KatalogAI Premium Dark Theme */
+  --background: var(--katalog-bg-deep);          /* #0a0c0a */
+  --foreground: var(--katalog-text-main);         /* #e2e8e2 */
+  --card: var(--katalog-bg-card);                 /* #1a1e1a */
+  --card-foreground: var(--katalog-text-main);
+  --popover: var(--katalog-bg-card);
+  --popover-foreground: var(--katalog-text-main);
+  /* Primary: Gold */
+  --primary: var(--katalog-gold);                 /* #c29d5d */
+  --primary-foreground: #0a0c0a;                  /* Dark text on gold */
+  --secondary: var(--katalog-bg-accent);          /* #232a23 */
+  --secondary-foreground: var(--katalog-text-main);
+  --muted: var(--katalog-bg-accent);
+  --muted-foreground: var(--katalog-text-muted);  /* #8a9a8a */
+  --accent: var(--katalog-bg-accent);
+  --accent-foreground: var(--katalog-text-main);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.623 0.214 259.815);
-  --sidebar-primary-foreground: oklch(0.97 0.014 254.604);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.439 0 0);
+  --border: var(--katalog-border);                /* rgba(255,255,255,0.06) */
+  --input: var(--katalog-border-hover);           /* rgba(255,255,255,0.12) */
+  --ring: var(--katalog-gold);
+  --chart-1: var(--katalog-gold);
+  --chart-2: var(--katalog-gold-light);
+  --chart-3: #6b8f71;                             /* Sage green */
+  --chart-4: #4a7c59;                             /* Forest green */
+  --chart-5: #8a9a8a;                             /* Muted */
+  /* Sidebar */
+  --sidebar: var(--katalog-bg-panel);             /* #121512 */
+  --sidebar-foreground: var(--katalog-text-main);
+  --sidebar-primary: var(--katalog-gold);
+  --sidebar-primary-foreground: #0a0c0a;
+  --sidebar-accent: var(--katalog-bg-accent);
+  --sidebar-accent-foreground: var(--katalog-text-main);
+  --sidebar-border: var(--katalog-border);
+  --sidebar-ring: var(--katalog-gold);
 }
 
 @layer base {
@@ -168,6 +183,16 @@ These serve as the fallback; there is no separate default.css file. */
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans), system-ui, sans-serif;
+  }
+
+  /* KatalogAI default transition easing */
+  button,
+  a,
+  input,
+  select,
+  [role="tab"],
+  [role="button"] {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
@@ -240,6 +265,28 @@ These serve as the fallback; there is no separate default.css file. */
   html[data-font="greatVibes"] body {
     --font-sans: var(--font-great-vibes);
   }
+  html[data-font="cormorant"] body {
+    --font-sans: var(--font-cormorant);
+  }
+  html[data-font="jetbrainsMono"] body {
+    --font-sans: var(--font-jetbrains-mono);
+  }
+}
+
+/* Scrollbar — theme-aware */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--katalog-text-dim);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--katalog-text-muted);
 }
 
 html {
@@ -248,4 +295,72 @@ html {
 
 .disable-transitions * {
   transition: none !important;
+}
+
+/* ================================================================
+   Print / PDF Styles — Catalog Builder
+   ================================================================
+   When the user triggers window.print() from the builder or
+   preview dialog, only the A4 catalog pages should appear.
+   Everything else (sidebar, topbar, panels, toolbar, nav) is hidden.
+   ================================================================ */
+
+@media print {
+  body { 
+    background: white !important; 
+    display: block !important; 
+    overflow: visible !important; 
+  }
+  
+  /* Hide UI elements */
+  header, 
+  aside, 
+  [data-panel="topbar"],
+  [data-panel="zoom"],
+  [data-panel="page-nav"],
+  .toast,
+  .empty-slot,
+  button,
+  [data-resize-handle] { 
+    display: none !important; 
+  }
+
+  [data-print-area],
+  .canvas,
+  .canvas-scroll {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: none !important;
+    overflow: visible !important;
+    position: static !important;
+    transform: none !important;
+  }
+
+  [data-print-page] {
+    width: 210mm !important;
+    height: 297mm !important;
+    padding: 15mm !important;
+    margin: 0 auto !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: white !important;
+    color: #000 !important;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .catalog-item { 
+    break-inside: avoid; 
+  }
+
+  @page { 
+    size: A4 portrait; 
+    margin: 0; 
+  }
 }

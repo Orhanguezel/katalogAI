@@ -1,10 +1,12 @@
 import {
+  Cormorant_Garamond,
   DM_Sans,
   Gabriela,
   Geist,
   Geist_Mono,
   Great_Vibes,
   Inter,
+  JetBrains_Mono,
   Manrope,
   Nunito,
   Outfit,
@@ -77,6 +79,17 @@ const greatVibes = Great_Vibes({
   variable: "--font-great-vibes",
 });
 
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-cormorant",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+});
+
 export const fontRegistry = {
   inter: {
     label: "Inter",
@@ -125,6 +138,14 @@ export const fontRegistry = {
   greatVibes: {
     label: "Great Vibes",
     font: greatVibes,
+  },
+  cormorant: {
+    label: "Cormorant Garamond",
+    font: cormorant,
+  },
+  jetbrainsMono: {
+    label: "JetBrains Mono",
+    font: jetbrainsMono,
   },
 } as const;
 

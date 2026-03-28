@@ -30,7 +30,7 @@ export { longtext, longtextJsonStringArray } from './longtext';
 
 export { toYmdUtc, parseRange, computeWindow } from './time';
 
-export type { RangeKey, TrendBucket, DashboardAnalyticsDto } from './dashboard-admin-types';
+export type { DashboardSummaryItem, DashboardSummaryDto } from './dashboard-admin-types';
 
 export {
   boolLike,

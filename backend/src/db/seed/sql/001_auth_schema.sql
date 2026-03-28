@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS profiles (
   full_name      TEXT          DEFAULT NULL,
   phone          VARCHAR(64)   DEFAULT NULL,
   avatar_url     TEXT          DEFAULT NULL,
+  bio            TEXT          DEFAULT NULL,
   address_line1  VARCHAR(255)  DEFAULT NULL,
   address_line2  VARCHAR(255)  DEFAULT NULL,
   city           VARCHAR(128)  DEFAULT NULL,

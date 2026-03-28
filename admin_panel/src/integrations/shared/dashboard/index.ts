@@ -7,13 +7,8 @@ export {
 } from '@/integrations/shared/dashboard-ui';
 
 export {
-  type AdminDashboardAnalyticsQuery,
-  type DashboardAnalyticsDto,
   type DashboardCountItemDto,
-  type DashboardRangeKey,
-  type DashboardRecentOrderDto,
   type DashboardSummary,
   type DashboardSummaryItem,
-  type DashboardTrendBucket,
   normalizeDashboardSummary,
 } from '@/integrations/shared/dashboard-types';

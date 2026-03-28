@@ -2,56 +2,35 @@ export type PanelRole = 'admin' | 'seller';
 
 export type AdminPermissionKey =
   | 'admin.dashboard'
-  | 'admin.ilanlar'
-  | 'admin.bookings'
   | 'admin.users'
-  | 'admin.carriers'
-  | 'admin.wallets'
-  | 'admin.contacts'
   | 'admin.site_settings'
   | 'admin.storage'
   | 'admin.theme'
-  | 'admin.email_templates'
-  | 'admin.telegram'
-  | 'admin.audit'
   | 'admin.categories'
-  | 'admin.reports';
+  | 'admin.catalogs'
+  | 'admin.product_sources';
 
 export type AdminNavKey =
   | 'dashboard'
-  | 'ilanlar'
-  | 'bookings'
   | 'users'
-  | 'carriers'
-  | 'wallets'
-  | 'contacts'
   | 'site_settings'
   | 'storage'
   | 'theme'
-  | 'email_templates'
-  | 'telegram'
-  | 'audit'
   | 'categories'
-  | 'reports';
+  | 'catalogs'
+  | 'product_sources';
 
 const ADMIN_ONLY: PanelRole[] = ['admin'];
 
 const ADMIN_PERMISSION_ROLE_MAP: Record<AdminPermissionKey, PanelRole[]> = {
   'admin.dashboard': ADMIN_ONLY,
-  'admin.ilanlar': ADMIN_ONLY,
-  'admin.bookings': ADMIN_ONLY,
   'admin.users': ADMIN_ONLY,
-  'admin.carriers': ADMIN_ONLY,
-  'admin.wallets': ADMIN_ONLY,
-  'admin.contacts': ADMIN_ONLY,
   'admin.site_settings': ADMIN_ONLY,
   'admin.storage': ADMIN_ONLY,
   'admin.theme': ADMIN_ONLY,
-  'admin.email_templates': ADMIN_ONLY,
-  'admin.telegram': ADMIN_ONLY,
-  'admin.audit': ADMIN_ONLY,
   'admin.categories': ADMIN_ONLY,
-  'admin.reports': ADMIN_ONLY,
+  'admin.catalogs': ADMIN_ONLY,
+  'admin.product_sources': ADMIN_ONLY,
 };
 
 export function canAccessAdminPermission(role: PanelRole, key: AdminPermissionKey): boolean {
@@ -61,20 +40,13 @@ export function canAccessAdminPermission(role: PanelRole, key: AdminPermissionKe
 
 const ADMIN_NAV_PERMISSION_MAP: Partial<Record<AdminNavKey, AdminPermissionKey>> = {
   dashboard: 'admin.dashboard',
-  ilanlar: 'admin.ilanlar',
-  bookings: 'admin.bookings',
   users: 'admin.users',
-  carriers: 'admin.carriers',
-  wallets: 'admin.wallets',
-  contacts: 'admin.contacts',
   site_settings: 'admin.site_settings',
   storage: 'admin.storage',
   theme: 'admin.theme',
-  email_templates: 'admin.email_templates',
-  telegram: 'admin.telegram',
-  audit: 'admin.audit',
   categories: 'admin.categories',
-  reports: 'admin.reports',
+  catalogs: 'admin.catalogs',
+  product_sources: 'admin.product_sources',
 };
 
 export function getAdminNavRoles(key: AdminNavKey): PanelRole[] {
@@ -85,20 +57,13 @@ export function getAdminNavRoles(key: AdminNavKey): PanelRole[] {
 
 const ADMIN_PERMISSION_PATHS: Record<AdminPermissionKey, string[]> = {
   'admin.dashboard': ['/admin/dashboard'],
-  'admin.ilanlar': ['/admin/ilanlar'],
-  'admin.bookings': ['/admin/bookings'],
   'admin.users': ['/admin/users'],
-  'admin.carriers': ['/admin/carriers'],
-  'admin.wallets': ['/admin/wallet'],
-  'admin.contacts': ['/admin/contacts'],
   'admin.site_settings': ['/admin/site-settings'],
   'admin.storage': ['/admin/storage'],
   'admin.theme': ['/admin/theme'],
-  'admin.email_templates': ['/admin/email-templates'],
-  'admin.telegram': ['/admin/telegram'],
-  'admin.audit': ['/admin/audit'],
   'admin.categories': ['/admin/categories'],
-  'admin.reports': ['/admin/reports'],
+  'admin.catalogs': ['/admin/catalogs'],
+  'admin.product_sources': ['/admin/product-sources'],
 };
 
 function stripQueryAndHash(pathname: string): string {

@@ -88,14 +88,14 @@ export const SiteSettingsList: React.FC<SiteSettingsListProps> = ({
 
     if (Array.isArray(vv)) {
       if (vv.length === 0) return '[]';
-      return t('admin.siteSettings.list.preview.array', { count: vv.length }, `Array [${vv.length} items]`);
+      return t('admin.siteSettings.list.preview.array', { count: vv.length });
     }
 
     if (typeof vv === 'object') {
       const keys = Object.keys(vv);
       if (keys.length === 0) return '{}';
       if (keys.length <= 3) return `{ ${keys.join(', ')} }`;
-      return t('admin.siteSettings.list.preview.object', { count: keys.length }, `Object {${keys.length} fields}`);
+      return t('admin.siteSettings.list.preview.object', { count: keys.length });
     }
 
     try {

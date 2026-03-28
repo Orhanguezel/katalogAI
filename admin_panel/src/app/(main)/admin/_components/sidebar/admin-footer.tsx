@@ -26,15 +26,19 @@ export function AdminFooter() {
   const copyright = branding?.app_copyright || '';
 
   return (
-    <footer className="mt-auto border-t py-4 px-6 bg-background/50 backdrop-blur-sm">
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-        <div className="flex items-center gap-2">
-          <span className="font-semibold">{appName}</span>
-          {appVersion ? <span className="text-border">|</span> : null}
-          {appVersion ? <span className="font-mono">{appVersion}</span> : null}
+    <footer className="mt-auto border-t border-white/5 py-8 px-10 bg-katalog-bg-deep/80 backdrop-blur-xl">
+      <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-6 text-[10px] uppercase tracking-[0.2em] font-bold">
+        <div className="flex items-center gap-4">
+          <span className="font-serif text-white tracking-normal normal-case text-base font-bold italic">{appName}</span>
+          <div className="h-4 w-[1px] bg-white/10 hidden sm:block" />
+          <span className="text-katalog-gold opacity-50 font-mono tracking-widest">{appVersion || 'v1.0.0'}</span>
         </div>
 
-        {copyright ? <div className="flex items-center gap-1">{copyright}</div> : null}
+        <div className="flex items-center gap-6">
+          {copyright ? <div className="text-white/30 italic font-medium tracking-normal normal-case">{copyright}</div> : null}
+          <div className="h-4 w-[1px] bg-white/10 hidden sm:block" />
+          <div className="text-white/20">PREMIUM EDITION</div>
+        </div>
       </div>
     </footer>
   );

@@ -8,57 +8,32 @@ import { requireAdmin } from '@/common/middleware/roles';
 // ── Public modüller ──────────────────────────────────────────────────────────
 import { registerAuth, registerUserAdmin } from '@/modules/auth';
 import { registerStorage, registerStorageAdmin } from '@/modules/storage';
-import { registerProfiles } from '@/modules/profiles';
 import { registerSiteSettings, registerSiteSettingsAdmin } from '@/modules/siteSettings';
 import { registerUserRoles } from '@/modules/userRoles';
 import { registerHealth } from '@/modules/health';
-import { registerMail } from '@/modules/mail';
-import { registerNotifications } from '@/modules/notifications';
-import { registerIlanlar, registerIlanlarAdmin } from '@/modules/ilanlar';
-import { registerBookings, registerBookingsAdmin } from '@/modules/bookings';
-import { registerBookingPayments } from '@/modules/bookings/payment.routes';
-import { registerWallet, registerWalletAdmin } from '@/modules/wallet';
 import { registerDashboard, registerDashboardAdmin } from '@/modules/dashboard';
-import { registerRatings } from '@/modules/ratings';
-import { registerAudit, registerAuditAdmin, registerAuditStream } from '@/modules/audit';
-import { registerContacts, registerContactsAdmin } from '@/modules/contact';
-import { registerCustomPages, registerCustomPagesAdmin } from '@/modules/customPages';
-import { registerSupport, registerSupportAdmin } from '@/modules/support';
 import { registerCategoriesAdmin } from '@/modules/categories';
 import { registerTheme, registerThemeAdmin } from '@/modules/theme';
-import { registerTelegram, registerTelegramAdmin } from '@/modules/telegram';
-import { registerSubscription, registerSubscriptionAdmin } from '@/modules/subscription';
-import { registerCarriersAdmin } from '@/modules/carriers';
-import { registerCarrierBank } from '@/modules/carrier-bank';
-import { registerWithdrawal, registerWithdrawalAdmin } from '@/modules/withdrawal';
-
-import { registerEmailTemplatesAdmin } from '@/modules/emailTemplates/admin.routes';
-import { registerReportsAdmin } from '@/modules/reports';
+import { registerProductSourcesAdmin } from '@/modules/productSources';
+import { registerCatalogsAdmin } from '@/modules/catalogs';
+import { registerExportsAdmin } from '@/modules/exports';
+import { registerAiTasksAdmin } from '@/modules/aiTasks';
+import { registerScraperAdmin } from '@/modules/scraper';
+import { registerProfiles } from '@/modules/profiles';
 
 const PUBLIC_ROUTE_REGISTRARS = [
   registerAuth,
   registerHealth,
   registerStorage,
-  registerProfiles,
   registerSiteSettings,
   registerUserRoles,
-  registerMail,
-  registerNotifications,
-  registerIlanlar,
-  registerBookings,
-  registerBookingPayments,
-  registerWallet,
   registerDashboard,
-  registerRatings,
-  registerAudit,
-  registerContacts,
-  registerCustomPages,
-  registerSupport,
   registerTheme,
-  registerTelegram,
-  registerSubscription,
-  registerCarrierBank,
-  registerWithdrawal,
+] as const;
+
+// Auth-protected (non-admin) routes
+const AUTH_ROUTE_REGISTRARS = [
+  registerProfiles,
 ] as const;
 
 const ADMIN_ROUTE_REGISTRARS = [
@@ -66,22 +41,13 @@ const ADMIN_ROUTE_REGISTRARS = [
   registerUserAdmin,
   registerStorageAdmin,
   registerDashboardAdmin,
-  registerWalletAdmin,
-  registerIlanlarAdmin,
-  registerBookingsAdmin,
-  registerContactsAdmin,
-  registerCustomPagesAdmin,
-  registerSupportAdmin,
   registerCategoriesAdmin,
   registerThemeAdmin,
-  registerEmailTemplatesAdmin,
-  registerAuditAdmin,
-  registerAuditStream,
-  registerTelegramAdmin,
-  registerReportsAdmin,
-  registerSubscriptionAdmin,
-  registerCarriersAdmin,
-  registerWithdrawalAdmin,
+  registerProductSourcesAdmin,
+  registerCatalogsAdmin,
+  registerExportsAdmin,
+  registerAiTasksAdmin,
+  registerScraperAdmin,
 ] as const;
 
 // ── Public route kayıtları ───────────────────────────────────────────────────
@@ -107,6 +73,14 @@ export async function registerAllRoutes(app: FastifyInstance) {
       adminApi.addHook('onRequest', requireAdmin);
       await registerAdminRoutes(adminApi);
     }, { prefix: '/admin' });
+
+    // Auth-protected (non-admin) — /api/* with requireAuth
+    await api.register(async (authApi) => {
+      authApi.addHook('onRequest', requireAuth);
+      for (const registerRoute of AUTH_ROUTE_REGISTRARS) {
+        await registerRoute(authApi);
+      }
+    });
 
     // Public — /api/*
     await registerPublicRoutes(api);

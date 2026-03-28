@@ -1,0 +1,64 @@
+{
+  "header": {
+    "title": "Veri Kaynakları",
+    "description": "Kataloglarda kullanılacak ürün kaynaklarını yönetin."
+  },
+  "tabs": {
+    "list": "Kaynak Listesi"
+  },
+  "form": {
+    "name": "Kaynak Adı",
+    "namePlaceholder": "Örn: Bereket Fide",
+    "slug": "Slug",
+    "slugPlaceholder": "Örn: bereketfide",
+    "sourceType": "Kaynak Tipi",
+    "dbHost": "Veritabanı Sunucusu",
+    "dbPort": "Port",
+    "dbName": "Veritabanı Adı",
+    "dbUser": "Kullanıcı Adı",
+    "dbPassword": "Şifre",
+    "defaultLocale": "Varsayılan Dil",
+    "hasSubcategories": "Alt Kategori Desteği",
+    "imageBaseUrl": "Görsel Temel URL",
+    "imageBaseUrlPlaceholder": "Örn: https://cdn.example.com/images",
+    "isActive": "Aktif",
+    "connectionLimit": "Bağlantı Limiti"
+  },
+  "actions": {
+    "create": "Kaynak Ekle",
+    "edit": "Düzenle",
+    "delete": "Sil",
+    "test": "Bağlantıyı Test Et",
+    "import": "Veri İçe Aktar",
+    "close": "Kapat"
+  },
+  "table": {
+    "name": "Ad",
+    "type": "Tip",
+    "status": "Durum",
+    "locale": "Dil",
+    "actions": "İşlemler"
+  },
+  "list": {
+    "empty": "Henüz veri kaynağı eklenmemiş.",
+    "loading": "Kaynaklar yükleniyor..."
+  },
+  "messages": {
+    "created": "Kaynak başarıyla oluşturuldu.",
+    "updated": "Kaynak başarıyla güncellendi.",
+    "deleted": "Kaynak silindi.",
+    "testSuccess": "Bağlantı başarılı!",
+    "testFailed": "Bağlantı başarısız.",
+    "tablesFound": "{count} tablo bulundu",
+    "importSuccess": "{count} ürün başarıyla içe aktarıldı.",
+    "confirmDelete": "\"{name}\" kaynağını silmek istediğinize emin misiniz?"
+  },
+  "status": {
+    "active": "Aktif",
+    "inactive": "Pasif"
+  },
+  "sourceTypes": {
+    "database": "Veritabanı",
+    "import": "İçe Aktarma"
+  }
+}

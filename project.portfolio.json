@@ -2,6 +2,7 @@
   "title": "KatalogAI",
   "slug": "katalog-ai",
   "summary": "Multi-database product catalog creator — pull products from different project databases, design catalogs with templates, export as PDF or send via email.",
+  "description": "KatalogAI is a SaaS catalog creation platform with a Next.js admin panel and Fastify backend that aggregates products from multiple sources, enriches content with AI, and prepares print-ready catalog outputs.",
   "category": "SAAS TOOL",
   "services": [
     "Full-Stack Development",
@@ -43,7 +44,7 @@
   "status": "development",
   "startDate": "2026-03-24",
   "completeDate": null,
-  "completionTimeLabel": null,
+  "completionTimeLabel": "In active development",
   "repoUrl": null,
   "websiteUrl": null,
   "demoUrl": null,

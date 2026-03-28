@@ -1,0 +1,174 @@
+{
+  "header": {
+    "title": "Kataloglar",
+    "description": "Ürün kataloglarını oluşturun, düzenleyin ve yönetin."
+  },
+  "tabs": {
+    "list": "Katalog Listesi"
+  },
+  "form": {
+    "title": "Katalog Başlığı",
+    "titlePlaceholder": "Örn: 2026 Bahar Katalogu",
+    "slug": "Slug",
+    "brandName": "Marka Adı",
+    "brandNamePlaceholder": "Örn: Bereket Fide",
+    "season": "Sezon",
+    "seasonPlaceholder": "Örn: Bahar 2026",
+    "locale": "Dil",
+    "template": "Şablon",
+    "colorTheme": "Ana Renk",
+    "accentColor": "Aksent Renk",
+    "fontFamily": "Yazı Tipi",
+    "contactInfo": "İletişim Bilgileri",
+    "phone": "Telefon",
+    "email": "E-posta",
+    "address": "Adres",
+    "website": "Web Sitesi"
+  },
+  "actions": {
+    "create": "Yeni Katalog",
+    "edit": "Düzenle",
+    "delete": "Sil",
+    "duplicate": "Kopyala",
+    "publish": "Yayınla",
+    "archive": "Arşivle",
+    "openBuilder": "Editörde Aç",
+    "exportPdf": "PDF İndir",
+    "preview": "Önizle",
+    "print": "Yazdır",
+    "sendEmail": "E-posta Gönder"
+  },
+  "table": {
+    "title": "Başlık",
+    "status": "Durum",
+    "pages": "Sayfa",
+    "products": "Ürün",
+    "locale": "Dil",
+    "updated": "Güncelleme",
+    "actions": "İşlemler"
+  },
+  "list": {
+    "empty": "Henüz katalog oluşturulmamış.",
+    "loading": "Kataloglar yükleniyor..."
+  },
+  "showcase": {
+    "title": "Örnek Katalog Şablonları",
+    "description": "Referans katalog düzenine uygun hazır şablonlardan biriyle hızlı başlangıç yapın.",
+    "cta": "Şablondan Başla"
+  },
+  "status": {
+    "draft": "Taslak",
+    "published": "Yayında",
+    "archived": "Arşivlenmiş"
+  },
+  "messages": {
+    "created": "Katalog başarıyla oluşturuldu.",
+    "updated": "Katalog güncellendi.",
+    "deleted": "Katalog silindi.",
+    "duplicated": "Katalog kopyalandı.",
+    "published": "Katalog yayınlandı.",
+    "archived": "Katalog arşivlendi.",
+    "confirmDelete": "\"{title}\" kataloğunu silmek istediğinize emin misiniz?",
+    "pdfExported": "PDF başarıyla oluşturuldu.",
+    "pdfExportFailed": "PDF oluşturulurken hata oluştu.",
+    "emailSent": "E-posta başarıyla gönderildi.",
+    "emailFailed": "E-posta gönderilirken hata oluştu."
+  },
+  "builder": {
+    "title": "Katalog Editörü",
+    "save": "Kaydet",
+    "saving": "Kaydediliyor...",
+    "saved": "Kaydedildi",
+    "unsaved": "Kaydedilmemiş değişiklikler var",
+    "addPage": "Sayfa Ekle",
+    "deletePage": "Sayfayı Sil",
+    "duplicatePage": "Sayfayı Kopyala",
+    "pageOf": "Sayfa {current}/{total}",
+    "emptySlot": "Ürün sürükleyip bırakın",
+    "removeProduct": "Ürünü Kaldır",
+    "editOverride": "Düzenle",
+    "zoom": "Yakınlaştırma",
+    "zoomFit": "Sığdır",
+    "backToList": "Kataloglara Dön"
+  },
+  "panel": {
+    "products": "Ürün Kütüphanesi",
+    "settings": "Ayarlar",
+    "newProduct": "Yeni Ürün",
+    "searchProducts": "Ürün ara...",
+    "allCategories": "Tüm Kategoriler",
+    "selectSource": "Kaynak Seçin",
+    "noProducts": "Bu filtreye uygun ürün bulunamadı."
+  },
+  "settings": {
+    "tabTemplate": "Şablon",
+    "tabStyle": "Stil",
+    "tabPage": "Sayfa",
+    "tabInfo": "Bilgi",
+    "changeTemplate": "Şablon Değiştir",
+    "templateWarning": "Şablon değiştirildiğinde stil ayarları sıfırlanır, ürünler korunur.",
+    "colorPalette": "Renk Paleti",
+    "primaryColor": "Ana Renk",
+    "accentColor": "Aksent Renk",
+    "backgroundColor": "Arka Plan Rengi",
+    "presetPalettes": "Hazır Paletler",
+    "fonts": "Yazı Tipleri",
+    "bodyFont": "Gövde Fontu",
+    "headingFont": "Başlık Fontu",
+    "fontSize": "Font Boyutu",
+    "cardStyle": "Kart Stili",
+    "imageAspect": "Görsel Oranı",
+    "pageLayout": "Sayfa Düzeni",
+    "pageBackground": "Sayfa Arka Plan",
+    "headerStyle": "Başlık Stili",
+    "pageNumberStyle": "Sayfa Numarası",
+    "catalogInfo": "Katalog Bilgileri"
+  },
+  "templates": {
+    "classic": "Klasik",
+    "classicDesc": "Geleneksel katalog, temiz çizgiler",
+    "modern": "Modern",
+    "modernDesc": "Minimalist, geniş boşluklar",
+    "nature": "Doğa",
+    "natureDesc": "Yeşil tonlar, organik hissiyat",
+    "bold": "Cesur",
+    "boldDesc": "Koyu arka plan, büyük tipografi",
+    "elegant": "Zarif",
+    "elegantDesc": "Lüks his, altın aksanlar",
+    "industrial": "Endüstriyel",
+    "industrialDesc": "Teknik, grid-ağırlıklı"
+  },
+  "ai": {
+    "title": "AI İçerik Asistanı",
+    "enhance": "Açıklama İyileştir",
+    "translate": "Çevir",
+    "targetLocale": "Hedef Dil",
+    "generate": "Oluştur",
+    "result": "Sonuç",
+    "apply": "Uygula",
+    "cancel": "İptal",
+    "error": "AI isteği başarısız oldu.",
+    "seoTitle": "AI SEO Önerisi",
+    "seoDescription": "Katalog başlığını AI ile optimize edin.",
+    "seoApplied": "SEO önerisi uygulandı."
+  },
+  "export": {
+    "emailTitle": "Kataloğu E-posta ile Gönder",
+    "emailTo": "Alıcı E-posta",
+    "emailSubject": "Konu",
+    "emailMessage": "Mesaj (opsiyonel)",
+    "emailMessagePlaceholder": "Kataloğunuz ekte yer almaktadır...",
+    "cancel": "İptal",
+    "send": "Gönder"
+  },
+  "layouts": {
+    "cover": "Kapak",
+    "2x2": "2×2 Grid",
+    "3x2": "3×2 Grid",
+    "2x3": "2×3 Grid",
+    "featured": "Öne Çıkan",
+    "asymmetric": "Asimetrik",
+    "single": "Tek Ürün",
+    "gallery": "Galeri"
+  }
+}

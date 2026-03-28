@@ -12,3 +12,4 @@ uploads/
 *.tgz
 coverage/
 .bun/
+DB_CREDENTIALS.md

@@ -195,461 +195,364 @@ export default function AdminStorageClient() {
 
   return (
     <>
-      <div className="space-y-6">
-        {/* Header */}
-        <Card>
-          <CardHeader>
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div className="space-y-1.5">
-                <CardTitle>{t('list.title')}</CardTitle>
-                <CardDescription>
-                  {t('list.description')}
-                </CardDescription>
-              </div>
-              <div className="flex gap-2">
-                {hasSelection && (
-                  <Button
-                    variant="destructive"
-                    onClick={handleBulkDelete}
-                    disabled={busy}
-                    className="gap-2"
-                  >
-                    <Trash2 className="size-4" />
-                    {t('list.deleteSelected', { count: selectedIds.size })}
-                  </Button>
-                )}
-                <Button
-                  onClick={() => router.push('/admin/storage/new')}
-                  disabled={busy}
-                  className="gap-2"
-                >
-                  <Plus className="size-4" />
-                  {t('list.uploadButton')}
-                </Button>
-              </div>
-            </div>
-          </CardHeader>
-
-          <CardContent className="space-y-4">
-            {/* Filters */}
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {/* Search */}
-              <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="search" className="text-sm">
-                  {t('list.searchLabel')}
-                </Label>
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    id="search"
-                    placeholder={t('list.searchPlaceholder')}
-                    value={filters.search}
-                    onChange={(e) => handleSearch(e.target.value)}
-                    disabled={busy}
-                    className="pl-9"
-                  />
-                </div>
-              </div>
-
-              {/* Bucket */}
-              <div className="space-y-2">
-                <Label htmlFor="bucket" className="text-sm">
-                  {t('list.bucketLabel')}
-                </Label>
-                <Select
-                  value={filters.bucket}
-                  onValueChange={handleBucketChange}
-                  disabled={busy}
-                >
-                  <SelectTrigger id="bucket">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value={ADMIN_STORAGE_ALL_OPTION}>{t('list.allOption')}</SelectItem>
-                    {buckets.map((b) => (
-                      <SelectItem key={b} value={b}>
-                        {b}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Folder */}
-              <div className="space-y-2">
-                <Label htmlFor="folder" className="text-sm">
-                  <div className="flex items-center gap-1.5">
-                    <Folder className="size-3.5" />
-                    {t('list.folderLabel')}
-                  </div>
-                </Label>
-                <Select
-                  value={filters.folder}
-                  onValueChange={handleFolderChange}
-                  disabled={busy}
-                >
-                  <SelectTrigger id="folder">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {folders.map((f) => (
-                      <SelectItem key={f} value={f}>
-                        {f || t('list.rootFolder')}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            {/* MIME Filter */}
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="space-y-2">
-                <Label htmlFor="mime" className="text-sm">
-                  {t('list.fileTypeLabel')}
-                </Label>
-                <Select
-                  value={filters.mime}
-                  onValueChange={handleMimeChange}
-                  disabled={busy}
-                >
-                  <SelectTrigger id="mime">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value={ADMIN_STORAGE_ALL_OPTION}>{t('list.allOption')}</SelectItem>
-                    {ADMIN_STORAGE_MIME_OPTIONS.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {t(`list.${option.labelKey}`)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="flex items-end lg:col-span-3">
-                <Button
-                  variant="outline"
-                  onClick={() => refetch()}
-                  disabled={busy}
-                  className="gap-2"
-                >
-                  <RefreshCcw
-                    className={cn('size-4', isFetching && 'animate-spin')}
-                  />
-                  {t('list.refreshButton')}
-                </Button>
-              </div>
-            </div>
-
-            {/* Info */}
-            <div className="flex items-center justify-between gap-2 text-sm text-muted-foreground">
-              <span>
-                {t('list.totalFiles', { total })}
-                {hasSelection && ` • ${t('list.selectedCount', { count: selectedIds.size })}`}
-              </span>
-              {isFetching && (
-                <div className="flex items-center gap-2">
-                  <Loader2 className="size-4 animate-spin" />
-                  <span>{t('list.loading')}</span>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Table (Desktop) */}
-        <Card className="hidden xl:block">
-          <CardContent className="p-0">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-12">
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      onClick={handleSelectAll}
-                      disabled={busy}
-                    >
-                      {selectedIds.size === items.length && items.length > 0 ? (
-                        <CheckSquare className="size-4" />
-                      ) : (
-                        <Square className="size-4" />
-                      )}
-                    </Button>
-                  </TableHead>
-                  <TableHead className="w-16">{t('list.previewColumn')}</TableHead>
-                  <TableHead>{t('list.fileColumn')}</TableHead>
-                  <TableHead className="w-32">{t('list.bucketColumn')}</TableHead>
-                  <TableHead className="w-32">{t('list.folderColumn')}</TableHead>
-                  <TableHead className="w-32">{t('list.typeColumn')}</TableHead>
-                  <TableHead className="w-24 text-right">{t('list.sizeColumn')}</TableHead>
-                  <TableHead className="w-44">{t('list.dateColumn')}</TableHead>
-                  <TableHead className="w-40 text-right">{t('list.actionsColumn')}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {isLoading ? (
-                  <TableRow>
-                    <TableCell colSpan={9} className="h-24 text-center">
-                      <div className="flex items-center justify-center gap-2">
-                        <Loader2 className="size-5 animate-spin" />
-                        <span>{t('list.loading')}</span>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ) : items.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={9} className="h-24 text-center">
-                      {t('list.noFiles')}
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  items.map((item) => {
-                    const Icon = getAdminStorageMimeIcon(item.mime);
-                    const colorClass = getAdminStorageMimeColorClass(item.mime);
-                    const isSelected = selectedIds.has(item.id);
-
-                    return (
-                      <TableRow key={item.id} className={cn(isSelected && 'bg-muted/50')}>
-                        <TableCell>
-                          <Button
-                            variant="ghost"
-                            size="icon-sm"
-                            onClick={() => handleSelectItem(item.id)}
-                            disabled={busy}
-                          >
-                            {isSelected ? (
-                              <CheckSquare className="size-4" />
-                            ) : (
-                              <Square className="size-4" />
-                            )}
-                          </Button>
-                        </TableCell>
-                        <TableCell>
-                          {item.url && item.mime.startsWith('image/') ? (
-                            <img
-                              src={item.url}
-                              alt={item.name}
-                              className="size-10 rounded object-cover"
-                            />
-                          ) : (
-                            <div className="flex size-10 items-center justify-center rounded bg-muted">
-                              <Icon className={cn('size-5', colorClass)} />
-                            </div>
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          <div className="space-y-1">
-                            <div className="font-medium">{truncateNullable(item.name, 30, '-')}</div>
-                            {item.path && (
-                              <div className="text-xs text-muted-foreground">
-                                {truncateNullable(item.path, 40, '-')}
-                              </div>
-                            )}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant="outline">{item.bucket}</Badge>
-                        </TableCell>
-                        <TableCell>
-                          {item.folder ? (
-                            <div className="flex items-center gap-1.5 text-xs">
-                              <Folder className="size-3" />
-                              {item.folder}
-                            </div>
-                          ) : (
-                            <span className="text-muted-foreground">{t('list.emptyValue')}</span>
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          <span className="text-xs text-muted-foreground">
-                            {item.mime.split('/')[1] || item.mime}
-                          </span>
-                        </TableCell>
-                        <TableCell className="text-right text-sm">
-                          {formatAdminStorageBytes(item.size)}
-                        </TableCell>
-                        <TableCell className="text-xs text-muted-foreground">
-                          <div>{formatAdminStorageDateTime(item.created_at)}</div>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex items-center justify-end gap-2">
-                            {item.url && (
-                              <Button
-                                variant="ghost"
-                                size="icon-sm"
-                                asChild
-                                title={t('list.downloadTitle')}
-                              >
-                                <a href={item.url} download target="_blank" rel="noopener noreferrer">
-                                  <Download className="size-3.5" />
-                                </a>
-                              </Button>
-                            )}
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleEdit(item)}
-                              disabled={busy}
-                              className="gap-2"
-                            >
-                              <Pencil className="size-3.5" />
-                              {t('list.editButton')}
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleDeleteClick(item)}
-                              disabled={busy}
-                              className="gap-2"
-                            >
-                              <Trash2 className="size-3.5" />
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })
-                )}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-
-        {/* Cards (Mobile) */}
-        <div className="space-y-4 xl:hidden">
-          {isLoading ? (
-            <Card>
-              <CardContent className="flex items-center justify-center py-12">
-                <div className="flex items-center gap-2">
-                  <Loader2 className="size-5 animate-spin" />
-                  <span>{t('admin.storage.list.loading')}</span>
-                </div>
-              </CardContent>
-            </Card>
-          ) : items.length === 0 ? (
-            <Card>
-              <CardContent className="py-12 text-center text-muted-foreground">
-                {t('list.noFiles')}
-              </CardContent>
-            </Card>
-          ) : (
-            items.map((item) => {
-              const Icon = getAdminStorageMimeIcon(item.mime);
-              const colorClass = getAdminStorageMimeColorClass(item.mime);
-              const isSelected = selectedIds.has(item.id);
-
-              return (
-                <Card key={item.id} className={cn(isSelected && 'ring-2 ring-primary')}>
-                  <CardContent className="space-y-4 pt-6">
-                    {/* Preview & Selection */}
-                    <div className="flex items-start gap-4">
-                      <Button
-                        variant="ghost"
-                        size="icon-sm"
-                        onClick={() => handleSelectItem(item.id)}
-                        disabled={busy}
-                      >
-                        {isSelected ? (
-                          <CheckSquare className="size-4" />
-                        ) : (
-                          <Square className="size-4" />
-                        )}
-                      </Button>
-
-                      {item.url && item.mime.startsWith('image/') ? (
-                        <img
-                          src={item.url}
-                          alt={item.name}
-                          className="size-20 rounded object-cover"
-                        />
-                      ) : (
-                        <div className="flex size-20 items-center justify-center rounded bg-muted">
-                          <Icon className={cn('size-8', colorClass)} />
-                        </div>
-                      )}
-
-                      <div className="flex-1 space-y-1">
-                        <h3 className="font-semibold">{item.name}</h3>
-                        <div className="flex flex-wrap gap-2">
-                          <Badge variant="outline">{item.bucket}</Badge>
-                          {item.folder && (
-                            <Badge variant="secondary">
-                              <Folder className="size-3" />
-                              {item.folder}
-                            </Badge>
-                          )}
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          {item.mime.split('/')[1]} • {formatAdminStorageBytes(item.size)}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Date */}
-                    <div className="text-xs text-muted-foreground">
-                      {formatAdminStorageDateTime(item.created_at)}
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex gap-2">
-                      {item.url && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          asChild
-                          className="flex-1 gap-2"
-                        >
-                          <a href={item.url} download target="_blank" rel="noopener noreferrer">
-                            <Download className="size-3.5" />
-                            {t('list.downloadTitle')}
-                          </a>
-                        </Button>
-                      )}
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleEdit(item)}
-                        disabled={busy}
-                        className="flex-1 gap-2"
-                      >
-                        <Pencil className="size-3.5" />
-                        {t('list.editButton')}
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleDeleteClick(item)}
-                        disabled={busy}
-                        className="gap-2"
-                      >
-                        <Trash2 className="size-3.5" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })
+    <div className="mx-auto max-w-7xl space-y-8 py-6 px-2">
+      <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="space-y-1">
+          <h1 className="font-serif text-3xl font-bold tracking-tight text-white">
+            {t('list.title') || 'Dosya Havuzu'}
+          </h1>
+          <p className="text-sm text-katalog-text-dim max-w-lg">
+            {t('list.description') || 'Tüm görsel ve katalog çıktılarını buradan yönetin.'}
+          </p>
+        </div>
+        <div className="flex gap-2">
+          {hasSelection && (
+            <Button
+              variant="destructive"
+              onClick={handleBulkDelete}
+              disabled={busy}
+              className="gap-2 bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30 active:scale-95 transition-all"
+            >
+              <Trash2 className="size-4" />
+              {t('list.deleteSelected', { count: selectedIds.size })}
+            </Button>
           )}
+          <Button
+            size="lg"
+            onClick={() => router.push('/admin/storage/new')}
+            disabled={busy}
+            className="rounded-xl bg-katalog-gold px-6 font-bold text-katalog-bg-deep shadow-[0_8px_30px_rgba(194,157,93,0.15)] hover:bg-katalog-gold-light active:scale-95 transition-all"
+          >
+            <Plus className="mr-2 h-5 w-5" />
+            {t('list.uploadButton') || 'Dosya Yükle'}
+          </Button>
         </div>
       </div>
 
-      {/* Delete Dialog */}
+      <div className="bg-katalog-bg-panel border border-white/5 rounded-2xl overflow-hidden p-6 space-y-6">
+        {/* Filters */}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 items-end">
+          <div className="space-y-2 sm:col-span-2">
+            <Label htmlFor="search" className="text-xs font-bold text-white/60 uppercase tracking-widest">
+              {t('list.searchLabel')}
+            </Label>
+            <div className="relative group">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30 group-focus-within:text-katalog-gold transition-colors" />
+              <Input
+                id="search"
+                placeholder={t('list.searchPlaceholder')}
+                value={filters.search}
+                onChange={(e) => handleSearch(e.target.value)}
+                disabled={busy}
+                className="pl-11 h-10 bg-katalog-bg-card border-white/5 text-white placeholder:text-katalog-text-dim focus:border-katalog-gold transition-all"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="bucket" className="text-xs font-bold text-white/60 uppercase tracking-widest">
+              {t('list.bucketLabel')}
+            </Label>
+            <Select value={filters.bucket} onValueChange={handleBucketChange} disabled={busy}>
+              <SelectTrigger id="bucket" className="h-10 bg-katalog-bg-card border-white/5 text-white">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-katalog-bg-panel border-white/10 text-white">
+                <SelectItem value={ADMIN_STORAGE_ALL_OPTION}>{t('list.allOption')}</SelectItem>
+                {buckets.map((b) => (
+                  <SelectItem key={b} value={b}>{b}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="folder" className="text-xs font-bold text-white/60 uppercase tracking-widest">
+              <div className="flex items-center gap-1.5">
+                <Folder className="size-3.5" />
+                {t('list.folderLabel')}
+              </div>
+            </Label>
+            <Select value={filters.folder} onValueChange={handleFolderChange} disabled={busy}>
+              <SelectTrigger id="folder" className="h-10 bg-katalog-bg-card border-white/5 text-white">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-katalog-bg-panel border-white/10 text-white">
+                {folders.map((f) => (
+                  <SelectItem key={f} value={f}>
+                    {f || t('list.rootFolder')}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 items-end">
+          <div className="space-y-2">
+            <Label htmlFor="mime" className="text-xs font-bold text-white/60 uppercase tracking-widest">
+              {t('list.fileTypeLabel')}
+            </Label>
+            <Select value={filters.mime} onValueChange={handleMimeChange} disabled={busy}>
+              <SelectTrigger id="mime" className="h-10 bg-katalog-bg-card border-white/5 text-white">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-katalog-bg-panel border-white/10 text-white">
+                <SelectItem value={ADMIN_STORAGE_ALL_OPTION}>{t('list.allOption')}</SelectItem>
+                {ADMIN_STORAGE_MIME_OPTIONS.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {t(`list.${option.labelKey}`)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="flex items-end lg:col-span-3 gap-2">
+            <Button
+              variant="outline"
+              onClick={() => refetch()}
+              disabled={busy}
+              className="h-10 border-white/10 bg-white/5 text-white hover:bg-white/10"
+            >
+              <RefreshCcw className={cn('size-4 mr-2', isFetching && 'animate-spin')} />
+              {t('list.refreshButton')}
+            </Button>
+            
+            <div className="flex-1 text-right text-[10px] text-katalog-text-dim uppercase tracking-widest font-mono self-center">
+              {t('list.totalFiles', { total })}
+              {hasSelection && ` • ${t('list.selectedCount', { count: selectedIds.size })}`}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Table (Desktop) */}
+      <div className="hidden xl:block bg-katalog-bg-panel border border-white/5 rounded-2xl overflow-hidden p-6">
+        <div className="rounded-xl border border-white/5 bg-katalog-bg-card overflow-hidden">
+          <Table>
+            <TableHeader className="bg-white/5">
+              <TableRow className="hover:bg-transparent border-white/5">
+                <TableHead className="w-12 items-center justify-center flex">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleSelectAll}
+                    disabled={busy}
+                    className="h-8 w-8 hover:bg-white/5"
+                  >
+                    {selectedIds.size === items.length && items.length > 0 ? (
+                      <CheckSquare className="size-4 text-katalog-gold" />
+                    ) : (
+                      <Square className="size-4 text-white/30" />
+                    )}
+                  </Button>
+                </TableHead>
+                <TableHead className="w-20 text-white font-bold">{t('list.previewColumn')}</TableHead>
+                <TableHead className="text-white font-bold">{t('list.fileColumn')}</TableHead>
+                <TableHead className="w-32 text-white font-bold">{t('list.typeColumn')}</TableHead>
+                <TableHead className="w-24 text-right text-white font-bold">{t('list.sizeColumn')}</TableHead>
+                <TableHead className="w-44 text-white font-bold">{t('list.dateColumn')}</TableHead>
+                <TableHead className="w-40 text-right pr-6 text-white font-bold"></TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {isLoading ? (
+                <TableRow>
+                  <TableCell colSpan={7} className="h-40 text-center">
+                    <div className="flex flex-col items-center justify-center gap-3">
+                      <Loader2 className="size-8 animate-spin text-katalog-gold" />
+                      <span className="text-xs text-katalog-text-dim uppercase tracking-widest font-bold">{t('list.loading')}</span>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ) : items.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={7} className="h-40 text-center text-katalog-text-dim/40 italic">
+                    {t('list.noFiles')}
+                  </TableCell>
+                </TableRow>
+              ) : (
+                items.map((item) => {
+                  const Icon = getAdminStorageMimeIcon(item.mime);
+                  const colorClass = getAdminStorageMimeColorClass(item.mime);
+                  const isSelected = selectedIds.has(item.id);
+
+                  return (
+                    <TableRow key={item.id} className={cn('hover:bg-white/2 border-white/5 transition-colors', isSelected && 'bg-katalog-gold/5')}>
+                      <TableCell className="w-12 text-center pl-4 py-4">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleSelectItem(item.id)}
+                          disabled={busy}
+                          className="h-8 w-8 hover:bg-white/5"
+                        >
+                          {isSelected ? (
+                            <CheckSquare className="size-4 text-katalog-gold" />
+                          ) : (
+                            <Square className="size-4 text-white/10" />
+                          )}
+                        </Button>
+                      </TableCell>
+                      <TableCell>
+                        {item.url && item.mime.startsWith('image/') ? (
+                          <div className="relative group">
+                            <img
+                              src={item.url}
+                              alt={item.name}
+                              className="size-12 rounded-lg object-cover ring-1 ring-white/5 shadow-lg group-hover:scale-110 transition-transform cursor-pointer"
+                              onClick={() => window.open(item.url || '', '_blank')}
+                            />
+                          </div>
+                        ) : (
+                          <div className="flex size-12 items-center justify-center rounded-lg bg-white/5 ring-1 ring-white/5">
+                            <Icon className={cn('size-6', colorClass)} />
+                          </div>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <div className="space-y-1">
+                          <div className="font-bold text-white text-sm">{truncateNullable(item.name, 40, '-')}</div>
+                          <div className="flex items-center gap-2">
+                             <Badge variant="outline" className="text-[9px] border-white/10 text-white/40 uppercase font-mono">{item.bucket}</Badge>
+                             {item.folder && (
+                               <div className="flex items-center gap-1 text-[10px] text-katalog-text-dim">
+                                 <Folder className="size-3" />
+                                 {item.folder}
+                               </div>
+                             )}
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <span className="text-[10px] text-katalog-text-dim uppercase tracking-widest font-bold">
+                          {item.mime.split('/')[1] || item.mime}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-right font-mono text-xs text-katalog-text-dim pr-4">
+                        {formatAdminStorageBytes(item.size)}
+                      </TableCell>
+                      <TableCell className="text-xs text-katalog-text-dim">
+                        <div>{formatAdminStorageDateTime(item.created_at)}</div>
+                      </TableCell>
+                      <TableCell className="text-right pr-6">
+                        <div className="flex items-center justify-end gap-2">
+                          {item.url && (
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              asChild
+                              className="h-9 w-9 text-katalog-text-dim hover:text-white"
+                            >
+                              <a href={item.url} download target="_blank" rel="noopener noreferrer">
+                                <Download className="size-4" />
+                              </a>
+                            </Button>
+                          )}
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleEdit(item)}
+                            disabled={busy}
+                            className="h-9 w-9 text-katalog-text-dim hover:text-white"
+                          >
+                            <Pencil className="size-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleDeleteClick(item)}
+                            disabled={busy}
+                            className="h-9 w-9 text-katalog-text-dim hover:text-red-400"
+                          >
+                            <Trash2 className="size-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      {/* Cards (Mobile) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xl:hidden px-2">
+        {isLoading ? (
+           <div className="col-span-full py-20 text-center">
+              <Loader2 className="size-8 animate-spin text-katalog-gold mx-auto mb-4" />
+              <p className="text-xs text-katalog-text-dim uppercase tracking-widest font-bold">{t('list.loading')}</p>
+           </div>
+        ) : items.length === 0 ? (
+           <div className="col-span-full py-20 text-center text-katalog-text-dim/40 italic border border-dashed border-white/5 rounded-2xl">
+              {t('list.noFiles')}
+           </div>
+        ) : (
+          items.map((item) => {
+            const Icon = getAdminStorageMimeIcon(item.mime);
+            const colorClass = getAdminStorageMimeColorClass(item.mime);
+            const isSelected = selectedIds.has(item.id);
+
+            return (
+              <div key={item.id} className={cn('relative bg-katalog-bg-panel border border-white/5 rounded-2xl p-4 transition-all group overflow-hidden', isSelected && 'ring-2 ring-katalog-gold')}>
+                <div className="absolute top-2 left-2 z-10">
+                   <Button size="icon" variant="ghost" onClick={() => handleSelectItem(item.id)} className="h-8 w-8 bg-black/40 backdrop-blur-sm border border-white/10">
+                      {isSelected ? <CheckSquare className="size-4 text-katalog-gold" /> : <Square className="size-4 text-white/50" />}
+                   </Button>
+                </div>
+
+                <div className="aspect-video w-full mb-4 rounded-xl overflow-hidden bg-katalog-bg-card ring-1 ring-white/5">
+                   {item.url && item.mime.startsWith('image/') ? (
+                      <img src={item.url} alt={item.name} className="w-full h-full object-cover" />
+                   ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                         <Icon className={cn('size-12', colorClass)} />
+                      </div>
+                   )}
+                </div>
+
+                <div className="space-y-3">
+                   <div className="space-y-1">
+                      <h3 className="font-bold text-white text-sm line-clamp-1">{item.name}</h3>
+                      <div className="flex items-center justify-between">
+                         <span className="text-[10px] text-katalog-text-dim uppercase tracking-widest font-bold">{item.mime.split('/')[1]} • {formatAdminStorageBytes(item.size)}</span>
+                         <span className="text-[10px] text-katalog-text-dim font-mono">{formatAdminStorageDateTime(item.created_at).split(' ')[0]}</span>
+                      </div>
+                   </div>
+
+                   <div className="grid grid-cols-2 gap-2 mt-2">
+                       <Button variant="outline" size="sm" className="h-9 border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold text-[11px]" onClick={() => handleEdit(item)}>
+                          {t('list.editButtonCompact')}
+                       </Button>
+                       <Button variant="outline" size="sm" className="h-9 border-white/10 bg-white/5 hover:bg-red-400/10 hover:text-red-400 text-white font-bold text-[11px]" onClick={() => handleDeleteClick(item)}>
+                          {t('list.deleteButtonCompact')}
+                       </Button>
+                   </div>
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
+
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-katalog-bg-panel border-white/10 text-white">
           <AlertDialogHeader>
-            <AlertDialogTitle>{t('list.deleteConfirmTitle')}</AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogTitle className="font-serif text-2xl">{t('list.deleteConfirmTitle')}</AlertDialogTitle>
+            <AlertDialogDescription className="text-katalog-text-dim">
               {t('list.deleteConfirmDescription', { name: itemToDelete?.name || t('list.defaultFileName') })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>{t('list.cancelButton')}</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteConfirm}>{t('list.deleteButton')}</AlertDialogAction>
+            <AlertDialogCancel className="bg-white/5 border-white/10 text-white hover:bg-white/10">{t('list.cancelButton')}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteConfirm} className="bg-red-500 text-white hover:bg-red-600">{t('list.deleteButton')}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+    </div>
     </>
   );
 }

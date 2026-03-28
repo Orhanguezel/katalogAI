@@ -4,5 +4,4 @@
 export {
   toDashboardCount,
   buildAdminDashboardSummaryItems,
-  buildDashboardWalletSnapshot,
 } from "./repository";

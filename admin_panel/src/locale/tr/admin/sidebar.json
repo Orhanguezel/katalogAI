@@ -1,15 +1,11 @@
 {
   "search": "Ara",
   "searchShortcut": "⌘J",
-  "searchPlaceholder": "Ara (şimdilik sınırlı)...",
+  "searchPlaceholder": "Ara...",
   "noResults": "Sonuç bulunamadı.",
-  "quickCreate": "Hızlı Oluştur",
-  "inbox": "Gelen Kutusu",
   "comingSoon": "Yakında",
   "user": {
     "account": "Hesap",
-    "billing": "Faturalama",
-    "notifications": "Bildirimler",
     "logout": "Çıkış Yap"
   },
   "theme": {
@@ -19,7 +15,7 @@
   "preferences": {
     "title": "Tercihler",
     "description": "Dashboard yerleşim tercihlerinizi özelleştirin.",
-    "cookieNote": "*Tercihler varsayılan olarak çerezleri kullanır. Kodda çerezler, localStorage veya depolama yok arasında geçiş yapabilirsiniz.",
+    "general": "Genel",
     "themePreset": "Tema Ön Ayarı",
     "themePresetPlaceholder": "Ön ayar",
     "fonts": "Yazı Tipleri",
@@ -27,8 +23,6 @@
     "themeMode": "Tema Modu",
     "pageLayout": "Sayfa Düzeni",
     "navbarBehavior": "Navbar Davranışı",
-    "sidebarStyle": "Sidebar Stili",
-    "sidebarCollapseMode": "Sidebar Daraltma Modu",
     "restoreDefaults": "Varsayılanlara Geri Yükle",
     "layout": {
       "centered": "Ortalanmış",
@@ -38,57 +32,31 @@
       "sticky": "Sabit",
       "scroll": "Kaydır"
     },
-    "sidebarVariant": {
-      "inset": "İçeriden",
-      "sidebar": "Kenar Çubuğu",
-      "floating": "Yüzer"
-    },
-    "sidebarCollapsible": {
-      "icon": "İkon",
-      "offcanvas": "Dışarıdan"
-    },
     "aria": {
       "themeLight": "Açık tema modunu seç",
       "themeDark": "Koyu tema modunu seç",
       "layoutCentered": "Ortalanmış sayfa düzenini seç",
       "layoutFullWidth": "Tam genişlik sayfa düzenini seç",
       "navbarSticky": "Sabit navbar davranışını seç",
-      "navbarScroll": "Kaydırmalı navbar davranışını seç",
-      "sidebarInset": "İçeriden sidebar stilini seç",
-      "sidebarStandard": "Kenar çubuğu sidebar stilini seç",
-      "sidebarFloating": "Yüzer sidebar stilini seç",
-      "collapseIcon": "İkon sidebar daraltma modunu seç",
-      "collapseOffcanvas": "Offcanvas sidebar daraltma modunu seç"
+      "navbarScroll": "Kaydırmalı navbar davranışını seç"
     },
     "language": "Arayüz Dili",
     "languagePlaceholder": "Dil seçin"
   },
   "groups": {
-    "general": "Genel / Yönetim",
-    "listings": "İlan Yönetimi",
-    "finance": "Kullanıcılar & Finans",
-    "support": "Destek",
-    "content": "İçerik Yönetimi",
-    "integrations": "3. Taraf API Entegrasyonları",
-    "marketing": "Pazarlama",
-    "communication": "İletişim & CRM",
+    "general": "Genel",
+    "catalogs": "Katalog",
+    "users": "Kullanıcılar",
     "system": "Sistem & Ayarlar"
   },
   "items": {
     "dashboard": "Dashboard",
-    "ilanlar": "İlanlar",
-    "bookings": "Rezervasyonlar",
     "categories": "Kategoriler",
     "users": "Kullanıcılar",
-    "carriers": "Taşıyıcılar",
-    "wallets": "Cüzdanlar",
-    "reports": "Raporlar",
-    "contacts": "İletişim",
-    "email_templates": "E-posta Şablonları",
     "site_settings": "Site Ayarları",
     "storage": "Depolama",
     "theme": "Tema",
-    "telegram": "Telegram",
-    "audit": "Denetim"
+    "catalogs": "Kataloglar",
+    "product_sources": "Veri Kaynakları"
   }
 }

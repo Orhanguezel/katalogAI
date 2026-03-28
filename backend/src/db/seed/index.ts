@@ -158,7 +158,18 @@ function prepareSqlForRun(
     .replaceAll('{{IYZICO_API_KEY}}', sqlStr(iyzico.apiKey))
     .replaceAll('{{IYZICO_SECRET_KEY}}', sqlStr(iyzico.secretKey))
     .replaceAll('{{IYZICO_BASE_URL}}', sqlStr(iyzico.baseUrl))
-    .replaceAll('{{IYZICO_IS_TEST_MODE}}', String(iyzico.isTestMode));
+    .replaceAll('{{IYZICO_IS_TEST_MODE}}', String(iyzico.isTestMode))
+    // Product Sources
+    .replaceAll('{{SOURCE_BEREKETFIDE_DB_HOST}}', sqlStr(process.env.SOURCE_BEREKETFIDE_DB_HOST || '127.0.0.1'))
+    .replaceAll('{{SOURCE_BEREKETFIDE_DB_PORT}}', String(process.env.SOURCE_BEREKETFIDE_DB_PORT || '3306'))
+    .replaceAll('{{SOURCE_BEREKETFIDE_DB_NAME}}', sqlStr(process.env.SOURCE_BEREKETFIDE_DB_NAME || 'bereketfide'))
+    .replaceAll('{{SOURCE_BEREKETFIDE_DB_USER}}', sqlStr(process.env.SOURCE_BEREKETFIDE_DB_USER || 'app'))
+    .replaceAll('{{SOURCE_BEREKETFIDE_DB_PASSWORD}}', sqlStr(process.env.SOURCE_BEREKETFIDE_DB_PASSWORD || 'app'))
+    .replaceAll('{{SOURCE_VISTASEED_DB_HOST}}', sqlStr(process.env.SOURCE_VISTASEED_DB_HOST || '127.0.0.1'))
+    .replaceAll('{{SOURCE_VISTASEED_DB_PORT}}', String(process.env.SOURCE_VISTASEED_DB_PORT || '3306'))
+    .replaceAll('{{SOURCE_VISTASEED_DB_NAME}}', sqlStr(process.env.SOURCE_VISTASEED_DB_NAME || 'vistaseed'))
+    .replaceAll('{{SOURCE_VISTASEED_DB_USER}}', sqlStr(process.env.SOURCE_VISTASEED_DB_USER || 'app'))
+    .replaceAll('{{SOURCE_VISTASEED_DB_PASSWORD}}', sqlStr(process.env.SOURCE_VISTASEED_DB_PASSWORD || 'app'));
 
   fs.writeFileSync('/tmp/seed_debug.sql', sql);
   sql = `${header}\n${sql}`;

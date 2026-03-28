@@ -1,7 +1,8 @@
 // src/modules/_shared/time.ts
 // Shared dashboard range/window helpers.
 
-import type { RangeKey, TrendBucket } from './dashboard-admin-types';
+export type RangeKey = '7d' | '30d' | '90d';
+export type TrendBucket = 'day' | 'week';
 
 function addDaysUtc(d: Date, days: number) {
   const x = new Date(d.getTime());

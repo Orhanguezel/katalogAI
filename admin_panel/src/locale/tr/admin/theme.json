@@ -19,6 +19,7 @@
   "borderRadius": "Köşe Yuvarlaklığı",
   "darkModeLabel": "Tema Modu",
   "preview": "Önizleme",
+  "previewNote": "Renk değişiklikleri burada anlık yansır. Kaydetmeden panel geneline uygulanmaz.",
   "actions": {
     "refresh": "Yenile",
     "reset": "Varsayılana Dön",

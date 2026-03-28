@@ -4,20 +4,14 @@
 // =============================================================
 
 import {
-  BarChart3,
-  BookOpen,
-  Contact2,
+  BookOpenCheck,
+  Database,
   FolderTree,
   HardDrive,
   LayoutDashboard,
-  Mail,
-  MessageSquare,
   Palette,
-  Send,
   Settings,
-  Truck,
   Users,
-  Wallet,
   type LucideIcon,
 } from 'lucide-react';
 import type { TranslateFn } from '@/i18n/translation-utils';
@@ -54,7 +48,7 @@ export type AdminSidebarRole = PanelRole;
 
 export type AdminNavItemKey = AdminNavKey;
 
-export type AdminNavGroupKey = 'general' | 'listings' | 'finance' | 'support' | 'system';
+export type AdminNavGroupKey = 'general' | 'catalogs' | 'users' | 'system';
 
 export type AdminNavConfigItem = {
   key: AdminNavItemKey;
@@ -80,54 +74,27 @@ export const adminNavConfig: AdminNavConfigGroup[] = [
   },
   {
     id: 2,
-    key: 'listings',
+    key: 'catalogs',
     items: [
-      { key: 'ilanlar', url: '/admin/ilanlar', icon: Truck },
-      { key: 'bookings', url: '/admin/bookings', icon: BookOpen },
+      { key: 'catalogs', url: '/admin/catalogs', icon: BookOpenCheck },
+      { key: 'product_sources', url: '/admin/product-sources', icon: Database },
       { key: 'categories', url: '/admin/categories', icon: FolderTree },
     ],
   },
   {
     id: 3,
-    key: 'finance',
+    key: 'users',
     items: [
       { key: 'users', url: '/admin/users', icon: Users },
-      {
-        key: 'carriers',
-        url: '/admin/carriers',
-        icon: Users,
-      },
-      { key: 'wallets', url: '/admin/wallet', icon: Wallet },
-      {
-        key: 'reports',
-        url: '/admin/dashboard/coming-soon?module=reports',
-        icon: BarChart3,
-        comingSoon: true,
-      },
     ],
   },
   {
     id: 4,
-    key: 'support',
-    items: [
-      { key: 'contacts', url: '/admin/contacts', icon: Contact2 },
-      {
-        key: 'email_templates',
-        url: '/admin/dashboard/coming-soon?module=email-templates',
-        icon: Mail,
-        comingSoon: true,
-      },
-    ],
-  },
-  {
-    id: 5,
     key: 'system',
     items: [
       { key: 'site_settings', url: '/admin/site-settings', icon: Settings },
       { key: 'storage', url: '/admin/storage', icon: HardDrive },
       { key: 'theme', url: '/admin/theme', icon: Palette },
-      { key: 'telegram', url: '/admin/telegram', icon: Send },
-      { key: 'audit', url: '/admin/audit', icon: MessageSquare },
     ],
   },
 ];
@@ -143,28 +110,20 @@ export type AdminNavCopy = {
 
 const FALLBACK_GROUP_LABELS: Record<AdminNavGroupKey, string> = {
   general:  'Genel',
-  listings: 'İlan Yönetimi',
-  finance:  'Kullanıcılar & Finans',
-  support:  'Destek',
+  catalogs: 'Katalog',
+  users:    'Kullanıcılar',
   system:   'Sistem',
 };
 
 const FALLBACK_TITLES: Record<AdminNavItemKey, string> = {
   dashboard: 'Dashboard',
-  ilanlar: 'İlanlar',
-  bookings: 'Rezervasyonlar',
   categories: 'Kategoriler',
   users: 'Kullanıcılar',
-  carriers: 'Taşıyıcılar',
-  wallets: 'Cüzdanlar',
-  reports: 'Raporlar',
-  contacts: 'İletişim',
-  email_templates: 'E-posta Şablonları',
   site_settings: 'Site Ayarları',
-  telegram: 'Telegram',
   theme: 'Tema',
   storage: 'Depolama',
-  audit: 'Denetim',
+  catalogs: 'Kataloglar',
+  product_sources: 'Veri Kaynakları',
 };
 
 export const ADMIN_NAV_ROUTE_MAP: Record<AdminNavItemKey, string> = adminNavConfig

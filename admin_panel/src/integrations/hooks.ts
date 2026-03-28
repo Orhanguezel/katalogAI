@@ -67,30 +67,11 @@ export {
 } from '@/integrations/endpoints/admin/dashboard-admin-endpoints';
 
 export {
-  useListContactsAdminQuery,
-  useGetContactAdminQuery,
-  useUpdateContactAdminMutation,
-  useDeleteContactAdminMutation,
-} from '@/integrations/endpoints/admin/contacts-admin-endpoints';
-
-export {
-  useListCarriersAdminQuery,
-  useGetCarrierAdminQuery,
-} from '@/integrations/endpoints/admin/carriers-admin-endpoints';
-
-export {
   useGetThemeAdminQuery,
   useUpdateThemeAdminMutation,
   useResetThemeAdminMutation,
 } from '@/integrations/endpoints/admin/theme-admin-endpoints';
 
-export {
-  useListAuditRequestLogsAdminQuery,
-  useListAuditAuthEventsAdminQuery,
-  useGetAuditMetricsDailyAdminQuery,
-  useGetAuditGeoStatsAdminQuery,
-  useClearAuditLogsAdminMutation,
-} from '@/integrations/endpoints/admin/audit-admin-endpoints';
 
 export {
   useListSiteSettingsAdminQuery,
@@ -117,37 +98,6 @@ export {
   useLazyDiagCloudinaryAdminQuery,
 } from '@/integrations/endpoints/admin/storage-admin-endpoints';
 
-export {
-  useListEmailTemplatesAdminQuery,
-  useGetEmailTemplateAdminQuery,
-  useCreateEmailTemplateAdminMutation,
-  useUpdateEmailTemplateAdminMutation,
-  useDeleteEmailTemplateAdminMutation,
-} from '@/integrations/endpoints/admin/email-templates-admin-endpoints';
-
-export {
-  useAdminReportsKpiQuery,
-  useAdminReportsUsersPerformanceQuery,
-  useAdminReportsLocationsQuery,
-} from '@/integrations/endpoints/admin/reports-admin-endpoints';
-
-export {
-  useListTelegramInboundQuery,
-  useGetTelegramAutoReplyQuery,
-  useUpdateTelegramAutoReplyMutation,
-} from '@/integrations/endpoints/admin/telegram-inbound-endpoints';
-
-export {
-  useTelegramTestMutation,
-  useTelegramSendMutation,
-  useTelegramEventMutation,
-  useTelegramSendTestMutation,
-  useSendTelegramNotificationMutation,
-} from '@/integrations/endpoints/admin/telegram-admin-endpoints';
-
-export {
-  useTelegramWebhookSimulateMutation,
-} from '@/integrations/endpoints/admin/telegram-webhook-endpoints';
 
 export {
   useListCategoriesAdminQuery,
@@ -165,21 +115,45 @@ export {
 } from '@/integrations/endpoints/admin/categories-admin-endpoints';
 
 export {
-  useListWalletsAdminQuery,
-  useGetWalletAdminQuery,
-  useUpdateWalletStatusAdminMutation,
-  useAdjustWalletAdminMutation,
-  useListWalletTransactionsAdminQuery,
-  useUpdateTransactionStatusAdminMutation,
-} from '@/integrations/endpoints/admin/wallet-admin-endpoints';
+  useListProductSourcesAdminQuery,
+  useLazyListProductSourcesAdminQuery,
+  useGetProductSourceAdminQuery,
+  useCreateProductSourceAdminMutation,
+  useUpdateProductSourceAdminMutation,
+  useDeleteProductSourceAdminMutation,
+  useTestProductSourceAdminMutation,
+  useGetSourceCategoriesAdminQuery,
+  useLazyGetSourceCategoriesAdminQuery,
+  useGetSourceProductsAdminQuery,
+  useLazyGetSourceProductsAdminQuery,
+  useImportProductSourceAdminMutation,
+} from '@/integrations/endpoints/admin/product-sources-admin-endpoints';
 
 export {
-  useListIlanlarAdminQuery,
-  useUpdateIlanStatusAdminMutation,
-  useDeleteIlanAdminMutation,
-} from '@/integrations/endpoints/admin/ilanlar-admin-endpoints';
+  useListCatalogsAdminQuery,
+  useLazyListCatalogsAdminQuery,
+  useGetCatalogAdminQuery,
+  useLazyGetCatalogAdminQuery,
+  useCreateCatalogAdminMutation,
+  useUpdateCatalogAdminMutation,
+  useDeleteCatalogAdminMutation,
+  useUpdateCatalogStatusAdminMutation,
+  useDuplicateCatalogAdminMutation,
+  useCreateCatalogPageAdminMutation,
+  useUpdateCatalogPageAdminMutation,
+  useDeleteCatalogPageAdminMutation,
+  useReorderCatalogPagesAdminMutation,
+  useCreateCatalogPageItemAdminMutation,
+  useUpdateCatalogPageItemAdminMutation,
+  useDeleteCatalogPageItemAdminMutation,
+  useBulkAddCatalogProductsAdminMutation,
+  useRefreshCatalogSnapshotsAdminMutation,
+  useExportCatalogPdfAdminMutation,
+  useSendCatalogEmailAdminMutation,
+} from '@/integrations/endpoints/admin/catalogs-admin-endpoints';
 
 export {
-  useListBookingsAdminQuery,
-  useUpdateBookingStatusAdminMutation,
-} from '@/integrations/endpoints/admin/bookings-admin-endpoints';
+  useAiEnhanceDescriptionAdminMutation,
+  useAiTranslateAdminMutation,
+  useAiSeoSuggestAdminMutation,
+} from '@/integrations/endpoints/admin/ai-tasks-admin-endpoints';

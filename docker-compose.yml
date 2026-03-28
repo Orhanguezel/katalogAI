@@ -8,7 +8,7 @@ services:
       MYSQL_USER: ${DB_USER:-app}
       MYSQL_PASSWORD: ${DB_PASSWORD:-app}
     ports:
-      - "3306:3306"
+      - "${DB_EXTERNAL_PORT:-3306}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
@@ -22,7 +22,7 @@ services:
     image: redis:7-alpine
     restart: unless-stopped
     ports:
-      - "6379:6379"
+      - "${REDIS_EXTERNAL_PORT:-6379}:6379"
     volumes:
       - redis_data:/data
     healthcheck:
@@ -38,10 +38,13 @@ services:
     restart: unless-stopped
     env_file: ./backend/.env
     environment:
+      NODE_ENV: production
       DB_HOST: mysql
       DB_PORT: 3306
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     ports:
-      - "8083:8083"
+      - "${BACKEND_PORT:-8078}:8078"
     volumes:
       - uploads_data:/app/uploads
     depends_on:
@@ -50,7 +53,7 @@ services:
       redis:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:8083/api/health"]
+      test: ["CMD", "wget", "-qO-", "http://localhost:8078/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -61,13 +64,14 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     environment:
-      PANEL_API_URL: ${PANEL_API_URL:-http://backend:8083}
-      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8083/api}
-      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8083/api}
-      NEXT_PUBLIC_SITE_BRAND: ${NEXT_PUBLIC_SITE_BRAND:-katalog-creator}
-      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3022}
+      NODE_ENV: production
+      PANEL_API_URL: ${PANEL_API_URL:-http://backend:8078}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8078/api}
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8078/api}
+      NEXT_PUBLIC_SITE_BRAND: ${NEXT_PUBLIC_SITE_BRAND:-katalogai}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3030}
     ports:
-      - "3022:3022"
+      - "${ADMIN_PORT:-3030}:3030"
     depends_on:
       - backend
 

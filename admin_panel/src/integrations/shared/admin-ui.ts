@@ -1,6 +1,6 @@
 // =============================================================
 // FILE: src/integrations/shared/admin-ui.ts
-// FINAL — Admin UI copy (site_settings.ui_admin) normalizer
+// Admin UI copy (site_settings.ui_admin) normalizer
 // =============================================================
 
 import { parseJsonObject, uiText } from '@/integrations/shared/common';
@@ -70,27 +70,19 @@ const emptyCommon: AdminUiCommonCopy = {
 const emptyNav: AdminNavCopy = {
   labels: {
     general:  '',
-    listings: '',
-    finance:  '',
-    support:  '',
+    catalogs: '',
+    users:    '',
     system:   '',
   },
   items: {
-    dashboard:       '',
-    ilanlar:         '',
-    bookings:        '',
-    categories:      '',
-    users:           '',
-    carriers:        '',
-    wallets:         '',
-    reports:         '',
-    contacts:        '',
-    email_templates: '',
-    site_settings:   '',
-    storage:         '',
-    theme:           '',
-    telegram:        '',
-    audit:           '',
+    dashboard:        '',
+    catalogs:         '',
+    product_sources:  '',
+    categories:       '',
+    users:            '',
+    site_settings:    '',
+    storage:          '',
+    theme:            '',
   },
 };
 
@@ -102,28 +94,20 @@ export function normalizeAdminUiCopy(raw: unknown): AdminUiCopy {
 
   const labels: AdminNavCopy['labels'] = {
     general:  uiText(labelsRaw.general),
-    listings: uiText(labelsRaw.listings),
-    finance:  uiText(labelsRaw.finance),
-    support:  uiText(labelsRaw.support),
+    catalogs: uiText(labelsRaw.catalogs),
+    users:    uiText(labelsRaw.users),
     system:   uiText(labelsRaw.system),
   };
 
   const items: AdminNavCopy['items'] = {
-    dashboard:       uiText(itemsRaw.dashboard),
-    ilanlar:         uiText(itemsRaw.ilanlar),
-    bookings:        uiText(itemsRaw.bookings),
-    categories:      uiText(itemsRaw.categories),
-    users:           uiText(itemsRaw.users),
-    carriers:        uiText(itemsRaw.carriers),
-    wallets:         uiText(itemsRaw.wallets),
-    reports:         uiText(itemsRaw.reports),
-    contacts:        uiText(itemsRaw.contacts),
-    email_templates: uiText(itemsRaw.email_templates),
-    site_settings:   uiText(itemsRaw.site_settings),
-    storage:         uiText(itemsRaw.storage),
-    theme:           uiText(itemsRaw.theme),
-    telegram:        uiText(itemsRaw.telegram),
-    audit:           uiText(itemsRaw.audit),
+    dashboard:        uiText(itemsRaw.dashboard),
+    catalogs:         uiText(itemsRaw.catalogs),
+    product_sources:  uiText(itemsRaw.product_sources),
+    categories:       uiText(itemsRaw.categories),
+    users:            uiText(itemsRaw.users),
+    site_settings:    uiText(itemsRaw.site_settings),
+    storage:          uiText(itemsRaw.storage),
+    theme:            uiText(itemsRaw.theme),
   };
 
   const commonRaw = parseJsonObject(o.common);

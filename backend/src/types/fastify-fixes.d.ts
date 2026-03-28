@@ -9,6 +9,14 @@ declare module 'fastify' {
     cookies: Record<string, string | undefined>;
   }
 
+  interface FastifyContextConfig {
+    auth?: boolean;
+    rateLimit?: {
+      max?: number;
+      timeWindow?: string | number;
+    }
+  }
+
   interface FastifyReply {
     status(code: number): this;
     code(code: number): this;
