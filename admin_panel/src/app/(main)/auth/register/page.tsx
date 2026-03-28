@@ -4,6 +4,10 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { RegisterForm } from '../_components/register-form';
+import { BASE_URL } from '@/integrations/api-base';
+
+const LOGO_URL = `${BASE_URL.replace('/api', '')}/uploads/media/logo/katalogai-logo.png`;
+const LOGO_DARK_URL = `${BASE_URL.replace('/api', '')}/uploads/media/logo/katalogai-logo-dark.png`;
 
 function RegisterFormFallback() {
   return (
@@ -21,9 +25,7 @@ export default function Register() {
       {/* Sol — brand */}
       <div className="hidden lg:flex lg:w-2/5 items-center justify-center bg-linear-to-br from-katalog-bg-panel to-katalog-bg-deep p-12">
         <div className="flex flex-col items-center gap-8 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-katalog-gold text-3xl font-bold text-katalog-bg-deep shadow-2xl shadow-katalog-gold/30">
-            K
-          </div>
+          <img src={LOGO_DARK_URL} alt="KatalogAI" className="h-20 w-auto object-contain" />
           <div>
             <h1 className="font-serif text-4xl font-bold text-white italic">
               Katalog<span className="text-katalog-gold">AI</span>
@@ -39,9 +41,7 @@ export default function Register() {
       <div className="flex w-full items-center justify-center p-8 lg:w-3/5">
         <div className="w-full max-w-sm space-y-8">
           <div className="flex flex-col items-center gap-3 lg:hidden">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-katalog-gold text-xl font-bold text-katalog-bg-deep">
-              K
-            </div>
+            <img src={LOGO_URL} alt="KatalogAI" className="h-14 w-auto object-contain" />
             <span className="font-serif text-2xl font-bold text-white italic">
               Katalog<span className="text-katalog-gold">AI</span>
             </span>
