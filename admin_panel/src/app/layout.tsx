@@ -30,11 +30,11 @@ export async function generateMetadata(): Promise<Metadata> {
     description: branding.meta.description,
     icons: {
       icon: [
-        { url: '/favicon/favicon.ico', type: 'image/x-icon' },
-        { url: branding.favicon_16, sizes: '16x16', type: 'image/png' },
-        { url: branding.favicon_32, sizes: '32x32', type: 'image/png' },
+        { url: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/favicon/favicon.ico`, type: 'image/x-icon' },
+        { url: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}${branding.favicon_16}`, sizes: '16x16', type: 'image/png' },
+        { url: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}${branding.favicon_32}`, sizes: '32x32', type: 'image/png' },
       ],
-      apple: branding.apple_touch_icon,
+      apple: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}${branding.apple_touch_icon}`,
     },
     openGraph: {
       type: 'website',
