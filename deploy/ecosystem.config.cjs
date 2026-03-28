@@ -12,7 +12,7 @@ module.exports = {
       interpreter: 'none',
       env: {
         NODE_ENV: 'production',
-        PORT: 8078,
+        PORT: 8083,
       },
       instances: 1,
       autorestart: true,

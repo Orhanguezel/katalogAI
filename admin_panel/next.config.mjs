@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 const nextConfig = {
+  ...(basePath ? { basePath } : {}),
   experimental: {},
   compiler: { removeConsole: process.env.NODE_ENV === 'production' },
   output: 'standalone',
