@@ -1,15 +1,17 @@
 -- =============================================================
--- 022 — KatalogAI site_settings brand-prefix seed
+-- 022 — KatalogAI admin panel brand-prefix site_settings
+-- Storage path: /uploads/media/logo/
 -- =============================================================
 
 SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- Admin panel brand config
+-- Admin panel site logo (brand-prefixed)
 INSERT INTO `site_settings` (`id`, `key`, `locale`, `value`) VALUES
 (UUID(), 'katalogai__site_logo', '*',
- '{"url":"/uploads/media/logo/katalogai-logo.png","alt":"KatalogAI Logo"}')
+ '{"url":"/uploads/media/logo/katalogai-logo.png","alt":"KatalogAI Logo","urlDark":"/uploads/media/logo/katalogai-logo-dark.png","altDark":"KatalogAI Logo Dark","favicon":"/uploads/media/logo/katalogai-favicon.png","faviconAlt":"KatalogAI Favicon","appleTouchIcon":"/uploads/media/logo/katalogai-apple-touch.png","appleTouchIconAlt":"KatalogAI Apple Touch"}')
 ON DUPLICATE KEY UPDATE `value` = VALUES(`value`);
 
+-- Logo fallback
 INSERT INTO `site_settings` (`id`, `key`, `locale`, `value`) VALUES
 (UUID(), 'katalogai__logo', '*', '"/uploads/media/logo/katalogai-logo.png"')
 ON DUPLICATE KEY UPDATE `value` = VALUES(`value`);
