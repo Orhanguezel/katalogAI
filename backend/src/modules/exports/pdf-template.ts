@@ -157,8 +157,16 @@ export function buildCatalogHtml(catalog: FullCatalog): string {
   const bodyFont = 'DM Sans';
   const showPrices = !!catalog.show_prices;
 
+  const showCover = catalog.show_cover !== 0;
+  const showBackCover = catalog.show_back_cover !== 0;
+
   const pagesHtml = catalog.pages
     .sort((a, b) => a.page_number - b.page_number)
+    .filter((page) => {
+      if (page.layout_type === 'cover') return showCover;
+      if (page.layout_type === 'backcover') return showBackCover;
+      return true;
+    })
     .map((page) => {
       if (page.layout_type === 'cover') return renderCoverPage(catalog);
       if (page.layout_type === 'backcover') return renderBackCoverPage(catalog);

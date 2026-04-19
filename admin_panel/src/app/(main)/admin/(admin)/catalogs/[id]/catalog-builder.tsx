@@ -73,6 +73,8 @@ export default function CatalogBuilder({ catalogId }: Props) {
           accent_color: s.accentColor || undefined,
           font_family: s.fontFamily || undefined,
           show_prices: s.showPrices,
+          show_cover: s.showCover,
+          show_back_cover: s.showBackCover,
         },
       }).unwrap();
       s.markClean();

@@ -78,6 +78,8 @@ export async function repoCreateCatalog(data: CreateCatalogInput, userId: string
     logo_url: (data as Record<string, unknown>).logo_url as string ?? null,
     cover_image_url: (data as Record<string, unknown>).cover_image_url as string ?? null,
     show_prices: data.show_prices !== undefined ? (toBool(data.show_prices) ? 1 : 0) : 0,
+    show_cover: data.show_cover !== undefined ? (toBool(data.show_cover) ? 1 : 0) : 1,
+    show_back_cover: data.show_back_cover !== undefined ? (toBool(data.show_back_cover) ? 1 : 0) : 1,
     created_by: userId,
     page_count: 3,
   });
@@ -106,6 +108,8 @@ export async function repoUpdateCatalog(id: string, data: UpdateCatalogInput) {
   if (data.logo_url !== undefined) set.logo_url = data.logo_url;
   if (data.cover_image_url !== undefined) set.cover_image_url = data.cover_image_url;
   if (data.show_prices !== undefined) set.show_prices = toBool(data.show_prices) ? 1 : 0;
+  if (data.show_cover !== undefined) set.show_cover = toBool(data.show_cover) ? 1 : 0;
+  if (data.show_back_cover !== undefined) set.show_back_cover = toBool(data.show_back_cover) ? 1 : 0;
 
   if (Object.keys(set).length) {
     await db.update(catalogs).set(set).where(eq(catalogs.id, id));

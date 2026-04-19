@@ -40,6 +40,8 @@ export const catalogs = mysqlTable(
     font_family: varchar('font_family', { length: 100 }).default('DM Sans'),
     accent_color: varchar('accent_color', { length: 20 }),
     show_prices: tinyint('show_prices').notNull().default(0),
+    show_cover: tinyint('show_cover').notNull().default(1),
+    show_back_cover: tinyint('show_back_cover').notNull().default(1),
     page_count: int('page_count').default(0),
     product_count: int('product_count').default(0),
     created_by: char('created_by', { length: 36 }),

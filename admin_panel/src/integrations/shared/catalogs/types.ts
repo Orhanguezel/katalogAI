@@ -29,6 +29,8 @@ export interface CatalogDto {
   font_family: string;
   accent_color: string;
   show_prices: boolean | number;
+  show_cover: boolean | number;
+  show_back_cover: boolean | number;
   page_count: number;
   product_count: number;
   created_by: string | null;
@@ -88,6 +90,8 @@ export interface CatalogCreatePayload {
   accent_color?: string;
   template_id?: string;
   show_prices?: boolean;
+  show_cover?: boolean;
+  show_back_cover?: boolean;
 }
 
 export interface CatalogUpdatePayload {
@@ -104,6 +108,8 @@ export interface CatalogUpdatePayload {
   font_family?: string;
   accent_color?: string;
   show_prices?: boolean;
+  show_cover?: boolean;
+  show_back_cover?: boolean;
 }
 
 export interface CatalogListQueryParams {

@@ -1,35 +1,65 @@
 // src/modules/catalogs/repository-pages.ts
 
 import { db } from '@/db/client';
-import { eq, sql, count } from 'drizzle-orm';
-import { catalogPages, catalogPageItems, catalogs } from './schema';
+import { eq, count, asc } from 'drizzle-orm';
+import { catalogPages, catalogs } from './schema';
 import type { AddPageInput, UpdatePageInput } from './validation';
 
-/* ── Add page ────────────────────────────────────────────────────── */
-
+/* ── Add page ─────────────────────────────────────────────────────────
+ *
+ * Sayfa ekleme kuralı:
+ *  - layout_type='cover'    → her zaman 1. sayfa (var olan tüm sayfalar +1 push)
+ *  - layout_type='backcover'→ her zaman son sayfa (max+1)
+ *  - diğerleri              → eğer mevcut son sayfa backcover ise onun yerine
+ *                            eklenir, backcover bir sıra ileri itilir; aksi
+ *                            takdirde max+1 (sona).
+ */
 export async function repoAddPage(catalogId: string, data: AddPageInput) {
-  const [maxRow] = await db
-    .select({ maxPage: sql<number>`COALESCE(MAX(${catalogPages.page_number}), 0)` })
+  const layout = data.layout_type ?? '2x2';
+  const allPages = await db
+    .select()
     .from(catalogPages)
-    .where(eq(catalogPages.catalog_id, catalogId));
+    .where(eq(catalogPages.catalog_id, catalogId))
+    .orderBy(asc(catalogPages.page_number));
 
-  const nextPage = (maxRow?.maxPage ?? 0) + 1;
   const id = crypto.randomUUID();
+  let nextPage: number;
+
+  if (layout === 'cover') {
+    nextPage = 1;
+    for (const p of allPages) {
+      await db
+        .update(catalogPages)
+        .set({ page_number: p.page_number + 1 })
+        .where(eq(catalogPages.id, p.id));
+    }
+  } else {
+    const lastPage = allPages[allPages.length - 1];
+    const lastIsBackCover = lastPage?.layout_type === 'backcover';
+
+    if (layout !== 'backcover' && lastIsBackCover && lastPage) {
+      nextPage = lastPage.page_number;
+      await db
+        .update(catalogPages)
+        .set({ page_number: lastPage.page_number + 1 })
+        .where(eq(catalogPages.id, lastPage.id));
+    } else {
+      nextPage = (lastPage?.page_number ?? 0) + 1;
+    }
+  }
 
   await db.insert(catalogPages).values({
     id,
     catalog_id: catalogId,
     page_number: nextPage,
-    layout_type: data.layout_type ?? '2x2',
+    layout_type: layout,
     background_color: data.background_color ?? null,
   });
 
-  // update page_count
   const [countRow] = await db
     .select({ total: count() })
     .from(catalogPages)
     .where(eq(catalogPages.catalog_id, catalogId));
-
   await db.update(catalogs).set({ page_count: countRow?.total ?? 0 }).where(eq(catalogs.id, catalogId));
 
   return { id, page_number: nextPage };
@@ -56,7 +86,6 @@ export async function repoDeletePage(pageId: string) {
 
   await db.delete(catalogPages).where(eq(catalogPages.id, pageId));
 
-  // update page_count
   const [countRow] = await db
     .select({ total: count() })
     .from(catalogPages)

@@ -71,6 +71,8 @@ CREATE TABLE IF NOT EXISTS `catalogs` (
   `font_family`     VARCHAR(100) DEFAULT 'DM Sans',
   `accent_color`    VARCHAR(20)  DEFAULT NULL,
   `show_prices`     TINYINT(1)   NOT NULL DEFAULT 0,
+  `show_cover`      TINYINT(1)   NOT NULL DEFAULT 1,
+  `show_back_cover` TINYINT(1)   NOT NULL DEFAULT 1,
   `page_count`      INT          DEFAULT 0,
   `product_count`   INT          DEFAULT 0,
   `created_by`      CHAR(36)     DEFAULT NULL,

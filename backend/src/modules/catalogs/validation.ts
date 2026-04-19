@@ -31,6 +31,8 @@ export const createCatalogSchema = z.object({
   cover_image_url: z.string().optional(),
   template_id: z.string().max(100).optional(),
   show_prices: boolLike.optional(),
+  show_cover: boolLike.optional(),
+  show_back_cover: boolLike.optional(),
 });
 
 export const updateCatalogSchema = createCatalogSchema.partial();

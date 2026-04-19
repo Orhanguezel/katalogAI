@@ -227,17 +227,43 @@ export default function TabCatalogInfo() {
         </div>
       </div>
 
-      {/* Fiyat Göstergesi */}
-      <div className="flex items-center justify-between py-2 px-3 rounded-lg bg-white/2 border border-white/5">
-        <div className="space-y-0.5">
-          <Label className="text-[11px] font-bold text-white">Fiyatları Göster</Label>
-          <p className="text-[9px] text-katalog-text-dim">Kapalıysa katalogda hiçbir ürünün fiyatı yer almaz.</p>
+      {/* Görünüm Toggle'ları */}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between py-2 px-3 rounded-lg bg-white/2 border border-white/5">
+          <div className="space-y-0.5">
+            <Label className="text-[11px] font-bold text-white">Fiyatları Göster</Label>
+            <p className="text-[9px] text-katalog-text-dim">Kapalıysa katalogda hiçbir ürünün fiyatı yer almaz.</p>
+          </div>
+          <Switch
+            checked={!!store.showPrices}
+            onCheckedChange={(v) => store.setMeta({ showPrices: v })}
+            className="data-[state=checked]:bg-emerald-500"
+          />
         </div>
-        <Switch
-          checked={!!store.showPrices}
-          onCheckedChange={(v) => store.setMeta({ showPrices: v })}
-          className="data-[state=checked]:bg-katalog-gold"
-        />
+
+        <div className="flex items-center justify-between py-2 px-3 rounded-lg bg-white/2 border border-white/5">
+          <div className="space-y-0.5">
+            <Label className="text-[11px] font-bold text-white">Başlık Sayfası (Kapak)</Label>
+            <p className="text-[9px] text-katalog-text-dim">Kapatırsan PDF'in ilk sayfasındaki kapak yer almaz.</p>
+          </div>
+          <Switch
+            checked={!!store.showCover}
+            onCheckedChange={(v) => store.setMeta({ showCover: v })}
+            className="data-[state=checked]:bg-emerald-500"
+          />
+        </div>
+
+        <div className="flex items-center justify-between py-2 px-3 rounded-lg bg-white/2 border border-white/5">
+          <div className="space-y-0.5">
+            <Label className="text-[11px] font-bold text-white">Bitiş Sayfası (Arka Kapak)</Label>
+            <p className="text-[9px] text-katalog-text-dim">Kapatırsan PDF'in son sayfasındaki arka kapak yer almaz.</p>
+          </div>
+          <Switch
+            checked={!!store.showBackCover}
+            onCheckedChange={(v) => store.setMeta({ showBackCover: v })}
+            className="data-[state=checked]:bg-emerald-500"
+          />
+        </div>
       </div>
 
       {/* İletişim / Footer Bilgileri */}
