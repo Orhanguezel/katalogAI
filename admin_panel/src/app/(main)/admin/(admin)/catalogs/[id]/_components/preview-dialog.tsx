@@ -19,8 +19,18 @@ interface Props {
 }
 
 export default function PreviewDialog({ open, onOpenChange }: Props) {
-  const { pages, colorTheme, accentColor, backgroundColor, fontFamily, headingFont } =
+  const { pages, showCover, showBackCover, colorTheme, accentColor, backgroundColor, fontFamily, headingFont } =
     useCatalogBuilderStore();
+
+  // Toggle ile gizlenen kapak/arka kapak onizlemede de gosterilmez (PDF ile birebir).
+  const visiblePages = React.useMemo(
+    () =>
+      pages.filter((p) =>
+        (p.layoutType !== 'cover' || showCover) &&
+        (p.layoutType !== 'backcover' || showBackCover),
+      ),
+    [pages, showCover, showBackCover],
+  );
 
   const [viewMode, setViewMode] = React.useState<'all' | 'single'>('all');
   const [currentPage, setCurrentPage] = React.useState(0);
@@ -36,7 +46,7 @@ export default function PreviewDialog({ open, onOpenChange }: Props) {
   }, [open]);
 
   const scale = zoom / 100;
-  const totalPages = pages.length;
+  const totalPages = visiblePages.length;
 
   const handlePrint = () => window.print();
 
@@ -119,10 +129,9 @@ export default function PreviewDialog({ open, onOpenChange }: Props) {
         <div ref={scrollRef} className="flex-1 overflow-auto" data-print-area>
           <div className="flex flex-col items-center py-8 gap-6 min-h-full">
             {viewMode === 'all' ? (
-              // Tüm sayfalar alt alta
-              pages.map((page, index) => (
+              visiblePages.map((page, index) => (
                 <div
-                  key={index}
+                  key={page.id ?? index}
                   className="shadow-[0_8px_40px_rgba(0,0,0,0.5)]"
                   style={{
                     transform: `scale(${scale})`,
@@ -142,7 +151,6 @@ export default function PreviewDialog({ open, onOpenChange }: Props) {
                 </div>
               ))
             ) : (
-              // Tek sayfa
               <div
                 className="shadow-[0_8px_40px_rgba(0,0,0,0.5)]"
                 style={{
@@ -150,9 +158,9 @@ export default function PreviewDialog({ open, onOpenChange }: Props) {
                   transformOrigin: 'top center',
                 }}
               >
-                {pages[currentPage] && (
+                {visiblePages[currentPage] && (
                   <CatalogPageCanvas
-                    page={pages[currentPage]}
+                    page={visiblePages[currentPage]}
                     pageIndex={currentPage}
                     colorTheme={colorTheme}
                     accentColor={accentColor}
@@ -170,7 +178,7 @@ export default function PreviewDialog({ open, onOpenChange }: Props) {
         {/* Thumbnail bar (all mode) */}
         {viewMode === 'all' && totalPages > 1 && (
           <div className="h-16 bg-[#1a1a1a] border-t border-white/10 flex items-center gap-2 px-4 overflow-x-auto shrink-0">
-            {pages.map((_, i) => (
+            {visiblePages.map((_, i) => (
               <button
                 key={i}
                 className="shrink-0 h-10 w-7 rounded border border-white/10 bg-white/5 text-[8px] font-bold text-white/50 hover:border-katalog-gold/50 hover:text-white transition-all"

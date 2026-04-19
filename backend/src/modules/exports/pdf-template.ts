@@ -111,6 +111,7 @@ function renderGridPage(
   page: CatalogPage & { items: CatalogPageItem[] },
   catalog: FullCatalog,
   showPrices: boolean,
+  displayPageNumber: number,
 ): string {
   const layoutCss = LAYOUT_GRIDS[page.layout_type ?? '2x2'] ?? LAYOUT_GRIDS['2x2'];
   const bgColor = page.background_color || '#ffffff';
@@ -137,7 +138,7 @@ function renderGridPage(
         </div>
         <div class="header-right">
           ${catalog.season ? `<div class="header-season">${escape(catalog.season)}</div>` : ''}
-          <div class="header-page">SAYFA ${page.page_number}</div>
+          <div class="header-page">SAYFA ${displayPageNumber}</div>
         </div>
       </div>
       <div class="grid-container" style="${layoutCss}">
@@ -160,17 +161,24 @@ export function buildCatalogHtml(catalog: FullCatalog): string {
   const showCover = catalog.show_cover !== 0;
   const showBackCover = catalog.show_back_cover !== 0;
 
-  const pagesHtml = catalog.pages
+  const visiblePages = catalog.pages
+    .slice()
     .sort((a, b) => a.page_number - b.page_number)
     .filter((page) => {
       if (page.layout_type === 'cover') return showCover;
       if (page.layout_type === 'backcover') return showBackCover;
       return true;
-    })
+    });
+
+  // Grid sayfalar 1'den baslayarak yeniden numaralandirilir; cover/backcover
+  // numaralandirmaya dahil edilmez (header'da 'SAYFA N' goruntulemesi icin).
+  let gridDisplay = 0;
+  const pagesHtml = visiblePages
     .map((page) => {
       if (page.layout_type === 'cover') return renderCoverPage(catalog);
       if (page.layout_type === 'backcover') return renderBackCoverPage(catalog);
-      return renderGridPage(page, catalog, showPrices);
+      gridDisplay += 1;
+      return renderGridPage(page, catalog, showPrices, gridDisplay);
     })
     .join('');
 
