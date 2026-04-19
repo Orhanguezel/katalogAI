@@ -9,12 +9,13 @@ import * as React from 'react';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { Check, Eye, FileDown, Loader2, Mail, Save } from 'lucide-react';
+import { Check, Eye, FileDown, Loader2, Mail, Save, Send } from 'lucide-react';
 import { useExportCatalogPdfAdminMutation } from '@/integrations/hooks';
 import { useCatalogBuilderStore } from '../_store/catalog-builder-store';
 
 import PreviewDialog from './preview-dialog';
 import ExportEmailDialog from './export-email-dialog';
+import PublishCatalogDialog from './publish-catalog-dialog';
 
 interface Props {
   onSave?: () => void | Promise<void>;
@@ -24,6 +25,7 @@ export default function CatalogBuilderTopbar({ onSave }: Props) {
   const { catalogId, title, isDirty, isSaving } = useCatalogBuilderStore();
   const [showPreview, setShowPreview] = React.useState(false);
   const [showEmail, setShowEmail] = React.useState(false);
+  const [showPublish, setShowPublish] = React.useState(false);
   const [exportPdf, { isLoading: isExporting }] = useExportCatalogPdfAdminMutation();
 
   const handleExportPdf = async () => {
@@ -119,6 +121,17 @@ export default function CatalogBuilderTopbar({ onSave }: Props) {
             E-Posta
           </Button>
 
+          {/* Yayinla */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-9 px-4 rounded-lg border border-emerald-500/40 text-xs font-bold text-emerald-300 hover:bg-emerald-500/10"
+            onClick={() => setShowPublish(true)}
+          >
+            <Send className="mr-1.5 h-3.5 w-3.5" />
+            Yayinla
+          </Button>
+
           {/* PDF */}
           <Button
             size="sm"
@@ -134,6 +147,7 @@ export default function CatalogBuilderTopbar({ onSave }: Props) {
 
       <PreviewDialog open={showPreview} onOpenChange={setShowPreview} />
       <ExportEmailDialog open={showEmail} onOpenChange={setShowEmail} />
+      <PublishCatalogDialog open={showPublish} onOpenChange={setShowPublish} catalogId={catalogId} />
     </>
   );
 }

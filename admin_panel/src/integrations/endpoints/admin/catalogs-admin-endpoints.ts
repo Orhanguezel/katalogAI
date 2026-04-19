@@ -21,6 +21,9 @@ import type {
   CatalogSendEmailPayload,
   CatalogStatusPayload,
   CatalogUpdatePayload,
+  PublishCatalogPayload,
+  PublishCatalogResult,
+  PublishTarget,
 } from '@/integrations/shared';
 import { cleanParams } from '@/integrations/shared';
 
@@ -179,6 +182,21 @@ export const catalogsAdminApi = baseApi.injectEndpoints({
         body: payload,
       }),
     }),
+
+    listPublishTargetsAdmin: build.query<{ items: PublishTarget[] }, void>({
+      query: () => ({
+        url: '/admin/exports/publish/targets',
+        method: 'GET',
+      }),
+    }),
+
+    publishCatalogAdmin: build.mutation<PublishCatalogResult, { catalogId: string; payload: PublishCatalogPayload }>({
+      query: ({ catalogId, payload }) => ({
+        url: `/admin/exports/publish/${catalogId}`,
+        method: 'POST',
+        body: payload,
+      }),
+    }),
   }),
 
   overrideExisting: false,
@@ -205,4 +223,6 @@ export const {
   useRefreshCatalogSnapshotsAdminMutation,
   useExportCatalogPdfAdminMutation,
   useSendCatalogEmailAdminMutation,
+  useListPublishTargetsAdminQuery,
+  usePublishCatalogAdminMutation,
 } = catalogsAdminApi;

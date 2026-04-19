@@ -112,6 +112,28 @@ export interface CatalogUpdatePayload {
   show_back_cover?: boolean;
 }
 
+export interface PublishTarget {
+  slug: string;
+  name: string;
+}
+
+export interface PublishCatalogPayload {
+  target_slugs: string[];
+}
+
+export interface PublishTargetResult {
+  slug: string;
+  name: string;
+  ok: boolean;
+  library_id?: string;
+  error?: string;
+}
+
+export interface PublishCatalogResult {
+  pdf_url: string;
+  results: PublishTargetResult[];
+}
+
 export interface CatalogListQueryParams {
   search?: string;
   status?: CatalogStatus;
