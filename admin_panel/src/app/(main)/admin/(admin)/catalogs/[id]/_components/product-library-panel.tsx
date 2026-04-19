@@ -66,10 +66,22 @@ export default function ProductLibraryPanel({ onAddProduct }: ProductLibraryPane
   // Kaynak değiştiğinde / brand-info döndüğünde catalog meta'sını DB'den gelen değerlerle senkronize et.
   React.useEffect(() => {
     if (!sourceId || !brandInfo) return;
+    const c = brandInfo.contact;
+    const phone = c.phones?.[0] ?? '';
+    const brandName = c.companyName || c.shortName || selectedSource?.name || '';
+    const contactInfo: Record<string, string> = {};
+    if (c.website) contactInfo.website = c.website;
+    if (c.email) contactInfo.email = c.email;
+    if (phone) contactInfo.phone = phone;
+    if (c.whatsappNumber) contactInfo.whatsapp = c.whatsappNumber;
+    if (c.address) contactInfo.address = c.address;
+    if (c.addressSecondary) contactInfo.addressSecondary = c.addressSecondary;
+    if (brandName) contactInfo.copyright = `© ${new Date().getFullYear()} ${brandName}`;
     setMeta({
-      brandName: brandInfo.contact.companyName || brandInfo.contact.shortName || selectedSource?.name || '',
+      brandName,
       title: brandInfo.profile.headline || brandInfo.site_title || '',
       logoUrl: brandInfo.logo.logo_url || '',
+      contactInfo,
     });
   }, [sourceId, brandInfo, selectedSource?.name, setMeta]);
 
