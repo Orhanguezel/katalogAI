@@ -1,7 +1,7 @@
 // src/modules/_shared/dto.ts
 // Auth/User DTO helpers
 
-import type { users } from '@/modules/auth';
+import type { users } from '@agro/shared-backend/modules/auth';
 
 type UserRow = typeof users.$inferSelect;
 type UserDtoExtras = {

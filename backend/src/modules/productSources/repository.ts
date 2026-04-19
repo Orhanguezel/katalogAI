@@ -13,7 +13,9 @@ import {
   fetchVistaSeedProducts,
   fetchGenericCategories,
   fetchGenericProducts,
+  fetchSourceBrandInfo,
 } from './source-adapters';
+import type { SourceBrandInfo } from './source-adapters';
 
 type ListParams = { page: number; limit: number; is_active?: unknown };
 
@@ -123,6 +125,23 @@ export async function repoFetchSourceProducts(
     return fetchVistaSeedProducts(sourceDb, params);
   }
   return fetchGenericProducts(sourceDb, params);
+}
+
+/** Kaynak DB'sinin site_settings tablosundan marka bilgisini anlık çeker (cache yok) */
+export async function repoFetchSourceBrandInfo(
+  source: ProductSource,
+  locale: string,
+): Promise<SourceBrandInfo> {
+  const { drizzle: sourceDb } = getSourceConnection({
+    id: source.id,
+    db_host: source.db_host ?? '',
+    db_port: source.db_port ?? 3306,
+    db_name: source.db_name ?? '',
+    db_user: source.db_user ?? '',
+    db_password: source.db_password ?? '',
+    connection_limit: source.connection_limit ?? 5,
+  });
+  return fetchSourceBrandInfo(sourceDb, locale);
 }
 
 /** Import tipi kaynak icin urunleri toplu ekle */

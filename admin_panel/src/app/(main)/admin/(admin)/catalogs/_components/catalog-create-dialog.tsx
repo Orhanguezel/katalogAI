@@ -26,8 +26,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useCreateCatalogAdminMutation, useListProductSourcesAdminQuery } from '@/integrations/hooks';
-import type { CatalogCreatePayload } from '@/integrations/shared';
+import {
+  useCreateCatalogAdminMutation,
+  useLazyGetProductSourceBrandInfoAdminQuery,
+  useListProductSourcesAdminQuery,
+} from '@/integrations/hooks';
+import type { CatalogCreatePayload, ProductSourceBrandInfo } from '@/integrations/shared';
 import { CATALOG_TEMPLATES } from '../../catalogs/[id]/_config/catalog-templates';
 
 interface Props {
@@ -35,10 +39,22 @@ interface Props {
   onOpenChange: (open: boolean) => void;
 }
 
+function brandInfoToContact(info: ProductSourceBrandInfo): Record<string, string> {
+  const contact: Record<string, string> = {};
+  if (info.contact.website) contact.website = info.contact.website;
+  if (info.contact.email) contact.email = info.contact.email;
+  if (info.contact.phones[0]) contact.phone = info.contact.phones[0];
+  if (info.contact.whatsappNumber) contact.whatsapp = info.contact.whatsappNumber;
+  if (info.contact.address) contact.address = info.contact.address;
+  if (info.contact.addressSecondary) contact.addressSecondary = info.contact.addressSecondary;
+  return contact;
+}
+
 export default function CatalogCreateDialog({ open, onOpenChange }: Props) {
   const router = useRouter();
   const [createCatalog, { isLoading }] = useCreateCatalogAdminMutation();
   const { data: sources } = useListProductSourcesAdminQuery();
+  const [fetchBrandInfo, { isFetching: isLoadingBrand }] = useLazyGetProductSourceBrandInfoAdminQuery();
 
   const [sourceId, setSourceId] = React.useState('_none');
   const [title, setTitle] = React.useState('');
@@ -47,25 +63,38 @@ export default function CatalogCreateDialog({ open, onOpenChange }: Props) {
   const [logoUrl, setLogoUrl] = React.useState('');
   const [locale, setLocale] = React.useState('tr');
   const [templateId, setTemplateId] = React.useState('classic');
+  const [contact, setContact] = React.useState<Record<string, string>>({});
 
   const selectedTemplate = CATALOG_TEMPLATES.find((t) => t.id === templateId);
 
-  const handleSourceChange = (id: string) => {
+  const handleSourceChange = async (id: string) => {
     setSourceId(id);
     if (id === '_none') {
       setBrandName('');
       setTitle('');
       setSeason('');
       setLogoUrl('');
+      setContact({});
       return;
     }
     const src = sources?.find((s) => s.id === id);
     if (!src) return;
-    setBrandName(src.brand_title || src.name || '');
-    setTitle(src.brand_subtitle || '');
-    setSeason('');
-    setLogoUrl(src.brand_logo_url || '');
     setLocale(src.default_locale || 'tr');
+    setBrandName(src.name || '');
+    setTitle('');
+    setSeason('');
+    setLogoUrl('');
+    setContact({});
+
+    try {
+      const info = await fetchBrandInfo({ id, locale: src.default_locale || undefined }).unwrap();
+      setBrandName(info.contact.companyName || info.contact.shortName || src.name || '');
+      setTitle(info.profile.headline || info.site_title || '');
+      setLogoUrl(info.logo.logo_url || '');
+      setContact(brandInfoToContact(info));
+    } catch (err) {
+      console.error('Brand info fetch failed:', err);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -85,9 +114,8 @@ export default function CatalogCreateDialog({ open, onOpenChange }: Props) {
       accent_color: selectedTemplate?.defaults.accentColor,
     };
 
-    const src = sources?.find((s) => s.id === sourceId);
-    if (src?.brand_contact) {
-      payload.contact_info = src.brand_contact as Record<string, string>;
+    if (Object.keys(contact).length) {
+      payload.contact_info = contact;
     }
 
     const result = await createCatalog(payload);
@@ -104,6 +132,7 @@ export default function CatalogCreateDialog({ open, onOpenChange }: Props) {
       setBrandName('');
       setSeason('');
       setLogoUrl('');
+      setContact({});
       setLocale('tr');
       setTemplateId('classic');
     }
@@ -135,11 +164,17 @@ export default function CatalogCreateDialog({ open, onOpenChange }: Props) {
                   <SelectItem value="_none">— Firma seçmeden oluştur —</SelectItem>
                   {sources?.map((s) => (
                     <SelectItem key={s.id} value={s.id}>
-                      {s.brand_title || s.name}
+                      {s.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
+              {isLoadingBrand && (
+                <p className="text-[10px] text-katalog-text-dim flex items-center gap-1.5">
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                  Marka bilgileri kaynak veritabanından çekiliyor...
+                </p>
+              )}
             </div>
 
             {/* Şablon (kompakt) */}

@@ -5,6 +5,8 @@
 
 import { baseApi } from '@/integrations/base-api';
 import type {
+  ProductSourceBrandInfo,
+  ProductSourceBrandInfoQueryParams,
   ProductSourceCreatePayload,
   ProductSourceDto,
   ProductSourceImportPayload,
@@ -83,6 +85,15 @@ export const productSourcesAdminApi = baseApi.injectEndpoints({
       }),
     }),
 
+    getProductSourceBrandInfoAdmin: build.query<ProductSourceBrandInfo, ProductSourceBrandInfoQueryParams>({
+      query: ({ id, locale }) => ({
+        url: `/admin/product-sources/${id}/brand-info`,
+        method: 'GET',
+        params: cleanParams(locale ? { locale } : undefined),
+      }),
+      providesTags: (_r, _e, { id }) => [{ type: 'ProductSource', id }],
+    }),
+
     getSourceProductsAdmin: build.query<SourceProductsResponse, { id: string } & SourceProductsQueryParams>({
       query: ({ id, ...params }) => ({
         url: `/admin/product-sources/${id}/products`,
@@ -113,6 +124,8 @@ export const {
   useTestProductSourceAdminMutation,
   useGetSourceCategoriesAdminQuery,
   useLazyGetSourceCategoriesAdminQuery,
+  useGetProductSourceBrandInfoAdminQuery,
+  useLazyGetProductSourceBrandInfoAdminQuery,
   useGetSourceProductsAdminQuery,
   useLazyGetSourceProductsAdminQuery,
   useImportProductSourceAdminMutation,

@@ -1,7 +1,7 @@
 // src/core/i18n.ts
 
 import { db } from "@/db/client";
-import { siteSettings } from "@/modules/siteSettings";
+import { siteSettings } from "@agro/shared-backend/modules/siteSettings";
 import { eq } from "drizzle-orm";
 import {
   getActiveAppLocaleCodes,

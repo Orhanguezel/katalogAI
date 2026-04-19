@@ -606,6 +606,12 @@ export {
 export {
   PRODUCT_SOURCES_ADMIN_BASE,
   SOURCE_TYPE_OPTIONS,
+  type ProductSourceBrandContact,
+  type ProductSourceBrandInfo,
+  type ProductSourceBrandInfoQueryParams,
+  type ProductSourceBrandLogo,
+  type ProductSourceBrandProfile,
+  type ProductSourceBrandSocials,
   type ProductSourceCreatePayload,
   type ProductSourceDto,
   type ProductSourceImportPayload,

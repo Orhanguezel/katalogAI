@@ -19,10 +19,6 @@ export const createProductSourceSchema = z.object({
   image_base_url: z.string().max(500).optional(),
   is_active: boolLike.optional(),
   connection_limit: z.coerce.number().int().min(1).max(50).default(5),
-  brand_title: z.string().max(255).optional(),
-  brand_subtitle: z.string().max(500).optional(),
-  brand_logo_url: z.string().optional(),
-  brand_contact: z.record(z.string(), z.string()).optional(),
 });
 
 export const updateProductSourceSchema = createProductSourceSchema.partial();
@@ -31,6 +27,10 @@ export const listProductSourcesSchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().min(1).max(100).default(20),
   is_active: boolLike.optional(),
+});
+
+export const fetchSourceBrandInfoSchema = z.object({
+  locale: z.string().min(1).max(8).optional(),
 });
 
 /* ── Import products ─────────────────────────────────────────────── */
@@ -60,4 +60,5 @@ export const importProductsSchema = z.object({
 export type CreateProductSourceInput = z.infer<typeof createProductSourceSchema>;
 export type UpdateProductSourceInput = z.infer<typeof updateProductSourceSchema>;
 export type ListProductSourcesInput = z.infer<typeof listProductSourcesSchema>;
+export type FetchSourceBrandInfoInput = z.infer<typeof fetchSourceBrandInfoSchema>;
 export type ImportProductsInput = z.infer<typeof importProductsSchema>;

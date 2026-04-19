@@ -17,9 +17,10 @@ import {
 import { Search } from 'lucide-react';
 import { useAdminT } from '@/app/(main)/admin/_components/common/use-admin-t';
 import {
-  useListProductSourcesAdminQuery,
+  useGetProductSourceBrandInfoAdminQuery,
   useGetSourceCategoriesAdminQuery,
   useGetSourceProductsAdminQuery,
+  useListProductSourcesAdminQuery,
 } from '@/integrations/hooks';
 import type { SourceProduct } from '@/integrations/shared';
 import { useCatalogBuilderStore } from '../_store/catalog-builder-store';
@@ -56,6 +57,21 @@ export default function ProductLibraryPanel({ onAddProduct }: ProductLibraryPane
     { id: sourceId!, locale: sourceLocale },
     { skip: !sourceId },
   );
+
+  const { data: brandInfo } = useGetProductSourceBrandInfoAdminQuery(
+    { id: sourceId!, locale: sourceLocale },
+    { skip: !sourceId },
+  );
+
+  // Kaynak değiştiğinde / brand-info döndüğünde catalog meta'sını DB'den gelen değerlerle senkronize et.
+  React.useEffect(() => {
+    if (!sourceId || !brandInfo) return;
+    setMeta({
+      brandName: brandInfo.contact.companyName || brandInfo.contact.shortName || selectedSource?.name || '',
+      title: brandInfo.profile.headline || brandInfo.site_title || '',
+      logoUrl: brandInfo.logo.logo_url || '',
+    });
+  }, [sourceId, brandInfo, selectedSource?.name, setMeta]);
 
   const { data: products } = useGetSourceProductsAdminQuery(
     {
@@ -120,14 +136,6 @@ export default function ProductLibraryPanel({ onAddProduct }: ProductLibraryPane
             onValueChange={(v) => {
               setSourceId(v);
               setCategoryId('');
-              const src = sources?.find((s) => s.id === v);
-              if (src) {
-                setMeta({
-                  brandName: src.brand_title || src.name,
-                  title: src.brand_subtitle || '',
-                  logoUrl: src.brand_logo_url || '',
-                });
-              }
             }}
           >
             <SelectTrigger className="h-9 text-xs bg-katalog-bg-card/50 border-white/5 text-white rounded-xl">

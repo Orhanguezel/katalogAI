@@ -1,6 +1,12 @@
 // src/integrations/shared/product-sources/index.ts
 
 export {
+  type ProductSourceBrandContact,
+  type ProductSourceBrandInfo,
+  type ProductSourceBrandInfoQueryParams,
+  type ProductSourceBrandLogo,
+  type ProductSourceBrandProfile,
+  type ProductSourceBrandSocials,
   type ProductSourceCreatePayload,
   type ProductSourceDto,
   type ProductSourceImportPayload,

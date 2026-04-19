@@ -92,19 +92,15 @@ export default function TabCatalogInfo() {
   const brandSuggestions = React.useMemo(() => {
     const set = new Set<string>();
     catalogs?.items?.forEach((c) => { if (c.brand_name) set.add(c.brand_name); });
-    sources?.forEach((s) => {
-      if (s.brand_title) set.add(s.brand_title);
-      if (s.name) set.add(s.name);
-    });
+    sources?.forEach((s) => { if (s.name) set.add(s.name); });
     return Array.from(set).sort();
   }, [catalogs, sources]);
 
   const titleSuggestions = React.useMemo(() => {
     const set = new Set<string>();
     catalogs?.items?.forEach((c) => { if (c.title) set.add(c.title); });
-    sources?.forEach((s) => { if (s.brand_subtitle) set.add(s.brand_subtitle); });
     return Array.from(set).sort();
-  }, [catalogs, sources]);
+  }, [catalogs]);
 
   const seasonSuggestions = React.useMemo(() => {
     const set = new Set<string>();

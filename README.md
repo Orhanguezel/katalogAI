@@ -83,7 +83,7 @@ Kritik backend env alanları:
 - `GROQ_API_KEY=...`
 - `SMTP_*`
 
-Detaylı örnek için [backend/.env.example](/home/orhan/Documents/Projeler/katalogAI/backend/.env.example) dosyasını kullanın.
+Detayli ornek icin [backend/.env.example](backend/.env.example) dosyasini kullanin.
 
 ## Ana Admin Yolları
 
@@ -98,6 +98,6 @@ Detaylı örnek için [backend/.env.example](/home/orhan/Documents/Projeler/kata
 
 ## Dokümanlar
 
-- [CHECKLIST.md](/home/orhan/Documents/Projeler/katalogAI/CHECKLIST.md)
-- [catalog-editor-design-spec.md](/home/orhan/Documents/Projeler/katalogAI/docs/catalog-editor-design-spec.md)
-- [antigravity-tasks.md](/home/orhan/Documents/Projeler/katalogAI/docs/antigravity-tasks.md)
+- [CHECKLIST.md](CHECKLIST.md)
+- [catalog-editor-design-spec.md](docs/catalog-editor-design-spec.md)
+- [antigravity-tasks.md](docs/antigravity-tasks.md)

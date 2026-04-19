@@ -135,10 +135,11 @@ VALUES
 ('00009400-0000-4000-8000-000000000089','sp_two.png','default','media/images/sp_two.png','media/images','image/png',105568,'/uploads/media/images/sp_two.png','local','media/images/sp_two.png','image','png'),
 ('00009400-0000-4000-8000-000000000090','successful.png','default','media/images/successful.png','media/images','image/png',110034,'/uploads/media/images/successful.png','local','media/images/successful.png','image','png'),
 -- ── LOGO ────────────────────────────────────────────────────────────────────
-('00009400-0000-4000-8000-000000000091','logo.jpeg','default','media/logo/logo.jpeg','media/logo','image/jpeg',144222,'/uploads/media/logo/logo.jpeg','local','media/logo/logo.jpeg','image','jpg'),
-('00009400-0000-4000-8000-000000000092','logo2.jpeg','default','media/logo/logo2.jpeg','media/logo','image/jpeg',74262,'/uploads/media/logo/logo2.jpeg','local','media/logo/logo2.jpeg','image','jpg'),
-('00009400-0000-4000-8000-000000000093','logo3.jpg','default','media/logo/logo3.jpg','media/logo','image/jpeg',238719,'/uploads/media/logo/logo3.jpg','local','media/logo/logo3.jpg','image','jpg'),
-('00009400-0000-4000-8000-000000000094','logo4.jpg','default','media/logo/logo4.jpg','media/logo','image/jpeg',46872,'/uploads/media/logo/logo4.jpg','local','media/logo/logo4.jpg','image','jpg'),
+('00009400-0000-4000-8000-000000000091','katalogai-logo.png','default','media/logo/katalogai-logo.png','media/logo','image/png',50945,'/uploads/media/logo/katalogai-logo.png','local','media/logo/katalogai-logo.png','image','png'),
+('00009400-0000-4000-8000-000000000092','katalogai-logo-dark.png','default','media/logo/katalogai-logo-dark.png','media/logo','image/png',44297,'/uploads/media/logo/katalogai-logo-dark.png','local','media/logo/katalogai-logo-dark.png','image','png'),
+('00009400-0000-4000-8000-000000000093','katalogai-icon-512.png','default','media/logo/katalogai-icon-512.png','media/logo','image/png',55629,'/uploads/media/logo/katalogai-icon-512.png','local','media/logo/katalogai-icon-512.png','image','png'),
+('00009400-0000-4000-8000-000000000094','katalogai-favicon.png','default','media/logo/katalogai-favicon.png','media/logo','image/png',1505,'/uploads/media/logo/katalogai-favicon.png','local','media/logo/katalogai-favicon.png','image','png'),
+('00009400-0000-4000-8000-000000000101','katalogai-apple-touch.png','default','media/logo/katalogai-apple-touch.png','media/logo','image/png',15430,'/uploads/media/logo/katalogai-apple-touch.png','local','media/logo/katalogai-apple-touch.png','image','png'),
 -- ── HERO / OG ─────────────────────────────────────────────────────────────
 ('00009400-0000-4000-8000-000000000095','hero-bg.jpg','default','media/hero/hero-bg.jpg','media/hero','image/jpeg',285000,'/uploads/media/hero/hero-bg.jpg','local','media/hero/hero-bg.jpg','image','jpg'),
 ('00009400-0000-4000-8000-000000000096','hero-bg-dark.jpg','default','media/hero/hero-bg-dark.jpg','media/hero','image/jpeg',195000,'/uploads/media/hero/hero-bg-dark.jpg','local','media/hero/hero-bg-dark.jpg','image','jpg'),

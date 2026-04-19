@@ -10,32 +10,36 @@ SET time_zone = '+00:00';
 -- ============================================================================
 
 CREATE TABLE IF NOT EXISTS users (
-  id                CHAR(36)       NOT NULL,
-  email             VARCHAR(255)   NOT NULL,
-  password_hash     VARCHAR(255)   NOT NULL,
-  full_name         VARCHAR(255)   DEFAULT NULL,
-  phone             VARCHAR(50)    DEFAULT NULL,
-  wallet_balance    DECIMAL(10,2)  NOT NULL DEFAULT 0.00,
-  is_active         TINYINT(1)     NOT NULL DEFAULT 1,
-  email_verified    TINYINT(1)     NOT NULL DEFAULT 0,
-  reset_token             VARCHAR(255)  DEFAULT NULL,
-  reset_token_expires     DATETIME(3)   DEFAULT NULL,
-  created_at        DATETIME(3)    NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-  updated_at        DATETIME(3)    NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
-  last_sign_in_at   DATETIME(3)    DEFAULT NULL,
+  id                    CHAR(36)      NOT NULL,
+  email                 VARCHAR(255)  NOT NULL,
+  password_hash         VARCHAR(255)  NOT NULL,
+  full_name             VARCHAR(255)  DEFAULT NULL,
+  phone                 VARCHAR(50)   DEFAULT NULL,
+  ecosystem_id          CHAR(36)      DEFAULT NULL,
+  is_active             TINYINT(1)    NOT NULL DEFAULT 1,
+  email_verified        TINYINT(1)    NOT NULL DEFAULT 0,
+  reset_token           VARCHAR(255)  DEFAULT NULL,
+  reset_token_expires   DATETIME(3)   DEFAULT NULL,
+  created_at            DATETIME(3)   NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  updated_at            DATETIME(3)   NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  rules_accepted_at     DATETIME(3)   DEFAULT NULL,
+  last_sign_in_at       DATETIME(3)   DEFAULT NULL,
   PRIMARY KEY (id),
-  UNIQUE KEY users_email_unique (email)
+  UNIQUE KEY users_email_unique (email),
+  KEY users_ecosystem_id_idx (ecosystem_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS user_roles (
   id          CHAR(36)     NOT NULL,
   user_id     CHAR(36)     NOT NULL,
-  role        ENUM('admin','carrier','customer') NOT NULL DEFAULT 'customer',
+  role        ENUM('admin','editor','carrier','customer','dealer') NOT NULL DEFAULT 'customer',
   created_at  DATETIME(3)  NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   PRIMARY KEY (id),
   UNIQUE KEY user_roles_user_id_role_unique (user_id, role),
   KEY user_roles_user_id_idx (user_id),
-  CONSTRAINT fk_user_roles_user
+  KEY user_roles_role_idx (role),
+  KEY user_roles_user_id_created_at_idx (user_id, created_at),
+  CONSTRAINT fk_user_roles_user_id_users_id
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -80,14 +84,14 @@ CREATE TABLE IF NOT EXISTS profiles (
 -- 1) ENV tabanlı ana admin (placeholder)
 INSERT INTO users (
   id, email, password_hash, full_name, phone,
-  wallet_balance, is_active, email_verified, created_at, updated_at
+  is_active, email_verified, created_at, updated_at
 ) VALUES (
   '{{ADMIN_ID}}',
   '{{ADMIN_EMAIL}}',
   '{{ADMIN_PASSWORD_HASH}}',
   'Orhan Güzel',
   '+905551112233',
-  0.00, 1, 1,
+  1, 1,
   CURRENT_TIMESTAMP(3), CURRENT_TIMESTAMP(3)
 )
 ON DUPLICATE KEY UPDATE
@@ -111,7 +115,7 @@ ON DUPLICATE KEY UPDATE
 INSERT INTO profiles (id, full_name, phone, created_at, updated_at)
 SELECT u.id, 'Orhan Güzel', '+905551112233', CURRENT_TIMESTAMP(3), CURRENT_TIMESTAMP(3)
 FROM users u
-WHERE u.email = 'orhanguzel@gmail.com'
+WHERE u.email = 'orhanguzell@gmail.com'
 ON DUPLICATE KEY UPDATE
   full_name = VALUES(full_name),
   phone     = VALUES(phone),
@@ -130,5 +134,5 @@ SELECT
 FROM users u
 WHERE u.email IN (
   '{{ADMIN_EMAIL}}',
-  'orhanguzel@gmail.com'
+  'orhanguzell@gmail.com'
 );

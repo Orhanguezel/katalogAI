@@ -1,6 +1,6 @@
 // test/setup.ts — Test altyapisi: Fastify app + yardimci fonksiyonlar
 import { createApp } from "@/app";
-import { repoAssignRole } from "@/modules/auth";
+import { repoAssignRole } from "@agro/shared-backend/modules/auth";
 import type { FastifyInstance } from "fastify";
 
 let _app: FastifyInstance | null = null;

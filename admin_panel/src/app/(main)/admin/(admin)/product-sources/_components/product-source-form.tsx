@@ -110,14 +110,14 @@ export default function ProductSourceForm({ open, onOpenChange, source }: Props)
     try {
       if (isEdit && source) {
         await updateSource({ id: source.id, patch: payload }).unwrap();
-        toast.success('Kaynak güncellendi.');
+        toast.success(t('messages.updated') || 'Kaynak güncellendi.');
       } else {
         await createSource(payload).unwrap();
-        toast.success('Kaynak oluşturuldu.');
+        toast.success(t('messages.created') || 'Kaynak oluşturuldu.');
       }
       onOpenChange(false);
     } catch (err) {
-      toast.error('Kaynak kaydedilirken hata oluştu.');
+      toast.error(t('messages.saveFailed') || 'Kaynak kaydedilirken hata oluştu.');
       console.error('ProductSource save error:', err);
     }
   };
@@ -141,22 +141,22 @@ export default function ProductSourceForm({ open, onOpenChange, source }: Props)
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label className="text-xs font-bold uppercase tracking-widest text-white/60">{t('form.name') || 'Kaynak Adı'}</Label>
-                <Input 
-                  value={name} 
-                  onChange={(e) => setName(e.target.value)} 
-                  placeholder={t('form.namePlaceholder') || 'Örn: Bereket Fide'} 
-                  required 
+                <Input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder={t('form.namePlaceholder') || 'Örn: Bereket Fide'}
+                  required
                   className="h-11 border-white/8 bg-katalog-bg-card text-white placeholder:text-katalog-text-dim focus:border-katalog-gold transition-all"
                 />
               </div>
 
               <div className="space-y-2">
                 <Label className="text-xs font-bold uppercase tracking-widest text-white/60">{t('form.slug') || 'Slug'}</Label>
-                <Input 
-                  value={slug} 
-                  onChange={(e) => setSlug(e.target.value)} 
-                  placeholder={t('form.slugPlaceholder') || 'Örn: bereket-fide'} 
-                  required 
+                <Input
+                  value={slug}
+                  onChange={(e) => setSlug(e.target.value)}
+                  placeholder={t('form.slugPlaceholder') || 'Örn: bereket-fide'}
+                  required
                   className="h-11 border-white/8 bg-katalog-bg-card text-white placeholder:text-katalog-text-dim focus:border-katalog-gold transition-all font-mono text-sm"
                 />
               </div>
@@ -184,36 +184,36 @@ export default function ProductSourceForm({ open, onOpenChange, source }: Props)
                 <div className="grid grid-cols-4 gap-4">
                   <div className="col-span-3 space-y-2">
                     <Label className="text-xs font-bold uppercase tracking-widest text-white/60">{t('form.dbHost') || 'Veritabanı Sunucusu'}</Label>
-                    <Input 
-                      value={dbHost} 
-                      onChange={(e) => setDbHost(e.target.value)} 
+                    <Input
+                      value={dbHost}
+                      onChange={(e) => setDbHost(e.target.value)}
                       className="h-11 border-white/8 bg-katalog-bg-card text-white focus:border-katalog-gold transition-all"
                     />
                   </div>
                   <div className="space-y-2">
                     <Label className="text-xs font-bold uppercase tracking-widest text-white/60">{t('form.dbPort') || 'Port'}</Label>
-                    <Input 
-                      type="number" 
-                      value={dbPort} 
-                      onChange={(e) => setDbPort(e.target.value)} 
+                    <Input
+                      type="number"
+                      value={dbPort}
+                      onChange={(e) => setDbPort(e.target.value)}
                       className="h-11 border-white/8 bg-katalog-bg-card text-white focus:border-katalog-gold transition-all"
                     />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label className="text-xs font-bold uppercase tracking-widest text-white/60">{t('form.dbName') || 'Veritabanı Adı'}</Label>
-                  <Input 
-                    value={dbName} 
-                    onChange={(e) => setDbName(e.target.value)} 
+                  <Input
+                    value={dbName}
+                    onChange={(e) => setDbName(e.target.value)}
                     className="h-11 border-white/8 bg-katalog-bg-card text-white focus:border-katalog-gold transition-all"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label className="text-xs font-bold uppercase tracking-widest text-white/60">{t('form.dbUser') || 'Kullanıcı Adı'}</Label>
-                    <Input 
-                      value={dbUser} 
-                      onChange={(e) => setDbUser(e.target.value)} 
+                    <Input
+                      value={dbUser}
+                      onChange={(e) => setDbUser(e.target.value)}
                       className="h-11 border-white/8 bg-katalog-bg-card text-white focus:border-katalog-gold transition-all"
                     />
                   </div>
@@ -223,7 +223,7 @@ export default function ProductSourceForm({ open, onOpenChange, source }: Props)
                       type="password"
                       value={dbPassword}
                       onChange={(e) => setDbPassword(e.target.value)}
-                      placeholder={isEdit ? '••••• (değiştirmek için yaz)' : 'Zorunlu'}
+                      placeholder={isEdit ? (t('form.dbPasswordEditHint') || '••••• (değiştirmek için yaz)') : (t('form.dbPasswordRequired') || 'Zorunlu')}
                       required={!isEdit}
                       className="h-11 border-white/8 bg-katalog-bg-card text-white focus:border-katalog-gold transition-all placeholder:text-katalog-text-dim"
                     />
@@ -248,13 +248,16 @@ export default function ProductSourceForm({ open, onOpenChange, source }: Props)
               </div>
 
               <div className="space-y-2">
-                <Label className="text-xs font-bold uppercase tracking-widest text-white/60">{t('form.imageBaseUrl') || 'Görsel Temel URL'}</Label>
-                <Input 
-                  value={imageBaseUrl} 
-                  onChange={(e) => setImageBaseUrl(e.target.value)} 
-                  placeholder={t('form.imageBaseUrlPlaceholder') || 'Örn: https://cdn.example.com'} 
+                <Label className="text-xs font-bold uppercase tracking-widest text-white/60">{t('form.imageBaseUrl') || 'Görsel Temel URL (opsiyonel)'}</Label>
+                <Input
+                  value={imageBaseUrl}
+                  onChange={(e) => setImageBaseUrl(e.target.value)}
+                  placeholder={t('form.imageBaseUrlPlaceholder') || 'Boş bırakılırsa kaynak DB\u2019sinden otomatik alınır'}
                   className="h-11 border-white/8 bg-katalog-bg-card text-white placeholder:text-katalog-text-dim focus:border-katalog-gold transition-all"
                 />
+                <p className="text-[10px] text-katalog-text-dim leading-relaxed">
+                  {t('form.imageBaseUrlHint') || 'Boş bırakılırsa kaynak veritabanındaki firma web adresi kullanılır.'}
+                </p>
               </div>
             </div>
 
@@ -262,11 +265,11 @@ export default function ProductSourceForm({ open, onOpenChange, source }: Props)
               <div className="flex items-center justify-between p-4 rounded-xl bg-white/2 border border-white/5">
                 <div className="space-y-0.5">
                   <Label className="text-sm font-bold text-white">{t('form.hasSubcategories') || 'Alt Kategori Desteği'}</Label>
-                  <p className="text-[10px] text-katalog-text-dim">Kategori ağacını destekle</p>
+                  <p className="text-[10px] text-katalog-text-dim">{t('form.hasSubcategoriesHint') || 'Kategori ağacını destekle'}</p>
                 </div>
-                <Switch 
-                  checked={hasSubcategories} 
-                  onCheckedChange={setHasSubcategories} 
+                <Switch
+                  checked={hasSubcategories}
+                  onCheckedChange={setHasSubcategories}
                   className="data-[state=checked]:bg-katalog-gold"
                 />
               </div>
@@ -274,22 +277,33 @@ export default function ProductSourceForm({ open, onOpenChange, source }: Props)
               <div className="flex items-center justify-between p-4 rounded-xl bg-white/2 border border-white/5">
                 <div className="space-y-0.5">
                   <Label className="text-sm font-bold text-white">{t('form.isActive') || 'Aktif'}</Label>
-                  <p className="text-[10px] text-katalog-text-dim">Kaynağı kullanıma aç/kapat</p>
+                  <p className="text-[10px] text-katalog-text-dim">{t('form.isActiveHint') || 'Kaynağı kullanıma aç/kapat'}</p>
                 </div>
-                <Switch 
-                  checked={isActive} 
-                  onCheckedChange={setIsActive} 
+                <Switch
+                  checked={isActive}
+                  onCheckedChange={setIsActive}
                   className="data-[state=checked]:bg-katalog-gold"
                 />
               </div>
+            </div>
+
+            <div className="h-px bg-white/5" />
+
+            <div className="rounded-xl border border-katalog-gold/20 bg-katalog-gold/5 p-5">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-katalog-gold mb-1.5">
+                {t('form.brandSourceTitle') || 'Marka Bilgileri Otomatik'}
+              </h3>
+              <p className="text-[11px] text-katalog-text-dim leading-relaxed">
+                {t('form.brandSourceDescription') || 'Firma adı, logo, telefon, adres, sosyal medya ve ürün görselleri kaynak veritabanından anlık çekilir. Manuel giriş gerekmez.'}
+              </p>
             </div>
           </form>
         </div>
 
         <div className="p-8 border-t border-white/5 bg-white/2 shrink-0">
           <SheetFooter>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               form="product-source-form"
               disabled={isCreating || isUpdating}
               className="w-full h-12 rounded-xl bg-katalog-gold font-bold text-katalog-bg-deep shadow-lg shadow-katalog-gold/20 hover:bg-katalog-gold-light transition-all text-base"

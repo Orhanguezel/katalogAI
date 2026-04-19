@@ -17,9 +17,13 @@ export interface ProductSourceDto {
   image_base_url: string | null;
   is_active: boolean | number;
   connection_limit: number;
+  /** @deprecated Marka bilgileri artık kaynak DB'sinin site_settings tablosundan anlık çekilir. */
   brand_title: string | null;
+  /** @deprecated Bkz. brand-info endpoint. */
   brand_subtitle: string | null;
+  /** @deprecated Bkz. brand-info endpoint. */
   brand_logo_url: string | null;
+  /** @deprecated Bkz. brand-info endpoint. */
   brand_contact: { phone?: string; email?: string; website?: string; address?: string } | null;
   created_at: string;
   updated_at: string;
@@ -129,4 +133,55 @@ export interface ProductSourceImportResult {
   imported: number;
   skipped: number;
   errors: string[];
+}
+
+/* ── Brand-info (anlık marka bilgisi) ────────────────────────────── */
+
+export interface ProductSourceBrandLogo {
+  logo_url: string | null;
+  logo_alt: string | null;
+  favicon_url: string | null;
+  apple_touch_icon_url: string | null;
+}
+
+export interface ProductSourceBrandContact {
+  companyName: string | null;
+  shortName: string | null;
+  phones: string[];
+  whatsappNumber: string | null;
+  email: string | null;
+  address: string | null;
+  addressSecondary: string | null;
+  website: string | null;
+  taxNumber: string | null;
+  taxOffice: string | null;
+}
+
+export interface ProductSourceBrandSocials {
+  instagram: string | null;
+  facebook: string | null;
+  x: string | null;
+  youtube: string | null;
+  linkedin: string | null;
+  tiktok: string | null;
+}
+
+export interface ProductSourceBrandProfile {
+  headline: string | null;
+  subline: string | null;
+  body: string | null;
+}
+
+export interface ProductSourceBrandInfo {
+  locale: string;
+  site_title: string | null;
+  logo: ProductSourceBrandLogo;
+  contact: ProductSourceBrandContact;
+  socials: ProductSourceBrandSocials;
+  profile: ProductSourceBrandProfile;
+}
+
+export interface ProductSourceBrandInfoQueryParams {
+  id: string;
+  locale?: string;
 }

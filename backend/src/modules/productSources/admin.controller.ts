@@ -7,6 +7,7 @@ import {
   updateProductSourceSchema,
   listProductSourcesSchema,
   importProductsSchema,
+  fetchSourceBrandInfoSchema,
 } from './validation';
 import {
   repoListProductSources,
@@ -17,9 +18,12 @@ import {
   repoTestSourceConnection,
   repoFetchSourceCategories,
   repoFetchSourceProducts,
+  repoFetchSourceBrandInfo,
   repoImportProducts,
   repoListSourceProducts,
 } from './repository';
+import { resolveSourceMediaUrl } from './helpers';
+import type { SourceBrandInfo } from './source-adapters';
 
 /** GET /admin/product-sources/list */
 export async function adminListProductSources(req: FastifyRequest, reply: FastifyReply) {
@@ -65,6 +69,10 @@ export async function adminCreateProductSource(req: FastifyRequest, reply: Fasti
       image_base_url: data.image_base_url ?? null,
       is_active: data.is_active !== undefined ? (toBool(data.is_active) ? 1 : 0) : 1,
       connection_limit: data.connection_limit,
+      brand_title: null,
+      brand_subtitle: null,
+      brand_logo_url: null,
+      brand_contact: null,
     });
     const row = await repoGetProductSourceById(id);
     return reply.status(201).send(row);
@@ -94,10 +102,6 @@ export async function adminUpdateProductSource(req: FastifyRequest, reply: Fasti
     if (data.image_base_url !== undefined) update.image_base_url = data.image_base_url;
     if (data.is_active !== undefined) update.is_active = toBool(data.is_active) ? 1 : 0;
     if (data.connection_limit !== undefined) update.connection_limit = data.connection_limit;
-    if (data.brand_title !== undefined) update.brand_title = data.brand_title;
-    if (data.brand_subtitle !== undefined) update.brand_subtitle = data.brand_subtitle;
-    if (data.brand_logo_url !== undefined) update.brand_logo_url = data.brand_logo_url;
-    if (data.brand_contact !== undefined) update.brand_contact = data.brand_contact;
     await repoUpdateProductSource(id, update);
     const row = await repoGetProductSourceById(id);
     return reply.send(row);
@@ -147,6 +151,23 @@ export async function adminFetchSourceCategories(req: FastifyRequest, reply: Fas
   }
 }
 
+/** GET /admin/product-sources/:id/brand-info */
+export async function adminFetchSourceBrandInfo(req: FastifyRequest, reply: FastifyReply) {
+  try {
+    const { id } = req.params as { id: string };
+    const q = req.query as Record<string, string>;
+    const source = await repoGetProductSourceById(id);
+    if (!source) return sendNotFound(reply);
+    const { locale: requestedLocale } = fetchSourceBrandInfoSchema.parse(q);
+    const locale = requestedLocale || source.default_locale || 'de';
+    const brand = await repoFetchSourceBrandInfo(source, locale);
+    const resolved = resolveBrandInfoMedia(brand, source.image_base_url);
+    return reply.send(resolved);
+  } catch (e) {
+    return handleRouteError(reply, req, e, 'admin_product_source_brand_info');
+  }
+}
+
 /** GET /admin/product-sources/:id/products */
 export async function adminFetchSourceProducts(req: FastifyRequest, reply: FastifyReply) {
   try {
@@ -163,24 +184,23 @@ export async function adminFetchSourceProducts(req: FastifyRequest, reply: Fasti
 
     const locale = q.locale || source.default_locale || 'de';
     const { page, limit } = parsePage(q);
-    const result = await repoFetchSourceProducts(source, {
-      locale,
-      categoryId: q.category_id || q.categoryId,
-      search: q.search,
-      page,
-      limit,
-    });
-    const baseUrl = (source.image_base_url || '').replace(/\/+$/, '');
-    const slug = source.slug;
-    const items = result.rows.map((row: Record<string, unknown>) => {
-      let imgUrl = row.image_url as string | null;
-      if (imgUrl && imgUrl.startsWith('/uploads/products/') && slug) {
-        imgUrl = imgUrl.replace('/uploads/products/', `/uploads/${slug}-products/`);
-      }
-      if (imgUrl && baseUrl && imgUrl.startsWith('/')) {
-        return { ...row, image_url: `${baseUrl}${imgUrl}` };
-      }
-      return row;
+    const [result, brand] = await Promise.all([
+      repoFetchSourceProducts(source, {
+        locale,
+        categoryId: q.category_id || q.categoryId,
+        search: q.search,
+        page,
+        limit,
+      }),
+      repoFetchSourceBrandInfo(source, locale),
+    ]);
+
+    const sourceWebsite = brand.contact.website;
+    const manualOverride = source.image_base_url;
+    const items = result.rows.map((row) => {
+      const original = (row as { image_url?: string | null }).image_url ?? null;
+      const resolved = resolveSourceMediaUrl(original, { manualOverride, sourceWebsite });
+      return { ...row, image_url: resolved ?? original };
     });
 
     return reply.send({ items, total: result.total, page, limit });
@@ -205,4 +225,25 @@ export async function adminImportProducts(req: FastifyRequest, reply: FastifyRep
   } catch (e) {
     return handleRouteError(reply, req, e, 'admin_product_source_import');
   }
+}
+
+/* ── helpers (private) ───────────────────────────────────────────── */
+
+function resolveBrandInfoMedia(
+  brand: SourceBrandInfo,
+  manualOverride: string | null,
+): SourceBrandInfo {
+  const sourceWebsite = brand.contact.website;
+  const resolve = (raw: string | null): string | null =>
+    resolveSourceMediaUrl(raw, { manualOverride, sourceWebsite });
+  return {
+    ...brand,
+    logo: {
+      logo_url: resolve(brand.logo.logo_url) ?? brand.logo.logo_url,
+      logo_alt: brand.logo.logo_alt,
+      favicon_url: resolve(brand.logo.favicon_url) ?? brand.logo.favicon_url,
+      apple_touch_icon_url:
+        resolve(brand.logo.apple_touch_icon_url) ?? brand.logo.apple_touch_icon_url,
+    },
+  };
 }

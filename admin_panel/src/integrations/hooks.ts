@@ -124,6 +124,8 @@ export {
   useTestProductSourceAdminMutation,
   useGetSourceCategoriesAdminQuery,
   useLazyGetSourceCategoriesAdminQuery,
+  useGetProductSourceBrandInfoAdminQuery,
+  useLazyGetProductSourceBrandInfoAdminQuery,
   useGetSourceProductsAdminQuery,
   useLazyGetSourceProductsAdminQuery,
   useImportProductSourceAdminMutation,

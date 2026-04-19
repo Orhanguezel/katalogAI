@@ -5,7 +5,7 @@
 import { db } from '@/db/client';
 import { sql } from 'drizzle-orm';
 import { buildAdminDashboardSummaryItems } from './helpers';
-import { users } from '../auth/schema';
+import { users } from '@agro/shared-backend/modules/auth';
 import { catalogs } from '../catalogs/schema';
 import { productSources } from '../productSources/schema';
 

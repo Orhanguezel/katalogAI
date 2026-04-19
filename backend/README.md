@@ -14,8 +14,8 @@ Backend asagidaki alanlara zemin saglar:
 
 ## Gelistirme Kurallari
 
-- [BACKEND_RULES.md](/home/orhan/Documents/Projeler/katalogAI/backend/BACKEND_RULES.md)
-- [CLAUDE.md](/home/orhan/Documents/Projeler/katalogAI/CLAUDE.md)
+- [BACKEND_RULES.md](BACKEND_RULES.md)
+- [CLAUDE.md](../CLAUDE.md)
 
 ## Calistirma
 

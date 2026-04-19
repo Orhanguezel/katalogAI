@@ -14,7 +14,7 @@ Bu panel asagidaki senaryolari tasiyacak sekilde evrilecektir:
 
 ## Gelistirme Kurallari
 
-- [ADMIN_PANEL_RULES.md](/home/orhan/Documents/Projeler/katalogAI/admin_panel/ADMIN_PANEL_RULES.md)
+- [ADMIN_PANEL_RULES.md](ADMIN_PANEL_RULES.md)
 
 Kalici standartlar:
 

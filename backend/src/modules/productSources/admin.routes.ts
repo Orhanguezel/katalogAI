@@ -9,6 +9,7 @@ import {
   adminDeleteProductSource,
   adminTestSourceConnection,
   adminFetchSourceCategories,
+  adminFetchSourceBrandInfo,
   adminFetchSourceProducts,
   adminImportProducts,
 } from './admin.controller';
@@ -22,6 +23,7 @@ export async function registerProductSourcesAdmin(app: FastifyInstance) {
   app.delete(`${B}/:id`, adminDeleteProductSource);
   app.post(`${B}/:id/test`, adminTestSourceConnection);
   app.get(`${B}/:id/categories`, adminFetchSourceCategories);
+  app.get(`${B}/:id/brand-info`, adminFetchSourceBrandInfo);
   app.get(`${B}/:id/products`, adminFetchSourceProducts);
   app.post(`${B}/:id/import`, adminImportProducts);
 }

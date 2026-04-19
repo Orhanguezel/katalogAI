@@ -13,9 +13,10 @@ import redisPlugin from '@/plugins/redis';
 import sentryPlugin from '@/plugins/sentry';
 import swaggerPlugin from '@/plugins/swagger';
 import { env } from '@/core/env';
-import { registerErrorHandlers } from '@/core/error';
-import { requestLoggerPlugin } from '@/modules/audit/requestLogger.plugin';
-import { getStorageSettings } from '@/modules/siteSettings';
+import { registerErrorHandlers } from '@agro/shared-backend/core/error';
+import { loggerConfig } from '@agro/shared-backend/core/logger';
+import { requestLoggerPlugin } from '@agro/shared-backend/modules/audit/requestLogger.plugin';
+import { getStorageSettings } from '@agro/shared-backend/modules/siteSettings';
 import { registerAllRoutes } from './routes';
 import { parseCorsOrigins, pickUploadsRoot, pickUploadsPrefix } from './app.helpers';
 
@@ -23,28 +24,7 @@ export async function createApp() {
   const { default: buildFastify } =
     (await import('fastify')) as unknown as { default: typeof import('fastify').default };
 
-  const app = buildFastify({
-    logger: {
-      level: env.NODE_ENV === 'production' ? 'info' : 'debug',
-      transport: env.NODE_ENV !== 'production'
-        ? { target: 'pino-pretty', options: { colorize: true } }
-        : undefined,
-      serializers: {
-        req(req) {
-          return { method: req.method, url: req.url, id: req.id };
-        },
-        res(res) {
-          return { statusCode: res.statusCode };
-        },
-      },
-      redact: [
-        'req.headers.authorization',
-        'req.body.password',
-        'req.body.current_password',
-        'req.body.new_password',
-      ],
-    },
-  }) as FastifyInstance;
+  const app = buildFastify({ logger: loggerConfig }) as FastifyInstance;
 
   // ── Plugins ────────────────────────────────────────────────────────────────
   await app.register(cors, {
