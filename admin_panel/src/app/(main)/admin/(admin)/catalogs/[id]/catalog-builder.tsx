@@ -90,11 +90,38 @@ export default function CatalogBuilder({ catalogId }: Props) {
     return () => clearTimeout(timer);
   }, [store.isDirty, store.isSaving, saveCatalog]);
 
+  const ensuredRef = React.useRef<{ cover: boolean; back: boolean }>({ cover: false, back: false });
+
   const fontsUrl = buildGoogleFontsUrl([store.fontFamily, store.headingFont]);
 
   const syncCatalog = React.useCallback(async () => {
     await refetch();
   }, [refetch]);
+
+  // Toggle ON + sayfa DB'de yoksa: cover/backcover otomatik olusturulur.
+  // Boylece kullanici sayfayi sildikten sonra toggle ile geri getirebilir.
+  React.useEffect(() => {
+    if (!store.catalogId || isLoading) return;
+    const hasCover = store.pages.some((p) => p.layoutType === 'cover');
+    const hasBack = store.pages.some((p) => p.layoutType === 'backcover');
+
+    if (store.showCover && !hasCover && !ensuredRef.current.cover) {
+      ensuredRef.current.cover = true;
+      createCatalogPage({ catalogId, payload: { layout_type: 'cover' } })
+        .unwrap()
+        .then(() => syncCatalog())
+        .catch(() => { toast.error('Kapak sayfasi olusturulamadi.'); })
+        .finally(() => { ensuredRef.current.cover = false; });
+    }
+    if (store.showBackCover && !hasBack && !ensuredRef.current.back) {
+      ensuredRef.current.back = true;
+      createCatalogPage({ catalogId, payload: { layout_type: 'backcover' } })
+        .unwrap()
+        .then(() => syncCatalog())
+        .catch(() => { toast.error('Arka kapak sayfasi olusturulamadi.'); })
+        .finally(() => { ensuredRef.current.back = false; });
+    }
+  }, [store.showCover, store.showBackCover, store.pages, store.catalogId, isLoading, catalogId, createCatalogPage, syncCatalog]);
 
   const handleDragStart = React.useCallback((event: DragStartEvent) => {
     setDraggedProduct(String(event.active.id));

@@ -22,7 +22,7 @@ interface Props {
 
 export default function CanvasPanel({ onClearPage, onRemoveProduct, onAddPage, onDeletePage }: Props) {
   const {
-    pages, activePage, zoom,
+    pages, activePage, zoom, showCover, showBackCover, setActivePage,
     colorTheme, accentColor, backgroundColor, fontFamily, headingFont,
   } = useCatalogBuilderStore();
 
@@ -32,6 +32,23 @@ export default function CanvasPanel({ onClearPage, onRemoveProduct, onAddPage, o
   React.useEffect(() => {
     scrollRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
   }, [activePage]);
+
+  // Aktif sayfa toggle ile gizlenmiş ise ilk görünür sayfaya zıpla
+  React.useEffect(() => {
+    const current = pages[activePage];
+    if (!current) return;
+    const hiddenByCover = current.layoutType === 'cover' && !showCover;
+    const hiddenByBack = current.layoutType === 'backcover' && !showBackCover;
+    if (hiddenByCover || hiddenByBack) {
+      const firstVisible = pages.findIndex((p) =>
+        (p.layoutType !== 'cover' || showCover) &&
+        (p.layoutType !== 'backcover' || showBackCover),
+      );
+      if (firstVisible !== -1 && firstVisible !== activePage) {
+        setActivePage(firstVisible);
+      }
+    }
+  }, [pages, activePage, showCover, showBackCover, setActivePage]);
 
   const currentPage = pages[activePage];
   if (!currentPage) return null;

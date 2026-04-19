@@ -1,10 +1,11 @@
 // =============================================================
 // FILE: src/app/(main)/admin/(admin)/catalogs/[id]/_components/page-navigation-bar.tsx
-// Bottom Page Navigation Strip — always visible
+// Bottom Page Navigation Strip — toggle ile cover/backcover gizlenebilir
 // =============================================================
 
 'use client';
 
+import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Plus, X } from 'lucide-react';
 import { useCatalogBuilderStore } from '../_store/catalog-builder-store';
@@ -15,14 +16,28 @@ interface Props {
 }
 
 export default function PageNavigationBar({ onAddPage, onDeletePage }: Props) {
-  const { pages, activePage, setActivePage } = useCatalogBuilderStore();
-  const canDelete = pages.length > 1;
+  const { pages, activePage, setActivePage, showCover, showBackCover } = useCatalogBuilderStore();
 
-  const handleDelete = (e: React.MouseEvent, index: number) => {
+  // (page, realIndex) ciftleri olarak filter; sayfa silme + active set icin gercek
+  // pages[] index'ini kullaniyoruz (catalog-builder gercek pages[] uzerinden DB id cekiyor).
+  const visible = React.useMemo(
+    () =>
+      pages
+        .map((p, realIndex) => ({ page: p, realIndex }))
+        .filter(({ page }) =>
+          (page.layoutType !== 'cover' || showCover) &&
+          (page.layoutType !== 'backcover' || showBackCover),
+        ),
+    [pages, showCover, showBackCover],
+  );
+
+  const canDelete = visible.length > 1;
+
+  const handleDelete = (e: React.MouseEvent, realIndex: number) => {
     e.stopPropagation();
     if (!canDelete) return;
-    if (window.confirm(`Sayfa ${index + 1} silinsin mi?`)) {
-      void onDeletePage?.(index);
+    if (window.confirm('Bu sayfa silinsin mi?')) {
+      void onDeletePage?.(realIndex);
     }
   };
 
@@ -36,26 +51,31 @@ export default function PageNavigationBar({ onAddPage, onDeletePage }: Props) {
       </span>
 
       <div className="flex items-center gap-1.5 overflow-x-auto">
-        {pages.map((_page, index) => {
-          const isActive = index === activePage;
+        {visible.map(({ page, realIndex }, displayIndex) => {
+          const isActive = realIndex === activePage;
+          const isCover = page.layoutType === 'cover';
+          const isBack = page.layoutType === 'backcover';
+          const label = isCover ? 'K' : isBack ? 'A' : String(displayIndex + 1);
+          const title = isCover ? 'Kapak' : isBack ? 'Arka Kapak' : `Sayfa ${displayIndex + 1}`;
           return (
-            <div key={index} className="relative shrink-0 group">
+            <div key={page.id ?? `idx-${realIndex}`} className="relative shrink-0 group">
               <button
                 type="button"
-                onClick={() => setActivePage(index)}
+                onClick={() => setActivePage(realIndex)}
+                title={title}
                 className={`min-w-9 h-9 px-2 rounded-lg text-xs font-bold transition-all ${
                   isActive
                     ? 'bg-katalog-gold text-katalog-bg-deep shadow-lg shadow-katalog-gold/20'
                     : 'bg-white/5 text-white/50 hover:bg-white/10 hover:text-white'
                 }`}
               >
-                {index + 1}
+                {label}
               </button>
               {canDelete && onDeletePage && (
                 <button
                   type="button"
-                  aria-label={`Sayfa ${index + 1} sil`}
-                  onClick={(e) => handleDelete(e, index)}
+                  aria-label={`${title} sil`}
+                  onClick={(e) => handleDelete(e, realIndex)}
                   className="absolute -top-1.5 -right-1.5 h-4 w-4 rounded-full bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center shadow-md hover:bg-red-600"
                 >
                   <X className="h-2.5 w-2.5" strokeWidth={3} />
@@ -76,7 +96,7 @@ export default function PageNavigationBar({ onAddPage, onDeletePage }: Props) {
       </Button>
 
       <span className="text-[9px] text-white/20 ml-auto shrink-0">
-        {pages.length} sayfa
+        {visible.length} sayfa
       </span>
     </div>
   );
