@@ -17,9 +17,10 @@ interface Props {
   onClearPage?: (pageIndex: number) => void | Promise<void>;
   onRemoveProduct?: (pageIndex: number, slotIndex: number) => void | Promise<void>;
   onAddPage?: () => void | Promise<void>;
+  onDeletePage?: (pageIndex: number) => void | Promise<void>;
 }
 
-export default function CanvasPanel({ onClearPage, onRemoveProduct, onAddPage }: Props) {
+export default function CanvasPanel({ onClearPage, onRemoveProduct, onAddPage, onDeletePage }: Props) {
   const {
     pages, activePage, zoom,
     colorTheme, accentColor, backgroundColor, fontFamily, headingFont,
@@ -97,7 +98,7 @@ export default function CanvasPanel({ onClearPage, onRemoveProduct, onAddPage }:
       </div>
 
       {/* Page navigation */}
-      <PageNavigationBar onAddPage={onAddPage} />
+      <PageNavigationBar onAddPage={onAddPage} onDeletePage={onDeletePage} />
     </div>
   );
 }

@@ -15,6 +15,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/componen
 import {
   useCreateCatalogPageAdminMutation,
   useCreateCatalogPageItemAdminMutation,
+  useDeleteCatalogPageAdminMutation,
   useDeleteCatalogPageItemAdminMutation,
   useGetCatalogAdminQuery,
   useUpdateCatalogAdminMutation,
@@ -37,6 +38,7 @@ export default function CatalogBuilder({ catalogId }: Props) {
   const [updateCatalog] = useUpdateCatalogAdminMutation();
   const [createCatalogPage] = useCreateCatalogPageAdminMutation();
   const [updateCatalogPage] = useUpdateCatalogPageAdminMutation();
+  const [deleteCatalogPage] = useDeleteCatalogPageAdminMutation();
   const [createCatalogPageItem] = useCreateCatalogPageItemAdminMutation();
   const [deleteCatalogPageItem] = useDeleteCatalogPageItemAdminMutation();
   const store = useCatalogBuilderStore();
@@ -49,40 +51,41 @@ export default function CatalogBuilder({ catalogId }: Props) {
     }
   }, [data]);
 
+  const saveCatalog = React.useCallback(async () => {
+    const s = useCatalogBuilderStore.getState();
+    if (s.isSaving) return;
+    s.markSaving(true);
+    try {
+      const cleanContact = s.contactInfo
+        ? Object.fromEntries(Object.entries(s.contactInfo).filter(([, v]) => v && v.trim()))
+        : undefined;
+      await updateCatalog({
+        id: s.catalogId,
+        patch: {
+          title: s.title || undefined,
+          brand_name: s.brandName || undefined,
+          season: s.season || undefined,
+          contact_info: Object.keys(cleanContact || {}).length ? cleanContact : undefined,
+          locale: s.locale || undefined,
+          logo_url: s.logoUrl || undefined,
+          cover_image_url: s.coverImageUrl || undefined,
+          color_theme: s.colorTheme || undefined,
+          accent_color: s.accentColor || undefined,
+          font_family: s.fontFamily || undefined,
+        },
+      }).unwrap();
+      s.markClean();
+    } finally {
+      useCatalogBuilderStore.getState().markSaving(false);
+    }
+  }, [updateCatalog]);
+
+  // Autosave: 5s debounce sonrasi calisir
   React.useEffect(() => {
     if (!store.isDirty || store.isSaving) return;
-
-    const timer = setTimeout(async () => {
-      store.markSaving(true);
-      try {
-        // Boş stringleri contact_info'dan filtrele
-        const cleanContact = store.contactInfo
-          ? Object.fromEntries(Object.entries(store.contactInfo).filter(([, v]) => v && v.trim()))
-          : undefined;
-
-        await updateCatalog({
-          id: store.catalogId,
-          patch: {
-            title: store.title || undefined,
-            brand_name: store.brandName || undefined,
-            season: store.season || undefined,
-            contact_info: Object.keys(cleanContact || {}).length ? cleanContact : undefined,
-            locale: store.locale || undefined,
-            logo_url: store.logoUrl || undefined,
-            cover_image_url: store.coverImageUrl || undefined,
-            color_theme: store.colorTheme || undefined,
-            accent_color: store.accentColor || undefined,
-            font_family: store.fontFamily || undefined,
-          },
-        }).unwrap();
-        store.markClean();
-      } finally {
-        store.markSaving(false);
-      }
-    }, 5000);
-
+    const timer = setTimeout(() => { void saveCatalog(); }, 5000);
     return () => clearTimeout(timer);
-  }, [store, updateCatalog]);
+  }, [store.isDirty, store.isSaving, saveCatalog]);
 
   const fontsUrl = buildGoogleFontsUrl([store.fontFamily, store.headingFont]);
 
@@ -154,6 +157,25 @@ export default function CatalogBuilder({ catalogId }: Props) {
       toast.error('Yeni sayfa eklenemedi.');
     }
   }, [catalogId, createCatalogPage, syncCatalog]);
+
+  const handleDeletePage = React.useCallback(async (index: number) => {
+    const page = useCatalogBuilderStore.getState().pages[index];
+    if (!page) return;
+    if (useCatalogBuilderStore.getState().pages.length <= 1) {
+      toast.error('Son sayfayi silemezsin.');
+      return;
+    }
+    useCatalogBuilderStore.getState().removePage(index);
+    if (page.id) {
+      try {
+        await deleteCatalogPage({ catalogId, pageId: page.id }).unwrap();
+        await syncCatalog();
+      } catch {
+        toast.error('Sayfa silinirken hata olustu.');
+        await syncCatalog();
+      }
+    }
+  }, [catalogId, deleteCatalogPage, syncCatalog]);
 
   const handleLayoutChange = React.useCallback(async (layout: 'single' | '2x2' | '2x3' | 'free') => {
     const page = store.pages[store.activePage];
@@ -375,7 +397,7 @@ export default function CatalogBuilder({ catalogId }: Props) {
       {fontsUrl && <link rel="stylesheet" href={fontsUrl} />}
 
       <div className="flex h-[calc(100vh-64px)] flex-col">
-        <CatalogBuilderTopbar />
+        <CatalogBuilderTopbar onSave={saveCatalog} />
 
         <ResizablePanelGroup direction="horizontal" className="flex-1">
           <ResizablePanel defaultSize={25} minSize={15} maxSize={40}>
@@ -389,6 +411,7 @@ export default function CatalogBuilder({ catalogId }: Props) {
               onClearPage={handleClearPage}
               onRemoveProduct={handleRemoveProduct}
               onAddPage={handleAddPage}
+              onDeletePage={handleDeletePage}
             />
           </ResizablePanel>
 

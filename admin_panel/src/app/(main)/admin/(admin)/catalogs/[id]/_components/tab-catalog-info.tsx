@@ -1,12 +1,18 @@
 'use client';
 
 import * as React from 'react';
+import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { ChevronDown, ImagePlus } from 'lucide-react';
+import { ChevronDown, ImagePlus, Loader2, Upload } from 'lucide-react';
 import { useCatalogBuilderStore } from '../_store/catalog-builder-store';
-import { useListCatalogsAdminQuery, useListProductSourcesAdminQuery } from '@/integrations/hooks';
+import {
+  useCreateAssetAdminMutation,
+  useListCatalogsAdminQuery,
+  useListProductSourcesAdminQuery,
+} from '@/integrations/hooks';
+import { resolveMediaUrl } from '@/lib/media-url';
 
 /** Combobox: dropdown ile önceki değerlerden seç + input ile düzenle */
 function ComboField({
@@ -87,6 +93,46 @@ export default function TabCatalogInfo() {
   const store = useCatalogBuilderStore();
   const { data: catalogs } = useListCatalogsAdminQuery();
   const { data: sources } = useListProductSourcesAdminQuery();
+  const [createAsset, { isLoading: isUploading }] = useCreateAssetAdminMutation();
+  const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+
+  // Brand adi degisince copyright bos ise '© YYYY <marka>' ile otomatik doldur
+  React.useEffect(() => {
+    const current = store.contactInfo?.copyright?.trim();
+    if (current) return;
+    if (!store.brandName) return;
+    store.setMeta({
+      contactInfo: {
+        ...store.contactInfo,
+        copyright: `© ${new Date().getFullYear()} ${store.brandName}`,
+      },
+    });
+  }, [store.brandName, store.contactInfo, store.setMeta]);
+
+  const handleLogoUpload = async (file: File) => {
+    try {
+      const asset = await createAsset({
+        file,
+        bucket: 'public',
+        folder: 'catalog-logos',
+      }).unwrap();
+      const url = asset.url || '';
+      if (!url) {
+        toast.error('Yuklenen dosyanin URL si alinamadi.');
+        return;
+      }
+      store.setMeta({ logoUrl: url });
+      toast.success('Logo yuklendi.');
+    } catch {
+      toast.error('Logo yuklenirken hata olustu.');
+    }
+  };
+
+  const onPickFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (file) void handleLogoUpload(file);
+  };
 
   // Benzersiz değerleri topla (mevcut kataloglar + kaynaklar)
   const brandSuggestions = React.useMemo(() => {
@@ -146,7 +192,7 @@ export default function TabCatalogInfo() {
         <div className="flex items-center gap-3">
           {store.logoUrl ? (
             <div className="h-10 w-20 rounded-lg border border-white/10 bg-white overflow-hidden flex items-center justify-center p-1">
-              <img src={store.logoUrl} alt="Logo" className="h-full w-auto object-contain" />
+              <img src={resolveMediaUrl(store.logoUrl)} alt="Logo" className="h-full w-auto object-contain" />
             </div>
           ) : (
             <div className="h-10 w-20 rounded-lg border border-dashed border-white/10 bg-katalog-bg-card flex items-center justify-center">
@@ -159,6 +205,24 @@ export default function TabCatalogInfo() {
             className="h-9 flex-1 border-white/8 bg-katalog-bg-card text-white text-xs"
             placeholder="Logo URL..."
           />
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={onPickFile}
+          />
+          <Button
+            type="button"
+            size="sm"
+            variant="ghost"
+            disabled={isUploading}
+            onClick={() => fileInputRef.current?.click()}
+            className="h-9 shrink-0 border border-white/10 text-katalog-text-dim hover:text-white hover:bg-white/5"
+            title="Logo yukle"
+          >
+            {isUploading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
+          </Button>
         </div>
       </div>
 

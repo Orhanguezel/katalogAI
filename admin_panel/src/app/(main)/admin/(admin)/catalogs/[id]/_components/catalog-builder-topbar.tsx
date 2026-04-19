@@ -9,14 +9,18 @@ import * as React from 'react';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { Check, Eye, FileDown, Loader2, Mail } from 'lucide-react';
+import { Check, Eye, FileDown, Loader2, Mail, Save } from 'lucide-react';
 import { useExportCatalogPdfAdminMutation } from '@/integrations/hooks';
 import { useCatalogBuilderStore } from '../_store/catalog-builder-store';
 
 import PreviewDialog from './preview-dialog';
 import ExportEmailDialog from './export-email-dialog';
 
-export default function CatalogBuilderTopbar() {
+interface Props {
+  onSave?: () => void | Promise<void>;
+}
+
+export default function CatalogBuilderTopbar({ onSave }: Props) {
   const { catalogId, title, isDirty, isSaving } = useCatalogBuilderStore();
   const [showPreview, setShowPreview] = React.useState(false);
   const [showEmail, setShowEmail] = React.useState(false);
@@ -77,6 +81,22 @@ export default function CatalogBuilderTopbar() {
 
         {/* Sağ — Butonlar */}
         <div className="flex items-center gap-2">
+          {/* Manuel Kaydet */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className={`h-9 px-4 rounded-lg border text-xs font-bold transition-all ${
+              isDirty
+                ? 'border-amber-500/50 text-amber-300 hover:bg-amber-500/10'
+                : 'border-white/8 text-white/40 hover:text-white hover:bg-white/5'
+            }`}
+            onClick={() => onSave?.()}
+            disabled={isSaving}
+          >
+            {isSaving ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <Save className="mr-1.5 h-3.5 w-3.5" />}
+            Kaydet
+          </Button>
+
           {/* Preview */}
           <Button
             variant="ghost"
