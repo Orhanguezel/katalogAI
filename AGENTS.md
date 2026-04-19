@@ -30,6 +30,35 @@ cd admin_panel && bun install && bun run dev       # localhost:3030
 docker compose up -d
 ```
 
+## API Endpoint Prefix — `/api/v1` (Ekosistem Standardi)
+
+Tum is endpoint'leri `/api/v1/...` altindadir. Versionsuz tek istisna `/api/health`.
+
+Backend `routes.ts` BereketFide patternini taklit eder:
+```ts
+await app.register(async (api) => {
+  api.get('/health', async () => ({ ok: true }));   // /api/health (versionsuz)
+  await api.register(async (v1) => {
+    await v1.register(async (adminApi) => {
+      adminApi.addHook('onRequest', requireAuth);
+      adminApi.addHook('onRequest', requireAdmin);
+      await registerSharedAdmin(adminApi);
+      await registerProjectAdmin(adminApi);
+    }, { prefix: '/admin' });
+    await registerSharedPublic(v1);
+    await registerProjectPublic(v1);
+  }, { prefix: '/v1' });
+}, { prefix: '/api' });
+```
+
+Frontend / admin panel env:
+```
+NEXT_PUBLIC_API_URL=https://katalogai.com/api/v1
+NEXT_PUBLIC_API_BASE_URL=https://katalogai.com/api/v1
+```
+
+Yeni endpoint eklerken `/api/v1` altinda kal. Versionsuz route ekleme.
+
 ## Backend Modul Pattern (Kati Kural)
 
 ```

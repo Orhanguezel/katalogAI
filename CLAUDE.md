@@ -34,6 +34,38 @@ katalogAI/
 
 ## Backend Kodlama Standartlari
 
+### API Endpoint Prefix — `/api/v1` (Ekosistem Standardi)
+
+Tum is endpoint'leri `/api/v1/...` altindadir. Versionsuz endpoint sadece `/api/health` (uptime probe). Pattern referansi: `projects/bereketfide/backend/src/app.ts`.
+
+```ts
+// backend/src/routes.ts
+await app.register(async (api) => {
+  api.get('/health', async () => ({ ok: true }));   // /api/health
+
+  await api.register(async (v1) => {
+    await v1.register(async (adminApi) => {
+      adminApi.addHook('onRequest', requireAuth);
+      adminApi.addHook('onRequest', requireAdmin);
+      await registerSharedAdmin(adminApi);
+      await registerProjectAdmin(adminApi);
+    }, { prefix: '/admin' });
+
+    await registerSharedPublic(v1);
+    await registerProjectPublic(v1);
+  }, { prefix: '/v1' });
+}, { prefix: '/api' });
+```
+
+Frontend env (`.env.production`):
+```
+NEXT_PUBLIC_API_URL=https://katalogai.com/api/v1
+NEXT_PUBLIC_API_BASE_URL=https://katalogai.com/api/v1
+PANEL_API_URL=http://127.0.0.1:8083
+```
+
+Detay: ekosistem `CLAUDE.md` — "API Endpoint Prefix Kurali".
+
 ### Modul Dosya Yapisi
 ```
 modules/{modul}/
