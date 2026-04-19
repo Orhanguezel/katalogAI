@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS `catalogs` (
   `id`              CHAR(36)     NOT NULL,
   `title`           VARCHAR(255) NOT NULL,
   `slug`            VARCHAR(255) NOT NULL,
+  `target_source_id` CHAR(36)    DEFAULT NULL,
   `status`          VARCHAR(20)  NOT NULL DEFAULT 'draft',
   `brand_name`      VARCHAR(255) DEFAULT NULL,
   `season`          VARCHAR(100) DEFAULT NULL,
@@ -81,7 +82,32 @@ CREATE TABLE IF NOT EXISTS `catalogs` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `catalogs_slug_uq` (`slug`),
   INDEX `catalogs_status_idx` (`status`),
-  INDEX `catalogs_created_by_idx` (`created_by`)
+  INDEX `catalogs_created_by_idx` (`created_by`),
+  INDEX `catalogs_target_source_idx` (`target_source_id`),
+  CONSTRAINT `fk_catalogs_target_source`
+    FOREIGN KEY (`target_source_id`) REFERENCES `product_sources` (`id`)
+    ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ── catalog_library_refs (cross-DB UPSERT takibi) ───────────────
+
+CREATE TABLE IF NOT EXISTS `catalog_library_refs` (
+  `id`         CHAR(36)    NOT NULL,
+  `catalog_id` CHAR(36)    NOT NULL,
+  `source_id`  CHAR(36)    NOT NULL,
+  `library_id` CHAR(36)    NOT NULL,
+  `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `catalog_library_refs_catalog_source_uq` (`catalog_id`, `source_id`),
+  INDEX `catalog_library_refs_catalog_idx` (`catalog_id`),
+  INDEX `catalog_library_refs_source_idx`  (`source_id`),
+  CONSTRAINT `fk_catalog_library_refs_catalog`
+    FOREIGN KEY (`catalog_id`) REFERENCES `catalogs` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_catalog_library_refs_source`
+    FOREIGN KEY (`source_id`) REFERENCES `product_sources` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ── catalog_pages ───────────────────────────────────────────────

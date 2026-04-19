@@ -24,6 +24,7 @@ export const catalogs = mysqlTable(
     id: char('id', { length: 36 }).primaryKey().notNull(),
     title: varchar('title', { length: 255 }).notNull(),
     slug: varchar('slug', { length: 255 }).notNull(),
+    target_source_id: char('target_source_id', { length: 36 }),
     status: varchar('status', { length: 20 }).notNull().default('draft'),
     brand_name: varchar('brand_name', { length: 255 }),
     season: varchar('season', { length: 100 }),
@@ -57,6 +58,38 @@ export const catalogs = mysqlTable(
     uniqueIndex('catalogs_slug_uq').on(t.slug),
     index('catalogs_status_idx').on(t.status),
     index('catalogs_created_by_idx').on(t.created_by),
+    index('catalogs_target_source_idx').on(t.target_source_id),
+  ],
+);
+
+/* ── catalog_library_refs ────────────────────────────────────────── */
+
+export const catalogLibraryRefs = mysqlTable(
+  'catalog_library_refs',
+  {
+    id: char('id', { length: 36 }).primaryKey().notNull(),
+    catalog_id: char('catalog_id', { length: 36 }).notNull(),
+    source_id: char('source_id', { length: 36 }).notNull(),
+    library_id: char('library_id', { length: 36 }).notNull(),
+    created_at: datetime('created_at', { fsp: 3 })
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP(3)`),
+    updated_at: datetime('updated_at', { fsp: 3 })
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP(3)`)
+      .$onUpdateFn(() => new Date()),
+  },
+  (t) => [
+    uniqueIndex('catalog_library_refs_catalog_source_uq').on(t.catalog_id, t.source_id),
+    index('catalog_library_refs_catalog_idx').on(t.catalog_id),
+    index('catalog_library_refs_source_idx').on(t.source_id),
+    foreignKey({
+      columns: [t.catalog_id],
+      foreignColumns: [catalogs.id],
+      name: 'fk_catalog_library_refs_catalog',
+    })
+      .onDelete('cascade')
+      .onUpdate('cascade'),
   ],
 );
 
@@ -139,6 +172,8 @@ export const catalogPageItems = mysqlTable(
 
 export type Catalog = typeof catalogs.$inferSelect;
 export type NewCatalog = typeof catalogs.$inferInsert;
+export type CatalogLibraryRef = typeof catalogLibraryRefs.$inferSelect;
+export type NewCatalogLibraryRef = typeof catalogLibraryRefs.$inferInsert;
 export type CatalogPage = typeof catalogPages.$inferSelect;
 export type NewCatalogPage = typeof catalogPages.$inferInsert;
 export type CatalogPageItem = typeof catalogPageItems.$inferSelect;

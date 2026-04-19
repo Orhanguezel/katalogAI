@@ -100,10 +100,16 @@ export default function CatalogCreateDialog({ open, onOpenChange }: Props) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (sourceId === '_none') {
+      // Hedef marka zorunlu — Kaydet sonrasi otomatik sync icin gerekli.
+      return;
+    }
+
     const catalogTitle = title.trim() || (brandName ? `${brandName} Kataloğu` : 'Yeni Katalog');
 
     const payload: CatalogCreatePayload = {
       title: catalogTitle,
+      target_source_id: sourceId,
       brand_name: brandName.trim() || undefined,
       season: season.trim() || undefined,
       logo_url: logoUrl.trim() || undefined,
@@ -153,15 +159,16 @@ export default function CatalogCreateDialog({ open, onOpenChange }: Props) {
         <div className="flex-1 overflow-y-auto px-8 pb-4">
           <form id="create-catalog-form" onSubmit={handleSubmit} className="space-y-5">
 
-            {/* Firma Seçimi */}
+            {/* Firma Seçimi — ZORUNLU (Kaydet sonrasi hedef library'ye sync edilir) */}
             <div className="space-y-1.5">
-              <Label className="text-[10px] font-bold uppercase tracking-widest text-white/40">FİRMA / VERİ KAYNAĞI</Label>
+              <Label className="text-[10px] font-bold uppercase tracking-widest text-white/40">
+                HEDEF MARKA / KAYNAK <span className="text-red-400">*</span>
+              </Label>
               <Select value={sourceId} onValueChange={handleSourceChange}>
-                <SelectTrigger className="h-10 border-white/8 bg-katalog-bg-card text-white">
-                  <SelectValue placeholder="Firma seçin..." />
+                <SelectTrigger className={`h-10 border-white/8 bg-katalog-bg-card text-white ${sourceId === '_none' ? 'border-red-500/40' : ''}`}>
+                  <SelectValue placeholder="Marka secin..." />
                 </SelectTrigger>
                 <SelectContent className="bg-katalog-bg-panel border-white/10 text-white">
-                  <SelectItem value="_none">— Firma seçmeden oluştur —</SelectItem>
                   {sources?.map((s) => (
                     <SelectItem key={s.id} value={s.id}>
                       {s.name}
@@ -169,10 +176,14 @@ export default function CatalogCreateDialog({ open, onOpenChange }: Props) {
                   ))}
                 </SelectContent>
               </Select>
+              <p className="text-[10px] text-katalog-text-dim leading-relaxed">
+                Bu katalog kaydedildiginde secilen markanin Library tablosuna TASLAK
+                olarak otomatik gonderilir. Marka sahibi kendi panelinden onaylar.
+              </p>
               {isLoadingBrand && (
                 <p className="text-[10px] text-katalog-text-dim flex items-center gap-1.5">
                   <Loader2 className="h-3 w-3 animate-spin" />
-                  Marka bilgileri kaynak veritabanından çekiliyor...
+                  Marka bilgileri kaynak veritabanindan cekiliyor...
                 </p>
               )}
             </div>
@@ -250,7 +261,7 @@ export default function CatalogCreateDialog({ open, onOpenChange }: Props) {
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)} className="h-9 rounded-xl border border-white/10 text-katalog-text-dim hover:bg-white/5">
               Vazgeç
             </Button>
-            <Button type="submit" form="create-catalog-form" disabled={isLoading} className="h-9 rounded-xl bg-katalog-gold px-6 font-bold text-katalog-bg-deep hover:bg-katalog-gold-light">
+            <Button type="submit" form="create-catalog-form" disabled={isLoading || sourceId === '_none'} className="h-9 rounded-xl bg-katalog-gold px-6 font-bold text-katalog-bg-deep hover:bg-katalog-gold-light disabled:opacity-40">
               {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
               Yeni Katalog
             </Button>

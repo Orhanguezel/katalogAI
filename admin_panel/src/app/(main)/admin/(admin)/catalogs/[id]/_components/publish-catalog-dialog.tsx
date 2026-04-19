@@ -1,6 +1,6 @@
 // =============================================================
 // FILE: src/app/(main)/admin/(admin)/catalogs/[id]/_components/publish-catalog-dialog.tsx
-// Yayinla Dialog — kullanici hangi marka(lar)a gondermek istedigini secer.
+// Yayinla Dialog — PDF render + library_files UPSERT (tek hedef, catalog meta'sindan).
 // =============================================================
 
 'use client';
@@ -12,10 +12,10 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import {
-  useListPublishTargetsAdminQuery,
+  useListProductSourcesAdminQuery,
   usePublishCatalogAdminMutation,
 } from '@/integrations/hooks';
-import type { PublishTargetResult } from '@/integrations/shared';
+import { useCatalogBuilderStore } from '../_store/catalog-builder-store';
 
 interface Props {
   open: boolean;
@@ -24,50 +24,29 @@ interface Props {
 }
 
 export default function PublishCatalogDialog({ open, onOpenChange, catalogId }: Props) {
-  const { data, isLoading: isLoadingTargets } = useListPublishTargetsAdminQuery(undefined, {
-    skip: !open,
-  });
+  const targetSourceId = useCatalogBuilderStore((s) => s.targetSourceId);
+  const { data: sources } = useListProductSourcesAdminQuery();
   const [publishCatalog, { isLoading: isPublishing }] = usePublishCatalogAdminMutation();
-
-  const targets = data?.items ?? [];
-  const [selected, setSelected] = React.useState<Set<string>>(new Set());
-  const [results, setResults] = React.useState<PublishTargetResult[] | null>(null);
+  const [done, setDone] = React.useState<{ ok: boolean; action?: string; pdf_url?: string; error?: string } | null>(null);
 
   React.useEffect(() => {
-    if (open) {
-      setResults(null);
-      setSelected(new Set(targets.map((t) => t.slug)));
-    }
-  }, [open, targets]);
+    if (open) setDone(null);
+  }, [open]);
 
-  const toggle = (slug: string) => {
-    setSelected((prev) => {
-      const next = new Set(prev);
-      if (next.has(slug)) next.delete(slug);
-      else next.add(slug);
-      return next;
-    });
-  };
+  const target = sources?.find((s) => s.id === targetSourceId);
 
   const handlePublish = async () => {
-    const slugs = Array.from(selected);
-    if (!slugs.length) {
-      toast.error('En az bir marka secmelisin.');
+    if (!targetSourceId) {
+      toast.error('Hedef marka atanmamis. Onceki dialog\u2019dan secebilirsin.');
       return;
     }
     try {
-      const result = await publishCatalog({
-        catalogId,
-        payload: { target_slugs: slugs },
-      }).unwrap();
-      setResults(result.results);
-      const okCount = result.results.filter((r) => r.ok).length;
-      if (okCount === result.results.length) {
-        toast.success(`${okCount} markaya taslak olarak yayinlandi.`);
-      } else if (okCount > 0) {
-        toast.warning(`${okCount}/${result.results.length} markaya yayinlandi. Detaylar asagida.`);
+      const result = await publishCatalog(catalogId).unwrap();
+      setDone({ ok: result.ok, action: result.action, pdf_url: result.pdf_url, error: result.error });
+      if (result.ok) {
+        toast.success(`PDF ${target?.name ?? 'hedef marka'} library'sine ${result.action === 'update' ? 'guncellendi' : 'eklendi'}.`);
       } else {
-        toast.error('Hicbir markaya yayinlanamadi. Detaylar asagida.');
+        toast.error(result.error || 'Yayinlama basarisiz.');
       }
     } catch {
       toast.error('Yayinlama sirasinda hata olustu.');
@@ -80,62 +59,40 @@ export default function PublishCatalogDialog({ open, onOpenChange, catalogId }: 
         <VisuallyHidden><DialogTitle>Katalogu Yayinla</DialogTitle></VisuallyHidden>
         <div className="p-6 space-y-5">
           <div className="space-y-1.5">
-            <h2 className="font-serif text-2xl text-katalog-gold">Katalogu Yayinla</h2>
-            <DialogDescription className="text-xs text-katalog-text-dim">
-              Secilen marka(lar)in panellerine <strong>taslak</strong> olarak gonderilir.
-              Yayina almak icin marka sahibi kendi panelinden onaylar.
+            <h2 className="font-serif text-2xl text-katalog-gold">PDF Yayinla</h2>
+            <DialogDescription className="text-xs text-katalog-text-dim leading-relaxed">
+              Katalog PDF olarak render edilir ve hedef markanin Library kaydina <strong>dosya olarak</strong>
+              eklenir/guncellenir. Library row zaten Kaydet anında olusur; bu islem sadece PDF'i baglar.
+              Kayit hala <strong>taslak</strong> kalir — marka sahibi kendi panelinden onaylar.
             </DialogDescription>
           </div>
 
-          {isLoadingTargets ? (
-            <div className="flex items-center justify-center py-8 text-katalog-text-dim">
-              <Loader2 className="h-4 w-4 animate-spin mr-2" /> Markalar yukleniyor...
+          <div className="px-3 py-2.5 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
+            <div className="text-[10px] font-bold uppercase tracking-widest text-emerald-300/80">Hedef</div>
+            <div className="text-sm font-bold text-white mt-0.5">
+              {target?.name ?? <span className="text-katalog-text-dim italic font-normal">Atanmamis</span>}
             </div>
-          ) : targets.length === 0 ? (
-            <p className="text-xs text-katalog-text-dim text-center py-6">
-              Aktif veri kaynagi bulunamadi.
-            </p>
-          ) : (
-            <div className="space-y-2">
-              {targets.map((t) => {
-                const r = results?.find((x) => x.slug === t.slug);
-                const isChecked = selected.has(t.slug);
-                return (
-                  <label
-                    key={t.slug}
-                    className={`flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg border cursor-pointer transition ${
-                      isChecked
-                        ? 'border-katalog-gold/40 bg-katalog-gold/5'
-                        : 'border-white/8 bg-white/2 hover:bg-white/5'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <input
-                        type="checkbox"
-                        className="h-4 w-4 accent-katalog-gold shrink-0"
-                        checked={isChecked}
-                        onChange={() => toggle(t.slug)}
-                        disabled={isPublishing}
-                      />
-                      <div className="min-w-0">
-                        <div className="text-sm font-bold text-white truncate">{t.name}</div>
-                        <div className="text-[10px] text-katalog-text-dim font-mono">{t.slug}</div>
-                      </div>
-                    </div>
-                    {r && (
-                      r.ok ? (
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400">
-                          Gonderildi
-                        </span>
-                      ) : (
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-red-400" title={r.error}>
-                          Hata
-                        </span>
-                      )
-                    )}
-                  </label>
-                );
-              })}
+          </div>
+
+          {done && (
+            <div className={`px-3 py-2.5 rounded-lg border text-xs ${
+              done.ok ? 'bg-emerald-500/5 border-emerald-500/20 text-emerald-300' : 'bg-red-500/5 border-red-500/20 text-red-300'
+            }`}>
+              {done.ok ? (
+                <>
+                  <div className="font-bold mb-1">PDF {done.action === 'update' ? 'guncellendi' : 'eklendi'} ✓</div>
+                  {done.pdf_url && (
+                    <a href={done.pdf_url} target="_blank" rel="noreferrer" className="text-[10px] underline opacity-80 break-all">
+                      {done.pdf_url}
+                    </a>
+                  )}
+                </>
+              ) : (
+                <>
+                  <div className="font-bold mb-1">Hata</div>
+                  <div className="text-[10px] opacity-80">{done.error}</div>
+                </>
+              )}
             </div>
           )}
 
@@ -153,11 +110,11 @@ export default function PublishCatalogDialog({ open, onOpenChange, catalogId }: 
             <Button
               type="button"
               onClick={handlePublish}
-              disabled={isPublishing || isLoadingTargets || targets.length === 0}
-              className="h-9 rounded-lg bg-katalog-gold px-5 text-xs font-bold text-katalog-bg-deep hover:bg-katalog-gold-light"
+              disabled={isPublishing || !targetSourceId}
+              className="h-9 rounded-lg bg-katalog-gold px-5 text-xs font-bold text-katalog-bg-deep hover:bg-katalog-gold-light disabled:opacity-40"
             >
               {isPublishing ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <Send className="mr-1.5 h-3.5 w-3.5" />}
-              {results ? 'Tekrar Yayinla' : 'Yayinla (Taslak)'}
+              {done?.ok ? 'Tekrar Yayinla' : 'PDF Yayinla'}
             </Button>
           </div>
         </div>

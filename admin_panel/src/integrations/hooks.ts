@@ -152,7 +152,6 @@ export {
   useRefreshCatalogSnapshotsAdminMutation,
   useExportCatalogPdfAdminMutation,
   useSendCatalogEmailAdminMutation,
-  useListPublishTargetsAdminQuery,
   usePublishCatalogAdminMutation,
 } from '@/integrations/endpoints/admin/catalogs-admin-endpoints';
 

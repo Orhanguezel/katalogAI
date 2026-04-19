@@ -32,8 +32,5 @@ export {
   type CatalogSendEmailPayload,
   type CatalogUpdatePayload,
   type LayoutType,
-  type PublishCatalogPayload,
   type PublishCatalogResult,
-  type PublishTarget,
-  type PublishTargetResult,
 } from './types';

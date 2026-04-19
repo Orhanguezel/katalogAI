@@ -50,6 +50,7 @@ export interface BuilderCustomProduct {
 export interface CatalogBuilderState {
   // Meta
   catalogId: string;
+  targetSourceId: string | null;
   title: string;
   brandName: string;
   season: string;
@@ -172,6 +173,7 @@ function mapServerPage(page: CatalogPageDto): BuilderPage {
 export const useCatalogBuilderStore = create<CatalogBuilderState>((set, get) => ({
   // Defaults
   catalogId: '',
+  targetSourceId: null,
   title: '',
   brandName: '',
   season: '',
@@ -211,6 +213,7 @@ export const useCatalogBuilderStore = create<CatalogBuilderState>((set, get) => 
 
     set({
       catalogId: data.id,
+      targetSourceId: data.target_source_id ?? null,
       title: data.title,
       brandName: data.brand_name,
       season: data.season,

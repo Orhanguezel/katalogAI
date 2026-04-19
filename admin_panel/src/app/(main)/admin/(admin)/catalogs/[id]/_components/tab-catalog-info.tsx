@@ -157,11 +157,26 @@ export default function TabCatalogInfo() {
     return Array.from(set).sort();
   }, [catalogs]);
 
+  const targetSource = sources?.find((s) => s.id === store.targetSourceId);
+
   return (
     <section className="space-y-5">
       <h2 className="text-[11px] font-semibold uppercase tracking-[0.1em] text-katalog-text-dim">
         Katalog Bilgileri
       </h2>
+
+      {/* Hedef Marka — readonly badge */}
+      <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
+        <div className="space-y-0.5 min-w-0">
+          <Label className="text-[10px] font-bold uppercase tracking-widest text-emerald-300/80">Hedef Marka</Label>
+          <p className="text-sm font-bold text-white truncate">
+            {targetSource?.name ?? <span className="text-katalog-text-dim italic font-normal">Atanmamis</span>}
+          </p>
+        </div>
+        <span className="text-[9px] font-bold uppercase tracking-widest text-emerald-300/60 shrink-0">
+          OTOMATIK SYNC
+        </span>
+      </div>
 
       <ComboField
         label="Marka Adı"

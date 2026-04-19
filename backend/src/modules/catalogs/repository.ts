@@ -68,6 +68,7 @@ export async function repoCreateCatalog(data: CreateCatalogInput, userId: string
     id,
     title: data.title,
     slug,
+    target_source_id: data.target_source_id ?? null,
     brand_name: data.brand_name ?? null,
     season: data.season ?? null,
     contact_info: data.contact_info ?? null,
@@ -98,6 +99,7 @@ export async function repoUpdateCatalog(id: string, data: UpdateCatalogInput) {
   const set: Record<string, unknown> = {};
   if (data.title !== undefined) set.title = data.title;
   if (data.slug !== undefined) set.slug = data.slug;
+  if (data.target_source_id !== undefined) set.target_source_id = data.target_source_id;
   if (data.brand_name !== undefined) set.brand_name = data.brand_name;
   if (data.season !== undefined) set.season = data.season;
   if (data.contact_info !== undefined) set.contact_info = data.contact_info;

@@ -652,10 +652,7 @@ export {
   type CatalogStatusPayload,
   type CatalogUpdatePayload,
   type LayoutType,
-  type PublishCatalogPayload,
   type PublishCatalogResult,
-  type PublishTarget,
-  type PublishTargetResult,
   type SnapshotProduct,
 } from '@/integrations/shared/catalogs/index';
 

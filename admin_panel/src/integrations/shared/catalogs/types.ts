@@ -18,6 +18,7 @@ export interface CatalogDto {
   id: string;
   title: string;
   slug: string;
+  target_source_id: string | null;
   status: CatalogStatus;
   brand_name: string;
   season: string;
@@ -79,6 +80,7 @@ export interface CatalogFullDto extends CatalogDto {
 export interface CatalogCreatePayload {
   title: string;
   slug?: string;
+  target_source_id?: string | null;
   brand_name?: string;
   season?: string;
   contact_info?: Record<string, string>;
@@ -97,6 +99,7 @@ export interface CatalogCreatePayload {
 export interface CatalogUpdatePayload {
   title?: string;
   slug?: string;
+  target_source_id?: string | null;
   status?: CatalogStatus;
   brand_name?: string;
   season?: string;
@@ -112,26 +115,12 @@ export interface CatalogUpdatePayload {
   show_back_cover?: boolean;
 }
 
-export interface PublishTarget {
-  slug: string;
-  name: string;
-}
-
-export interface PublishCatalogPayload {
-  target_slugs: string[];
-}
-
-export interface PublishTargetResult {
-  slug: string;
-  name: string;
-  ok: boolean;
-  library_id?: string;
-  error?: string;
-}
-
 export interface PublishCatalogResult {
-  pdf_url: string;
-  results: PublishTargetResult[];
+  ok: boolean;
+  pdf_url?: string;
+  library_id?: string;
+  action?: 'insert' | 'update';
+  error?: string;
 }
 
 export interface CatalogListQueryParams {

@@ -20,6 +20,7 @@ const layoutEnum = z.enum(['cover', '2x2', '3x2', '2x3', 'featured', 'asymmetric
 export const createCatalogSchema = z.object({
   title: z.string().min(1).max(255),
   slug: SLUG.optional(),
+  target_source_id: z.string().uuid().nullable().optional(),
   brand_name: z.string().max(255).optional(),
   season: z.string().max(100).optional(),
   contact_info: contactInfoSchema,
