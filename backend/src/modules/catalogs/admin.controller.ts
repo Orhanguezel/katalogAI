@@ -52,7 +52,7 @@ export async function adminCreateCatalog(req: FastifyRequest, reply: FastifyRepl
     const data = createCatalogSchema.parse(req.body ?? {});
     const result = await repoCreateCatalog(data, userId);
     const row = await repoGetCatalogById(result.id);
-    void syncCatalogToTarget(result.id).catch((err) => {
+    void syncCatalogToTarget(result.id, { includePdf: true }).catch((err) => {
       req.log?.warn({ err, catalogId: result.id }, 'catalog_target_sync_failed');
     });
     return reply.status(201).send(row);
@@ -70,7 +70,7 @@ export async function adminUpdateCatalog(req: FastifyRequest, reply: FastifyRepl
     const data = updateCatalogSchema.parse(req.body ?? {});
     await repoUpdateCatalog(id, data);
     const row = await repoGetCatalogById(id);
-    void syncCatalogToTarget(id).catch((err) => {
+    void syncCatalogToTarget(id, { includePdf: true }).catch((err) => {
       req.log?.warn({ err, catalogId: id }, 'catalog_target_sync_failed');
     });
     return reply.send(row);

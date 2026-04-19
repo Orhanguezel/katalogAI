@@ -69,23 +69,15 @@ export async function handleExportEmail(req: FastifyRequest, reply: FastifyReply
 
 /**
  * POST /exports/publish/:catalogId
- * Katalogu PDF olarak render eder, lokal storage'a yazar ve catalog'un
- * `target_source_id` ile belirtilen hedef DB'sindeki library_files'ı
- * UPSERT eder. Hedef library row'u zaten Kaydet anında otomatik olusur.
- *   body: yok (hedef catalog meta'sindan)
+ * Catalog'u hedef library'ye full re-sync eder (metadata + PDF).
+ * Kaydet anındaki otomatik sync ile aynı kodu calistirir; "PDF'imi guncelle"
+ * gibi manuel tetikleyici olarak kullanilir.
  *   yanit: { ok, pdf_url?, library_id?, action?, error? }
  */
 export async function handlePublishCatalog(req: FastifyRequest, reply: FastifyReply) {
   try {
     const { catalogId } = exportPdfParamsSchema.parse(req.params);
-
-    const catalog = await repoGetCatalogFull(catalogId);
-    if (!catalog) return sendNotFound(reply);
-
-    const html = buildCatalogHtml(catalog);
-    const pdfBuffer = await renderPdf({ html });
-
-    const result = await publishCatalogToTarget(catalogId, pdfBuffer);
+    const result = await publishCatalogToTarget(catalogId);
     return reply.status(result.ok ? 200 : 400).send(result);
   } catch (e) {
     return handleRouteError(reply, req, e, 'publish_catalog');
