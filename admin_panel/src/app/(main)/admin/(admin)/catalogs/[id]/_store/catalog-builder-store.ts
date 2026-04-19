@@ -57,6 +57,7 @@ export interface CatalogBuilderState {
   locale: string;
   logoUrl: string;
   coverImageUrl: string;
+  showPrices: boolean;
 
   // Style
   templateId: string;
@@ -84,7 +85,7 @@ export interface CatalogBuilderState {
 
   // Actions
   initFromServer: (data: CatalogFullDto) => void;
-  setMeta: (partial: Partial<Pick<CatalogBuilderState, 'title' | 'brandName' | 'season' | 'contactInfo' | 'locale' | 'logoUrl' | 'coverImageUrl'>>) => void;
+  setMeta: (partial: Partial<Pick<CatalogBuilderState, 'title' | 'brandName' | 'season' | 'contactInfo' | 'locale' | 'logoUrl' | 'coverImageUrl' | 'showPrices'>>) => void;
   setStyle: (partial: Partial<Pick<CatalogBuilderState, 'colorTheme' | 'accentColor' | 'backgroundColor' | 'fontFamily' | 'headingFont' | 'fontSize' | 'cardStyle' | 'imageAspect' | 'headerStyle' | 'pageNumberStyle'>>) => void;
   applyTemplate: (templateId: string) => void;
   setActivePage: (index: number) => void;
@@ -176,6 +177,7 @@ export const useCatalogBuilderStore = create<CatalogBuilderState>((set, get) => 
   locale: 'tr',
   logoUrl: '',
   coverImageUrl: '',
+  showPrices: false,
 
   templateId: 'classic',
   colorTheme: '#0a0c0a',
@@ -212,6 +214,7 @@ export const useCatalogBuilderStore = create<CatalogBuilderState>((set, get) => 
       locale: data.locale || 'tr',
       logoUrl: data.logo_url || '',
       coverImageUrl: data.cover_image_url || '',
+      showPrices: !!data.show_prices,
       colorTheme: data.color_theme || '#0a0c0a',
       accentColor: data.accent_color || '#c29d5d',
       fontFamily: data.font_family || 'Outfit',

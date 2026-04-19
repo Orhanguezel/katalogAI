@@ -4,6 +4,7 @@ import { db } from '@/db/client';
 import { eq, desc, sql, count } from 'drizzle-orm';
 import { catalogs, catalogPages, catalogPageItems } from './schema';
 import type { CreateCatalogInput, UpdateCatalogInput } from './validation';
+import { toBool } from '@/modules/_shared';
 
 type ListParams = { page: number; limit: number; offset: number; status?: string };
 
@@ -76,6 +77,7 @@ export async function repoCreateCatalog(data: CreateCatalogInput, userId: string
     accent_color: data.accent_color ?? '#c29d5d',
     logo_url: (data as Record<string, unknown>).logo_url as string ?? null,
     cover_image_url: (data as Record<string, unknown>).cover_image_url as string ?? null,
+    show_prices: data.show_prices !== undefined ? (toBool(data.show_prices) ? 1 : 0) : 0,
     created_by: userId,
     page_count: 3,
   });
@@ -101,6 +103,9 @@ export async function repoUpdateCatalog(id: string, data: UpdateCatalogInput) {
   if (data.color_theme !== undefined) set.color_theme = data.color_theme;
   if (data.font_family !== undefined) set.font_family = data.font_family;
   if (data.accent_color !== undefined) set.accent_color = data.accent_color;
+  if (data.logo_url !== undefined) set.logo_url = data.logo_url;
+  if (data.cover_image_url !== undefined) set.cover_image_url = data.cover_image_url;
+  if (data.show_prices !== undefined) set.show_prices = toBool(data.show_prices) ? 1 : 0;
 
   if (Object.keys(set).length) {
     await db.update(catalogs).set(set).where(eq(catalogs.id, id));

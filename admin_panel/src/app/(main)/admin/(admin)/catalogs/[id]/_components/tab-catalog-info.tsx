@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
 import { ChevronDown, ImagePlus, Loader2, Upload } from 'lucide-react';
 import { useCatalogBuilderStore } from '../_store/catalog-builder-store';
 import {
@@ -224,6 +225,19 @@ export default function TabCatalogInfo() {
             {isUploading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
           </Button>
         </div>
+      </div>
+
+      {/* Fiyat Göstergesi */}
+      <div className="flex items-center justify-between py-2 px-3 rounded-lg bg-white/2 border border-white/5">
+        <div className="space-y-0.5">
+          <Label className="text-[11px] font-bold text-white">Fiyatları Göster</Label>
+          <p className="text-[9px] text-katalog-text-dim">Kapalıysa katalogda hiçbir ürünün fiyatı yer almaz.</p>
+        </div>
+        <Switch
+          checked={!!store.showPrices}
+          onCheckedChange={(v) => store.setMeta({ showPrices: v })}
+          className="data-[state=checked]:bg-katalog-gold"
+        />
       </div>
 
       {/* İletişim / Footer Bilgileri */}

@@ -72,6 +72,7 @@ export default function CatalogBuilder({ catalogId }: Props) {
           color_theme: s.colorTheme || undefined,
           accent_color: s.accentColor || undefined,
           font_family: s.fontFamily || undefined,
+          show_prices: s.showPrices,
         },
       }).unwrap();
       s.markClean();

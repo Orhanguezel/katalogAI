@@ -1,7 +1,7 @@
 // src/modules/catalogs/validation.ts
 
 import { z } from 'zod';
-import { SLUG } from '@/modules/_shared';
+import { boolLike, SLUG } from '@/modules/_shared';
 
 const ENTITY_ID = z.coerce.string().min(1).max(100);
 
@@ -30,6 +30,7 @@ export const createCatalogSchema = z.object({
   logo_url: z.string().optional(),
   cover_image_url: z.string().optional(),
   template_id: z.string().max(100).optional(),
+  show_prices: boolLike.optional(),
 });
 
 export const updateCatalogSchema = createCatalogSchema.partial();

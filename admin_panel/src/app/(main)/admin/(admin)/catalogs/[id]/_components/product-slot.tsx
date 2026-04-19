@@ -57,7 +57,7 @@ function EditableText({
 }
 
 export default function ProductSlot({ slot, pageIndex, slotIndex, onRemove, preview = false }: Props) {
-  const { updateOverride } = useCatalogBuilderStore();
+  const { updateOverride, showPrices } = useCatalogBuilderStore();
   const { setNodeRef, isOver } = useDroppable({
     id: `slot-${pageIndex}-${slotIndex}`,
     data: { type: 'slot', pageIndex, slotIndex },
@@ -131,7 +131,7 @@ export default function ProductSlot({ slot, pageIndex, slotIndex, onRemove, prev
             multiline
           />
         )}
-        {priceStr && (
+        {showPrices && priceStr && (
           <EditableText
             value={priceStr}
             onSave={(v) => updateOverride(pageIndex, slotIndex, { overridePrice: v as unknown as number })}

@@ -28,6 +28,7 @@ export interface CatalogDto {
   color_theme: string;
   font_family: string;
   accent_color: string;
+  show_prices: boolean | number;
   page_count: number;
   product_count: number;
   created_by: string | null;
@@ -86,6 +87,7 @@ export interface CatalogCreatePayload {
   font_family?: string;
   accent_color?: string;
   template_id?: string;
+  show_prices?: boolean;
 }
 
 export interface CatalogUpdatePayload {
@@ -101,6 +103,7 @@ export interface CatalogUpdatePayload {
   color_theme?: string;
   font_family?: string;
   accent_color?: string;
+  show_prices?: boolean;
 }
 
 export interface CatalogListQueryParams {
