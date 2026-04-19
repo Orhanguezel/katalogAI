@@ -11,6 +11,8 @@ import {
   fetchBereketFideProducts,
   fetchVistaSeedCategories,
   fetchVistaSeedProducts,
+  fetchVistaInsaatCategories,
+  fetchVistaInsaatProducts,
   fetchGenericCategories,
   fetchGenericProducts,
   fetchSourceBrandInfo,
@@ -97,8 +99,11 @@ export async function repoFetchSourceCategories(source: ProductSource, locale: s
   if (source.slug === 'bereketfide') {
     return fetchBereketFideCategories(sourceDb, locale);
   }
-  if (source.slug === 'vistaseed') {
+  if (source.slug === 'vistaseed' || source.slug === 'vistaseeds') {
     return fetchVistaSeedCategories(sourceDb, locale);
+  }
+  if (source.slug === 'vistainsaat') {
+    return fetchVistaInsaatCategories(sourceDb, locale);
   }
   return fetchGenericCategories(sourceDb, locale);
 }
@@ -121,8 +126,11 @@ export async function repoFetchSourceProducts(
   if (source.slug === 'bereketfide') {
     return fetchBereketFideProducts(sourceDb, params);
   }
-  if (source.slug === 'vistaseed') {
+  if (source.slug === 'vistaseed' || source.slug === 'vistaseeds') {
     return fetchVistaSeedProducts(sourceDb, params);
+  }
+  if (source.slug === 'vistainsaat') {
+    return fetchVistaInsaatProducts(sourceDb, params);
   }
   return fetchGenericProducts(sourceDb, params);
 }
