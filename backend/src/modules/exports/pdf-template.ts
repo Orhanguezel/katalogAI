@@ -237,50 +237,52 @@ export function buildCatalogHtml(catalog: FullCatalog): string {
       align-items: center;
     }
     .cover-logo {
-      height: 56px;
+      height: 110px;
       width: auto;
       object-fit: contain;
-      margin-bottom: 24px;
+      margin-bottom: 36px;
     }
     .cover-divider {
-      width: 64px;
-      height: 2px;
-      margin-bottom: 32px;
+      width: 96px;
+      height: 3px;
+      margin-bottom: 40px;
     }
     .cover-title {
       font-family: var(--serif);
-      font-size: 64px;
+      font-size: 84px;
       font-weight: 700;
-      line-height: 0.85;
+      line-height: 0.95;
       letter-spacing: -0.02em;
       text-transform: uppercase;
-      margin-bottom: 16px;
+      margin-bottom: 24px;
+      max-width: 90%;
+      text-wrap: balance;
     }
     .cover-subtitle {
-      font-size: 12px;
+      font-size: 18px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.3em;
-      opacity: 0.8;
-      margin-bottom: 32px;
+      opacity: 0.85;
+      margin-bottom: 44px;
     }
     .cover-season {
       font-family: var(--serif);
       font-style: italic;
-      font-size: 13px;
-      padding: 6px 20px;
-      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 20px;
+      padding: 10px 32px;
+      border: 1px solid rgba(255,255,255,0.25);
       border-radius: 9999px;
     }
     .cover-bottom {
       position: absolute;
-      bottom: 24px; left: 0; right: 0;
+      bottom: 28px; left: 0; right: 0;
       text-align: center;
-      font-size: 8px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.25em;
       text-transform: uppercase;
-      opacity: 0.3;
+      opacity: 0.4;
     }
 
     /* ── Back Cover ── */
@@ -296,17 +298,18 @@ export function buildCatalogHtml(catalog: FullCatalog): string {
       text-align: center;
     }
     .cover-page .back-content { margin: auto; }
-    .back-logo { height: 48px; width: auto; object-fit: contain; opacity: 0.8; }
+    .back-logo { height: 84px; width: auto; object-fit: contain; opacity: 0.85; }
     .back-brand {
       font-family: var(--serif);
-      font-size: 24px;
+      font-size: 48px;
       font-weight: 700;
       letter-spacing: 0.05em;
       text-transform: uppercase;
+      line-height: 1;
     }
-    .back-divider { width: 48px; height: 2px; opacity: 0.4; }
-    .back-contact { font-size: 11px; opacity: 0.6; line-height: 1.7; }
-    .back-copyright { font-size: 9px; opacity: 0.3; margin-top: 16px; }
+    .back-divider { width: 72px; height: 3px; opacity: 0.5; }
+    .back-contact { font-size: 14px; opacity: 0.7; line-height: 1.85; }
+    .back-copyright { font-size: 11px; opacity: 0.4; margin-top: 24px; letter-spacing: 0.05em; }
 
     /* ── Grid Page ── */
     .grid-page {
@@ -392,11 +395,11 @@ export function buildCatalogHtml(catalog: FullCatalog): string {
       color: var(--text);
     }
     .product-desc {
-      font-size: 9px;
-      line-height: 1.4;
+      font-size: 9.5px;
+      line-height: 1.45;
       color: var(--muted);
       display: -webkit-box;
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: 6;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
